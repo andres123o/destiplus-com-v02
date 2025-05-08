@@ -1,0 +1,793 @@
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import '@/style/events/batalla.css' // Importa los estilos CSS Modules
+import { CldImage } from 'next-cloudinary';
+
+const PlayIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="48px" height="48px">
+    <path d="M8 5v14l11-7z" />
+    <path d="M0 0h24v24H0z" fill="none" />
+  </svg>
+);
+
+const categoryIds = [
+  'panela', 'mango', 'maduro', 'lulo', 'pina', 'naranja',
+  'champinones', 'cafe', 'vino', 'maracuya', 'uchuva', 'maiz',
+  'frutosRojos', 'pimenton'
+];
+
+interface Participant {
+  id: number;
+  name: string;
+  restaurant: string;
+  image: string;
+  logo: string;
+  visitors: number;
+  price: number;
+  description: string;
+  specialIngredient: string;
+  votes: number;
+  location: {
+    lat: number;
+    lng: number;
+  };
+}
+
+const BurgerBattle = () => {
+  const router = useRouter();
+  const [participants, setParticipants] = useState<Participant[]>([
+    {
+      id: 1,
+      name: "La Tropical Smash",
+      restaurant: "Terraza",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg", // Cloudinary Public ID
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721281/wmz2sj60iuvl8eswhzdz.jpg", // Cloudinary Public ID
+      visitors: 46,
+      price: 16000,
+      description: "Pan artesanal, carne de res madurada, queso mozzarella, lechuga romana, mayonesa cítrica y un toque dulce de piña caramelizada.",
+      specialIngredient: "Piña caramelizada",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 2,
+      name: "Madurita Rebelde",
+      restaurant: "Cacique Burguer",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721515/kdennvrlqzyd0lrmuec3.jpg",
+      visitors: 38,
+      price: 16000,
+      description: "Una fusión única con carne de cerdo desmechada, queso cheddar, alioli de ajo rostizado y plátano maduro frito en forma de chips.",
+      specialIngredient: "Plátano maduro frito",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 3,
+      name: "Bacon Jam",
+      restaurant: "Arca Rock",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721490/zqbrxrfk5n59t1zkbkxo.jpg",
+      visitors: 52,
+      price: 16000,
+      description: "Carne de res en doble medallón, queso americano, cebolla caramelizada y una generosa capa de mermelada de tocineta.",
+      specialIngredient: "Mermelada de tocineta",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 4,
+      name: "Blue Beast",
+      restaurant: "Lo Nuestro",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721854/mj7ew6hjdv24wqsp3rnh.jpg",
+      visitors: 61,
+      price: 16000,
+      description: "Para paladares osados: carne de cordero, rúgula fresca, cebolla morada crujiente y un potente queso azul que lo cambia todo.",
+      specialIngredient: "Queso azul",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 5,
+      name: "La Mexa Boom",
+      restaurant: "Texas Burguer",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721792/udbn3mgoaero4yy4vlir.jpg",
+      visitors: 46,
+      price: 16000,
+      description: "Carne con especias, doble queso, totopos triturados, crema agria y un cremoso y picante guacamole con jalapeño.",
+      specialIngredient: "Guacamole con jalapeño",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 6,
+      name: "La Beet Queen",
+      restaurant: "Crucero",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721472/o673xcuzwhloip00sakf.jpg",
+      visitors: 38,
+      price: 16000,
+      description: "Hamburguesa veggie con portobellos grillados, queso de cabra, reducción balsámica y servida en un pan de remolacha que roba miradas.",
+      specialIngredient: "Pan de remolacha",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 7,
+      name: "Crunch Pork Burger",
+      restaurant: "Villa Hamburguesa",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721379/wh1gymjaeuhz2hlfg73j.jpg",
+      visitors: 52,
+      price: 16000,
+      description: "Carne mixta (res y cerdo), cebollín, mayonesa de limón y un crocante e irresistible toque de chicharrón crocante.",
+      specialIngredient: "Chicharrón crocante",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 8,
+      name: "La Samurai Rosa",
+      restaurant: "Don Toño",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721357/smnu6jofmm3d86fjgmyx.jpg",
+      visitors: 61,
+      price: 16000,
+      description: "Inspiración oriental: carne de wagyu, pepino encurtido, mayo sriracha y unos suaves aros de cebolla morada en tempura.",
+      specialIngredient: "Aros de cebolla morada en tempura",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 9,
+      name: "Verde Letal",
+      restaurant: "Palo Santo",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721330/cyw08ddfvmlhmqosarn2.jpg",
+      visitors: 46,
+      price: 16000,
+      description: "Pechuga de pollo grillada, tomate confitado, queso provolone y un intenso pesto de albahaca que le da el alma al bocado.",
+      specialIngredient: "Pesto de albahaca",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 10,
+      name: "La Vintagemelt",
+      restaurant: "Amore Pizza",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721782/gordtfirjpujbiait6ur.jpg",
+      visitors: 38,
+      price: 16000,
+      description: "Carne sellada en mantequilla, queso suizo, cebolla blanca salteada y unos aromáticos champiñones al vino tinto.",
+      specialIngredient: "Champiñones al vino tinto",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 11,
+      name: "Golden Yolk",
+      restaurant: "La Parrilla de Juancho",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721305/fjshp3eytuvai3z48ogy.jpg",
+      visitors: 52,
+      price: 16000,
+      description: "Clásica con sorpresa: carne de res jugosa, cheddar fundido, tocineta ahumada y un brillante huevo pochado encima.",
+      specialIngredient: "Huevo pochado",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 12,
+      name: "Maracupicante",
+      restaurant: "Dorilocos La Roca",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721424/zzbgw6xporkrjbcflsrj.jpg",
+      visitors: 61,
+      price: 16000,
+      description: "Doble carne, queso pepper jack, vegetales asados y una atrevida salsa de maracuyá picante que te hace sudar.",
+      specialIngredient: "Salsa de maracuyá picante",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 13,
+      name: "Café & Fuego Burger",
+      restaurant: "Cumbamba",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721401/bxyumnz1bwmuqllbwpat.jpg",
+      visitors: 46,
+      price: 16000,
+      description: "Inspiración dark: pulled pork jugoso, cebolla crispy y una intensa BBQ de café que potencia el sabor de principio a fin.",
+      specialIngredient: "Pulled pork en BBQ de café",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    },
+    {
+      id: 14,
+      name: "La Tropical Inferno",
+      restaurant: "Monopizza Gourmet",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721802/kjwd5jreolrrpcpzturq.jpg",
+      visitors: 38,
+      price: 16000,
+      description: "Carne a la parrilla, queso costeño, lechuga fresca, cebolla crocante y el vibrante y exótico chutney de mango con habanero.",
+      specialIngredient: "Chutney de mango con habanero",
+      votes: 0,
+      location: { "lat": 5.100817, "lng": -73.799823 }
+    }
+  ]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeCategory, setActiveCategory] = useState('ajicrema');
+  const categoriesRef = useRef<HTMLDivElement>(null);
+  const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isDraggingRef = useRef(false);
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [showPlayButton, setShowPlayButton] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === participants.length - 1 ? 0 : prevIndex + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? participants.length - 1 : prevIndex - 1));
+  };
+
+  const stopCategoryAutoplay = () => {
+    if (autoPlayIntervalRef.current) {
+      clearInterval(autoPlayIntervalRef.current);
+      autoPlayIntervalRef.current = null;
+    }
+  };
+
+  const getItemClassName = (index: number) => {
+    if (index === currentIndex) return `${'burger-battle-carousel-item'} ${'active-b'}`;
+    if (index === (currentIndex + 1) % participants.length) return `${'burger-battle-carousel-item'} ${'next'}`;
+    if (index === (currentIndex - 1 + participants.length) % participants.length) return `${'burger-battle-carousel-item'} ${'prev'}`;
+    return 'burger-battle-carousel-item';
+  };
+
+  const handleVisitClick = (burgerId: number) => {
+    router.push(`/destino/Suesca/parchar/batalla/${burgerId}`);
+  };
+
+  const handleCategoryScroll = () => {
+    if (isDraggingRef.current || !categoriesRef.current) return;
+
+    const container = categoriesRef.current;
+    const categoryElements = container.querySelectorAll(`.${'burger-battle-category'}`);
+    let mostVisibleCategoryData = activeCategory;
+    let minDistanceFromCenter = Infinity;
+    const containerRect = container.getBoundingClientRect();
+    const containerVisibleCenter = containerRect.left + containerRect.width / 2;
+
+    categoryElements.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      const elementCenter = rect.left + rect.width / 2;
+      const distanceFromCenter = Math.abs(elementCenter - containerVisibleCenter);
+      const threshold = element.offsetWidth / 4;
+
+      if (distanceFromCenter < minDistanceFromCenter && distanceFromCenter < threshold * 4) {
+        minDistanceFromCenter = distanceFromCenter;
+        const currentDataCategory = element.getAttribute('data-category');
+        if (currentDataCategory) {
+          mostVisibleCategoryData = currentDataCategory;
+        }
+      }
+    });
+
+    if (activeCategory !== mostVisibleCategoryData) {
+      setActiveCategory(mostVisibleCategoryData);
+    }
+  };
+
+  const handleCategoryClick = (category: string, isAutoplay = false) => {
+    if (!isAutoplay) {
+      stopCategoryAutoplay();
+    }
+
+    setActiveCategory(category);
+    const index = categoryIds.indexOf(category);
+
+    if (categoriesRef.current && index !== -1) {
+      const categoryElements = categoriesRef.current.querySelectorAll(`.${'burger-battle-category'}`);
+      if (categoryElements?.[index]) {
+        const elementToScrollTo = categoryElements?.[index];
+        const containerWidth = categoriesRef.current.offsetWidth;
+        const elementWidth = elementToScrollTo.offsetWidth;
+        const scrollLeftPosition = elementToScrollTo.offsetLeft - (containerWidth / 2) + (elementWidth / 2);
+
+        categoriesRef.current.scrollTo({
+          left: scrollLeftPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
+  const handleMouseDown = () => {
+    isDraggingRef.current = true;
+    stopCategoryAutoplay();
+  };
+
+  const handleTouchStart = () => {
+    isDraggingRef.current = true;
+    stopCategoryAutoplay();
+  };
+
+  const handleMouseUpOrLeave = () => {
+    if (isDraggingRef.current) {
+      isDraggingRef.current = false;
+      setTimeout(handleCategoryScroll, 150);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (isDraggingRef.current) {
+      isDraggingRef.current = false;
+      setTimeout(handleCategoryScroll, 150);
+    }
+  };
+
+  useEffect(() => {
+    const startCategoryAutoplay = () => {
+      stopCategoryAutoplay();
+      autoPlayIntervalRef.current = setInterval(() => {
+        setActiveCategory(prevActiveCategory => {
+          const currentIndex = categoryIds.indexOf(prevActiveCategory);
+          const nextIndex = (currentIndex + 1) % categoryIds.length;
+          const nextCategory = categoryIds?.[nextIndex];
+          if (nextCategory) {
+            handleCategoryClick(nextCategory, true);
+            return nextCategory;
+          }
+          return prevActiveCategory;
+        });
+      }, 3000);
+    };
+
+    startCategoryAutoplay();
+    return () => stopCategoryAutoplay();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (participants.length > 0) {
+      const participantsInterval = setInterval(() => {
+        nextSlide();
+      }, 5000);
+      return () => clearInterval(participantsInterval);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [participants.length]);
+
+  const redirectToHome = () => {
+    window.location.href = "https://www.destiplus.com/";
+  };
+
+  const handleOpenVideoModal = () => {
+    setIsModalOpen(true);
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause();
+    }
+  };
+
+  return (
+    <div className='burger-battle-container'>
+      <div className='burger-battle-header'>
+        <div className='burger-battle-title'>
+          <h5>Desti <span className='burger-battle-brand'><strong>plus</strong></span></h5>
+        </div>
+        <div className='burger-battle-home-btn' onClick={redirectToHome}>
+          <i className="fas fa-home burger-battle-home-icon"></i>
+        </div>
+      </div>
+
+      <div className='burger-battle-hero'>
+        <div className='burger-battle-hero-image'>
+          <video
+            ref={videoRef}
+            src="https://res.cloudinary.com/dmyq0gr14/video/upload/v1745900948/La_batalla_est%C3%A1_por_comenzar_14_establecimientos_15_d%C3%ADas_de_pura_competencia_gastron%C3%B3mica_y_m%C3%A1s_de_8.000_personas_dispuestas_a_vivir_la_experiencia._Desde_el_19_de_junio_hasta_el_3_de_julio_en_Sues_siwnwj.mp4"
+            controls={!showPlayButton}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            poster="https://res.cloudinary.com/dmyq0gr14/image/upload/v1746484651/Post_De_Instagram_Promo_Hamburguesa_Fotogr%C3%A1fico_Blanco_Y_Naranja_bxdq5c.png"
+          />
+          {showPlayButton && (
+            <button
+              className='hero-play-button'
+              onClick={handleOpenVideoModal}
+              aria-label="Reproducir video en modal"
+            >
+              <PlayIcon />
+            </button>
+          )}
+          <CldImage
+            src="https://res.cloudinary.com/destinoplus/image/upload/v1746725955/d9gwhmgkcy1ywlozlhbi.png"
+            alt="Logo Batalla de Hamburguesa Suesca"
+            width={200} // Ajusta el ancho según necesites
+            height={200} // Ajusta la altura según necesites
+            className={'hero-logo'} // Añade una clase para estilos si es necesario
+            priority // Considera si esta imagen es importante para la carga inicial
+          />
+        </div>
+        <div className='burger-battle-hero-title'>
+          <h2>PROXIMAMENTE</h2>
+          <p>19 de Junio del 2025</p>
+        </div>
+      </div>
+
+      <div className='burger-battle-desc-header'>
+        <div className='burger-battle-desc-title'>
+          BATALLA DE HAMBURGUESAS <span className='burger-battle-highlight'>3.0</span>
+        </div>
+        <p className='burger-battle-desc-subtitle'>
+          <span>¡Participa y elige al número 1 de Suesca!</span>
+        </p>
+        <div className='burger-battle-line-decor'>
+          <div className='burger-battle-line'></div>
+          <div className='burger-battle-arrow-circle'>
+            <i className="fas fa-chevron-down"></i>
+          </div>
+        </div>
+      </div>
+
+      <div className='burger-battle-info-box'>
+        <p>Cada restaurante deberá cocinar con un ingrediente secreto</p>
+      </div>
+
+      <div className='burger-battle-categories'>
+        <h2 className='burger-battle-section-title'>¡Ingredientes secretos!</h2>
+        <div
+          className='burger-battle-categories-wrapper'
+          ref={categoriesRef}
+          onScroll={handleCategoryScroll}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={handleMouseUpOrLeave}
+          onTouchEnd={handleTouchEnd}
+        >
+          {categoryIds.map((catId) => {
+            let displayName = catId.charAt(0).toUpperCase() + catId.slice(1);
+            let imageUrl = '';
+            switch (catId) {
+              case 'panela': displayName = 'Panela'; imageUrl = 'destinoplus/panela_nnxkvx'; break;
+              case 'mango': displayName = 'Mango'; imageUrl = 'destinoplus/Mango_pniayz'; break;
+              case 'maduro': displayName = 'Maduro'; imageUrl = 'destinoplus/fried-half-ripe-plantain-slices-isolated-on-white-background-photo-removebg-preview_fhvywo'; break;
+              case 'lulo': displayName = 'Lulo'; imageUrl = 'destinoplus/lulo_wwg1mk'; break;
+              case 'pina': displayName = 'Piña'; imageUrl = 'destinoplus/piña_nwe7fp'; break;
+              case 'naranja': displayName = 'Naranja'; imageUrl = 'destinoplus/Naranja_hteu9e'; break;
+              case 'champinones': displayName = 'Champiñones'; imageUrl = 'destinoplus/Champiñones_kcabf4'; break;
+              case 'cafe': displayName = 'Café'; imageUrl = 'destinoplus/Cafe_rlhpsk'; break;
+              case 'vino': displayName = 'Vino'; imageUrl = 'destinoplus/19056534-mentir-botella-de-vino_jz2eh5'; break;
+              case 'maracuya': displayName = 'Maracuya'; imageUrl = 'destinoplus/Maracuya_kwdgdn'; break;
+              case 'uchuva': displayName = 'Uchuva'; imageUrl = 'destinoplus/Uchuva_nqarjk'; break;
+              case 'maiz': displayName = 'Maiz'; imageUrl = 'destinoplus/Maiz_vybobv'; break;
+              case 'frutosRojos': displayName = 'Rojos'; imageUrl = 'destinoplus/depositphotos_82442292-stock-photo-big-pile-of-fresh-berries_eltwqp'; break;
+              case 'pimenton': displayName = 'Pimentón'; imageUrl = 'destinoplus/pimen_tdrr9e'; break;
+              default: displayName = catId; imageUrl = '';
+            }
+
+            return (
+              <button
+                key={catId}
+                className={`${'burger-battle-category'} ${activeCategory === catId ? 'active-b' : ''}`}
+                onClick={() => handleCategoryClick(catId)}
+                data-category={catId}
+              >
+                <CldImage
+                  src={imageUrl}
+                  alt={displayName}
+                  width={80} // Ajusta el ancho
+                  height={80} // Ajusta la altura
+                  className={'img-ingredientes'}
+                />
+                <span>{displayName}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className='burger-battle-categories-dots'>
+          {categoryIds.map((category) => (
+            <button
+              key={category}
+              className={`${'burger-battle-categories-dot'} ${activeCategory === category ? 'active-b' : ''}`}
+              onClick={() => handleCategoryClick(category)}
+              aria-label={`Ir a categoría ${category}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className='burger-battle-carousel'>
+        <h2 className='burger-battle-section-title'>Participantes</h2>
+        <div className='burger-battle-carousel-container'>
+          <div className='burger-battle-carousel-wrapper'>
+            {participants.map((participant, index) => (
+              <div
+                key={participant.id}
+                className={getItemClassName(index)}
+              >
+                <div className='burger-battle-card'>
+                  <div className='burger-battle-card-image'>
+                    <CldImage
+                      src={participant.image}
+                      alt={participant.name}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div className='burger-battle-card-details'>
+                    <div className='burger-battle-info-container'>
+                      <div className='burger-battle-restaurant-logo'>
+                        <CldImage
+                          src={participant.logo}
+                          alt={participant.restaurant}
+                          width={80} // Ajusta el tamaño del logo
+                          height={80}
+                          style={{ objectFit: 'contain' }}
+                        />
+                      </div>
+                      <div className='burger-battle-text-container'>
+                        <h3 className='burger-battle-burger-name'>{participant.name}</h3>
+                        <p className='burger-battle-restaurant-name'>{participant.restaurant}</p>
+                      </div>
+                    </div>
+                    <div className='burger-battle-price-area'>
+                      <p className='burger-battle-card-price'>
+                        <strong>
+                          {!isNaN(parseFloat(participant.price))
+                            ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(parseFloat(participant.price))
+                            : 'Precio no disponible'}
+                        </strong>
+                      </p>
+                    </div>
+                    <div className='burger-battle-stats'>
+                      <span className='burger-battle-visitors'>
+                        <i className="fas fa-users"></i> {participant.visitors}
+                      </span>
+                      <button
+                        className='burger-battle-cta-btn'
+                        onClick={() => handleVisitClick(participant.id)}
+                      >
+                        <span>Descúbrela</span>
+                        <i className="fas fa-arrow-right" style={{ marginLeft: '8px' }}></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className={`${'burger-battle-carousel-arrow'} ${'left'}`} onClick={prevSlide}>
+            <i className="fas fa-chevron-left"></i>
+          </button>
+          <button className={`${'burger-battle-carousel-arrow'} ${'right'}`} onClick={nextSlide}>
+            <i className="fas fa-chevron-right"></i>
+          </button>
+          <div className='burger-battle-carousel-dots'>
+            {participants.map((_, index) => (
+              <div
+                key={index}
+                className={`${'burger-battle-carousel-dot'} ${index === currentIndex ? 'active-b' : ''}`}
+                onClick={() => setCurrentIndex(index)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className='suesca-promo-section'>
+        <div className='promo-section-header'>
+          <h2 className='promo-section-title'>
+            ¿Y Después de la Burger?
+          </h2>
+          <p className='promo-section-subtitle'>
+            Encuéntralo todo en <span className='destiplus-brand'>Desti <span className='mas-promo'>plus</span></span>
+          </p>
+        </div>
+
+        <div className='inspiration-cards-grid'>
+          <a href="https://www.destiplus.com/destino/Suesca/actividades" className='inspiration-card'>
+            <div className='inspiration-card-image'>
+              <CldImage
+                src="https://res.cloudinary.com/destinoplus/image/upload/v1734236561/cajbjyr4g2g7oizfgweu.jpg"
+                alt="Aventuras"
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+            <div className='inspiration-card-overlay'></div>
+            <div className='inspiration-card-content'>
+              <i className="fas fa-hiking"></i>
+              <h4>Aventuras</h4>
+            </div>
+          </a>
+
+          <a href="https://www.destiplus.com/destino/Suesca/alojamiento" className='inspiration-card'>
+            <div className='inspiration-card-image'>
+              <CldImage
+                src="https://res.cloudinary.com/destinoplus/image/upload/v1733937504/alojamientos/casona-quesada/e2pi6ecstwuou0ghf7xa.jpg"
+                alt="Alojamientos"
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+            <div className='inspiration-card-overlay'></div>
+            <div className='inspiration-card-content'>
+              <i className="fas fa-bed"></i>
+              <h4>Alojamientos</h4>
+            </div>
+          </a>
+
+          <a href="https://www.destiplus.com/destino/Suesca/rutas" className="inspiration-card">
+            <div className="inspiration-card-image"></div>
+                <CldImage
+                    src="https://res.cloudinary.com/destinoplus/image/upload/v1736911873/rutas/la-lucirnaga/wlzdyxviuowjjyexjelq.jpg"
+                    alt="Miradores y Paisajes"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                />
+            <div className="inspiration-card-overlay"></div>
+            <div className="inspiration-card-content">
+              <i className="fas fa-map-marked-alt"></i>
+              <h4>Rutas y Paisajes</h4>
+            </div>
+          </a>
+
+          {/* Tarjeta 4: Gastronomía (Opcional, o dejar 3 más grandes) */}
+          <a href="https://www.destiplus.com/destino/Suesca/restaurantes" className="inspiration-card">
+            <div className="inspiration-card-image"></div>
+                <CldImage
+                    src="https://res.cloudinary.com/destinoplus/image/upload/v1735271082/zataxjvehdporgk9oasa.jpg"
+                    alt="Restaurante"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                />
+            <div className="inspiration-card-overlay"></div>
+            <div className="inspiration-card-content">
+              <i className="fas fa-utensils"></i>
+              <h4>Sabores Únicos</h4>
+            </div>
+          </a>
+
+        </div>
+        {/* === Fin Grid de Tarjetas === */}
+
+
+        {/* --- Botón de Llamada a la Acción (Mantenemos el anterior) --- */}
+        <button
+          className="promo-cta-button"
+          onClick={() => window.location.href = 'https://www.destiplus.com/destino/Suesca'}
+        >
+          <span>¡Anímate a Explorar Suesca!</span>
+          <i className="fas fa-arrow-right arrow-icon"></i>
+        </button>
+
+      </div>
+      {/* === Fin Nueva Sección Promocional === */}
+
+
+      {/* Footer */}
+      <footer style={{ width: '100%', padding: '40px 7%', backgroundColor: '#ffffff', borderTop: '1px solid #eaeaea' /* Borde superior opcional */, marginTop: '20px' }}>
+
+        {/* Enlaces Sociales - Estilo más minimalista */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '25px', marginBottom: '25px' }}>
+          <a
+            href="https://www.facebook.com/profile.php?id=100092877753209&locale=es_LA"
+            aria-label="Facebook"
+            style={{ color: '#666', textDecoration: 'none', fontSize: '24px', transition: 'color 0.2s' }}
+            onMouseOver={(e) => e.currentTarget.style.color = '#00cd70'} // Hover verde
+            onMouseOut={(e) => e.currentTarget.style.color = '#666'}
+          >
+            <i className="fab fa-facebook-f"></i>
+          </a>
+          <a
+            href="https://www.instagram.com/batalladehamburguesas_/"
+            aria-label="Instagram"
+            style={{ color: '#666', textDecoration: 'none', fontSize: '24px', transition: 'color 0.2s' }}
+            onMouseOver={(e) => e.currentTarget.style.color = '#00cd70'} // Hover verde
+            onMouseOut={(e) => e.currentTarget.style.color = '#666'}
+          >
+            <i className="fab fa-instagram"></i>
+          </a>
+          {/* Añade más redes si es necesario */}
+        </div>
+
+        {/* Enlaces Rápidos - Estilo estándar de enlaces */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '15px 25px', marginBottom: '25px' }}>
+          <a
+            href="https://www.destiplus.com/"
+            // Podrías usar una clase como .quick-link si la tienes definida
+            style={{ color: '#666', textDecoration: 'none', fontSize: '14px', transition: 'color 0.2s' }}
+            onMouseOver={(e) => e.currentTarget.style.color = '#00cd70'}
+            onMouseOut={(e) => e.currentTarget.style.color = '#666'}
+          >
+            Inicio
+          </a>
+          <a
+            href="https://www.google.com/maps/place/Suesca,+Cundinamarca/@5.1023645,-73.8008345,376m/data=!3m1!1e3!4m6!3m5!1s0x8e401481a06da0a7:0x8dcabdf79b176aca!8m2!3d5.103929!4d-73.798632!16s%2Fm%2F02qnm70?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D" // Revisa este enlace
+            style={{ color: '#666', textDecoration: 'none', fontSize: '14px', transition: 'color 0.2s' }}
+            onMouseOver={(e) => e.currentTarget.style.color = '#00cd70'}
+            onMouseOut={(e) => e.currentTarget.style.color = '#666'}
+          >
+            Ubicación
+          </a>
+          <a
+            href="https://www.facebook.com/profile.php?id=100092877753209&locale=es_LA" // Enlace a FB para términos? Revisar.
+            style={{ color: '#666', textDecoration: 'none', fontSize: '14px', transition: 'color 0.2s' }}
+            onMouseOver={(e) => e.currentTarget.style.color = '#00cd70'}
+            onMouseOut={(e) => e.currentTarget.style.color = '#666'}
+          >
+            Términos y Condiciones
+          </a>
+          {/* Añade más enlaces rápidos si es necesario */}
+        </div>
+
+        {/* Información de Contacto */}
+        <div style={{ textAlign: 'center', fontSize: '13px', color: '#666', lineHeight: '1.6' }}>
+          <p style={{ margin: '5px 0' }}>
+            <i className="fas fa-phone" style={{ marginRight: '8px', color: '#fd5959' }}></i>
+            {/* Enlace telefónico */}
+            <a href="tel:+573192505218" style={{ color: '#666', textDecoration: 'none' }}>+57 319 2505218</a>
+          </p>
+          <p style={{ margin: '5px 0' }}>
+            <i className="fas fa-envelope" style={{ marginRight: '8px', color: '#fd5959' }}></i>
+            {/* Enlace de correo */}
+            <a href="mailto:batalladehamburguesas@gmail.com" style={{ color: '#666', textDecoration: 'none' }}>batalladehamburguesas@gmail.com</a>
+          </p>
+          {/* Podrías añadir un copyright o el nombre de tu empresa */}
+          <p style={{ marginTop: '20px', fontSize: '12px', opacity: '0.8' }}>
+            &copy; {new Date().getFullYear()} Destiplus.com | Todos los derechos reservados.
+          </p>
+        </div>
+      </footer>
+
+      {/* --- MODAL DEL VIDEO --- */}
+      {isModalOpen && (
+        <div className="video-modal-overlay" onClick={handleCloseModal}> {/* Overlay que cierra al hacer clic */}
+          <div
+            className="video-modal-content"
+            onClick={(e) => e.stopPropagation()} // Evita que el clic DENTRO del modal lo cierre
+          >
+            <button
+              className="video-modal-close-btn"
+              onClick={handleCloseModal}
+              aria-label="Cerrar"
+            >
+              &times; {/* Icono simple de 'X' para cerrar */}
+            </button>
+            <video
+              ref={modalVideoRef} // Ref para el video del modal
+              src="https://res.cloudinary.com/dmyq0gr14/video/upload/v1745900948/La_batalla_est%C3%A1_por_comenzar_14_establecimientos_15_d%C3%ADas_de_pura_competencia_gastron%C3%B3mica_y_m%C3%A1s_de_8.000_personas_dispuestas_a_vivir_la_experiencia._Desde_el_19_de_junio_hasta_el_3_de_julio_en_Sues_siwnwj.mp4" // MISMA URL del video
+              controls // <-- ¡IMPORTANTE! Añade los controles nativos
+              autoPlay // <-- Para que empiece al abrir el modal
+              playsInline // Buena práctica
+             // loop // Decide si quieres que haga loop en el modal o no
+              className="video-in-modal" // Clase para estilos específicos del video modal
+            />
+          </div>
+        </div>
+      )}
+      {/* --- FIN MODAL DEL VIDEO --- */}
+    </div>
+  );
+};
+
+export default BurgerBattle;

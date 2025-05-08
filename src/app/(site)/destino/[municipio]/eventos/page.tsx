@@ -1,0 +1,64 @@
+
+import React from 'react';
+import { notFound } from 'next/navigation';
+import { fetchEventoListById } from '@/lib/api-listadoEventos';     // API de eventos
+import type { EventoListItem } from '@/types/listadoEventos';    // O @/types/evento
+import ListadoEventosClient from '@/components/features/eventos/listadoEventos'; // Componente Cliente
+import type { Metadata } from 'next';
+
+interface EventosListPageProps {
+  params: { municipio: string }; // Recibe nombre/slug municipio
+}
+
+// --- Metadata Dinámica ---
+export async function generateMetadata(
+  { params }: EventosListPageProps
+): Promise<Metadata> {
+  const municipioName = decodeURIComponent(params.municipio);
+  const title = `Eventos en ${municipioName} | Destiplus`;
+  const description = `Descubre los próximos eventos y festivales en ${municipioName}. ¡No te los pierdas!`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://www.destiplus.com/destino/${params.municipio}/eventos`, // URL Canónica
+    },
+    alternates: { canonical: `https://www.destiplus.com/destino/${params.municipio}/eventos` }
+  };
+}
+
+// --- Componente de Página ---
+export default async function EventosListPage({ params }: EventosListPageProps) {
+  const municipioParam = params.municipio;
+  console.log(`Server: Rendering EventosListPage for municipio (${municipioParam})`);
+
+  const destinoId = municipioParam === "Suesca" ? 1 : municipioParam === "Sesquile" ? 2 : "";
+
+  console.log(`Server: Found Destino ID ${destinoId} for $municipioParam}. Fetching eventos...`);
+
+  // 2. Obtener lista de eventos usando el ID
+  const initialEventos = await fetchEventoListById(destinoId);
+
+  // 3. Filtrar inválidos en servidor (si tu API no lo hace)
+  const filtrarEventosValidos = (data: EventoListItem[]): EventoListItem[] => {
+      return data.filter(evento =>
+          evento.name && evento.name !== "Pendiente" &&
+          evento.img //&& // ¿logo es obligatorio para eventos?
+          // evento.logo
+      );
+  };
+  const validEventos = filtrarEventosValidos(initialEventos);
+
+  console.log(`Server: Received ${validEventos.length} valid eventos for ${municipioParam}. Rendering client component.`);
+
+  // Renderiza el componente cliente
+  return (
+      <ListadoEventosClient
+          initialEventos={validEventos}
+          municipio={municipioParam} // Pasa el nombre real
+      />
+  );
+}
