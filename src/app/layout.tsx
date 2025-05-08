@@ -8,7 +8,7 @@ import '@/style/goblaes.css';
 // 2. Configura la fuente (con los pesos y estilos que necesites)
 const nunito = Nunito({
   subsets: ['latin'], // Subconjunto de caracteres
-  weight: ['200', '300', '400', '500', '600', '700', '800', '900', '1000'], // Pesos que usarás
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'], // Pesos que usarás
   style: ['normal', 'italic'], // Estilos que usarás
   display: 'swap', // Estrategia de carga
 });
