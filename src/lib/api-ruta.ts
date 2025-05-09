@@ -65,17 +65,6 @@ export async function fetchRutaComentarios(rutaId: string | number): Promise<Com
 }
 
 
-interface RawTreeCountResponse {
-  total_arboles?: number;
-  co2_ahorrado_kg?: number;
-  ultimos_plantadores?: Array<{
-    id: number;
-    nombre: string;
-    foto_perfil: string;
-    fecha: string;
-  }>;
-}
-
 // --- Obtener Datos de Árboles por ID de Ruta ---
 export async function fetchTreeCountData(rutaId: string | number): Promise<TreeCounterData | null> {
     const url = `${API_BASE_URL}/contador/arboles/${rutaId}`;
