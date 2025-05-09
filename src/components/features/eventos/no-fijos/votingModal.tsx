@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { HandPlatter, Star, MapPin, Loader2, Sparkles, ArrowLeft, Share } from 'lucide-react'; // Iconos Lucide
+import {  Loader2  } from 'lucide-react'; // Iconos Lucide
 
 interface Participant {
     id: number;

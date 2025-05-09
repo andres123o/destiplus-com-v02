@@ -6,7 +6,6 @@ import { Heart, Star } from 'lucide-react'; // Iconos
 import FiltrosTitulo from "@/components/common/titulo-filtro"; // Verifica ruta
 import { CldImage } from 'next-cloudinary'; // Usa CldImage
 import type { ActividadListItem } from '@/types/listadoActividades'; // O @/types/actividad
-import { generateSlug } from '@/lib/utils'; // Importa generador de slug
 
 // --- Props Interface ---
 interface ListadoActividadesClientProps {

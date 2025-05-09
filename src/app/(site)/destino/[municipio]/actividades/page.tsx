@@ -1,5 +1,4 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
 import { fetchActividadListById } from '@/lib/api-listadoActividades'; // API de actividades
 import type { ActividadListItem } from '@/types/listadoActividades'; // O @/types/actividad
 import ListadoActividadesClient from '@/components/features/actividades/listadoActividades'; // Componente Cliente

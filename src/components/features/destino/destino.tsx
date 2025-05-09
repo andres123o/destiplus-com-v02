@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useEffect } from 'react';
-// import ReactGA from 'react-ga4'; // O usa window.gtag directamente
-import { MdError } from "react-icons/md";
 
 // Importa los sub-componentes que ya migraste (verifica nombres/rutas)
 import Header from '@/components/features/destino/header';
@@ -18,15 +16,49 @@ import type { DestinoData } from '@/types/destino'; // Importa tu tipo principal
 
 // --- Helper de Analytics (igual que antes) ---
 const Analytics = {
-  trackTimeSpent: (municipio: string | undefined | null, timeSpent: number) => {
-    try {
-      if (typeof window === 'undefined' || !window.gtag) return;
-      if (timeSpent < 0) return;
-      window.gtag('event', 'tiempo_destino', { /*...*/ });
-      if (process.env.NODE_ENV === 'development') { /*...*/ }
-    } catch (error) { /*...*/ }
-  },
-  // trackError ya no se llama desde aquí para errores de fetch
+    // Track tiempo en página
+    trackTimeSpent: (municipio: string | null | undefined, timeSpent: number) => {
+        try {
+            if (!window?.gtag) return;
+            if (timeSpent < 0) return;
+            
+            window.gtag('event', 'tiempo_destino', {
+                nombre_destino: municipio || 'desconocido',
+                tiempo_segundos: timeSpent,
+                tipo_engagement: 'tiempo_en_pagina'
+            });
+
+            if (process.env.NODE_ENV === 'development') {
+                console.log('Analytics - Tiempo:', {
+                    destino: municipio,
+                    tiempo: timeSpent
+                });
+            }
+        } catch (error) {
+            console.error('Error Analytics - Tiempo:', error);
+        }
+    },
+    // Track errores de carga (mantener esto es importante)
+    trackError: (municipio: string | null | undefined, errorType: string | null | undefined) => {
+        try {
+            if (!window?.gtag) return;
+            
+            window.gtag('event', 'error_carga', {
+                nombre_destino: municipio || 'desconocido',
+                tipo_error: errorType,
+                pagina: 'destino'
+            });
+
+            if (process.env.NODE_ENV === 'development') {
+                console.log('Analytics - Error:', { 
+                    destino: municipio,
+                    error: errorType 
+                });
+            }
+        } catch (error) {
+            console.error('Error Analytics - Track Error:', error);
+        }
+    }
 };
 // --- Fin Analytics Helper ---
 

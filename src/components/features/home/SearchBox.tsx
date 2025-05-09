@@ -1,4 +1,3 @@
-// src/components/features/home/SearchBox.tsx o donde lo ubiques
 "use client"; // Obligatorio: Indica que es un Componente de Cliente
 
 import React, { useState, useEffect, useRef } from "react";
@@ -22,7 +21,6 @@ declare global {
 
 // 2. Usamos React.FC y la interfaz de Props
 const SearchBox: React.FC<SearchBoxProps> = ({
-  placeholder, // Recibimos el placeholder aunque la animación lo sobreescriba
   onSearch,
   onAISearch,
 }) => {

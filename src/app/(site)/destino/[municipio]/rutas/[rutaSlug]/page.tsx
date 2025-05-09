@@ -9,7 +9,7 @@ import {
 } from '@/lib/api-ruta';
 import type { RutaProfileData } from '@/types/ruta'; // Ajusta ruta
 import RutaProfileClient from '@/components/features/rutas/ruta'; // Ajusta ruta
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 
 interface RutaDetailPageProps {
   params: { 

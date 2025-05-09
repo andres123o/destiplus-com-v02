@@ -1,7 +1,6 @@
 // src/lib/api-destino.ts
 import axios from 'axios';
 import type { DestinoData } from '@/types/destino';
-import type { DestinoType } from '@/types/index'; // Para la lista
 
 const API_BASE_URL = 'https://tree-suesca-backend-production.up.railway.app/api/v1';
 
@@ -25,6 +24,3 @@ export async function getDestinoDataByMunicipio(municipio: string): Promise<Dest
     return null; // Devuelve null en caso de error
   }
 }
-
-// Función por ID (opcional, por si la necesitas en otro lado)
-export async function getDestinoDataById(id: string | number): Promise<DestinoData | null> { /* ... */ }

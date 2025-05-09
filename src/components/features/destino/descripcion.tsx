@@ -24,7 +24,7 @@ interface DescripcionCarouselProps {
 }
 // --- Fin Tipos ---
 
-const DescripcionCarousel: React.FC<DescripcionCarouselProps> = ({ destino, destino_id }) => {
+const DescripcionCarousel: React.FC<DescripcionCarouselProps> = ({ destino }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // Tipamos la referencia para un elemento DIV
   const containerRef = useRef<HTMLDivElement | null>(null);

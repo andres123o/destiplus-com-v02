@@ -9,7 +9,7 @@ import { CldImage } from 'next-cloudinary'; // Usamos CldImage
 interface ImagenSimple {
   img: string; // URL o Public ID
   // Puedes añadir otras props si existen (id, etc.) aunque no se usen aquí
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface ViewpointsSectionProps {

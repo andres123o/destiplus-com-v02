@@ -1,6 +1,6 @@
 // src/lib/api-actividad.ts
 import axios from 'axios';
-import type { ActividadDetailData, BasicActividadInfo } from '@/types/actividad'; // O tus archivos de tipos
+import type { ActividadDetailData } from '@/types/actividad'; // O tus archivos de tipos
 import { generateSlug } from '@/lib/utils';
 
 const API_BASE_URL = 'https://tree-suesca-backend-production.up.railway.app/api/v1';

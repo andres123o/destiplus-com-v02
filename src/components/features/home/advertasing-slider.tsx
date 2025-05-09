@@ -43,7 +43,6 @@ const adsData: AdData[] = [ // Tipamos el array
 
 const AdSlider: React.FC = () => { // No necesita props externas por ahora
   const router = useRouter(); // Hook de navegación de Next.js
-  const municipio = 'Suesca'
 
   // Handler para clic en anuncio (modificado)
   const handleAdClick = (ad: AdData) => { // Recibe el objeto 'ad' completo

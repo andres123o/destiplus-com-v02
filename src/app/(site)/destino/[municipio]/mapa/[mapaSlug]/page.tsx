@@ -2,7 +2,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getRutaMapDataBySlug, /* fetchAllRutaMapIdentifiers */ } from '@/lib/api-mapa'; // Ajusta ruta
-import type { RutaMapData } from '@/types/mapa'; // Ajusta ruta
 import RutaMapaClient from '@/components/features/rutas/mapa'; // Ajusta ruta
 import type { Metadata } from 'next';
 

@@ -1,22 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { FaPerson, FaRegClock, FaGripfire } from "react-icons/fa6";
-import { MapPin, Star, Clock, Award, MessageCircle, Users, Leaf, TreePine, ChevronRight, Navigation2, Mountain, ThumbsUp, Share2 } from 'lucide-react';
+import { Star, Clock, Award, MessageCircle, Users, Leaf, TreePine, ChevronRight, Navigation2, Mountain, ThumbsUp, Share2 } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 // Ajusta rutas de tipos
-import type { RutaProfileData, RutaDetallado, ComentarioItem, TreeCounterData, Plantador, Estacion, Atajo, RutaImagen } from '@/types/ruta';
+import type { RutaProfileData, RutaDetallado, ComentarioItem, TreeCounterData, RutaImagen } from '@/types/ruta';
 
-// --- FORMAT CURRENCY HELPER ---
-const formatCurrency = (amount: number | string | null | undefined): string => {
-  const numericAmount = Number(amount);
-  if (isNaN(numericAmount)) return 'N/A';
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0
-  }).format(numericAmount);
-};
 
 // --- INTERFACES PARA SUB-COMPONENTES LOCALES ---
 interface ImageGalleryProps {
@@ -27,9 +18,6 @@ interface ImageGalleryProps {
 }
 interface RouteHeaderProps {
     ruta: RutaDetallado;
-}
-interface RouteStatsProps {
-    ruta: Pick<RutaDetallado, 'distancia' | 'tiempo' | 'dificultad'>; // Solo props necesarias
 }
 interface DescriptionProps {
   texto: string | null | undefined;
@@ -44,11 +32,6 @@ interface RatingStatsProps {
 interface ComentariosRutaProps {
     rutaId: string | number;
     initialComentarios: ComentarioItem[]; // Recibe prop
-}
-interface TreeCounterProps {
-    rutaId: string | number;
-    rutaNombre: string | undefined | null;
-    initialTreeData: TreeCounterData | null;
 }
 interface InstructionsAccordionProps {
     instrucciones: Array<{ [key: string]: string }> | null | undefined;
@@ -82,7 +65,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ imagenes, selectedIndex, on
 // 2. Cabecera de Ruta
 const RouteHeader: React.FC<RouteHeaderProps> = ({ ruta }) => {
     // Asume que 'ruta' tiene nombre, logo (del oferente?), fecha, hora
-    const isNewRoute = !ruta.calificacion || Number(ruta.calificacion) === 0;
     return (
          <div className='container-recuadro-info-title'> {/* Contenedor original */}
             <h4>{ruta.nombre}</h4> 
@@ -156,7 +138,7 @@ const RatingStats: React.FC<RatingStatsProps> = ({ ruta, rutaID, comentarios }) 
      );
 };
 
-const ComentariosRutaInternal: React.FC<ComentariosRutaProps> = ({ initialComentarios, rutaId }) => {
+const ComentariosRutaInternal: React.FC<ComentariosRutaProps> = ({ initialComentarios }) => {
     const [mostrarTodos, setMostrarTodos] = useState(false);
     const [reaccion, setReaccion] = useState<Record<string | number, boolean>>({});
 
@@ -396,7 +378,7 @@ const TreeCounterInternal: React.FC<TreeCounterPropsInternal> = ({ rutaId, rutaN
                         <div className="tree-planters">
                             <h4><Users size={16} /> Últimos plantadores</h4>
                             <div className="planters-list">
-                                {initialTreeData.ultimosPlantadores.map((plantador, index) => (
+                                {initialTreeData.ultimosPlantadores.map((plantador) => (
                                     <div key={plantador.id} className="planter-item">
                                         {/* Reutiliza UserAvatar */}
                                         <UserAvatar imageSrc={plantador.foto_perfil} alt={plantador.nombre} index={0}/>
@@ -526,16 +508,14 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
   const router = useRouter();
   const { ruta, comentarios, treeData } = initialData; // Desestructura datos
   const isNewRoute = !ruta.calificacion || Number(ruta.calificacion) === 0;
-
-  if (!ruta) { return <div>Ruta no encontrada.</div>; }
-
-  // Estado para la galería principal
   const [backgroundImage, setBackgroundImg] = useState(ruta.img || '');
   const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(
       ruta.imagenes && ruta.imagenes.length > 0 ? 0 : null
   );
   // Estado para descripción
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
+  if (!ruta) { return <div>Ruta no encontrada.</div>; }
 
   // Efecto para actualizar imagen si cambian las props
   useEffect(() => {

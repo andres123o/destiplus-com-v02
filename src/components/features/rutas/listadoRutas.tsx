@@ -2,11 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Heart, Star, Users, MapPin, Calendar, Clock, Navigation2, Mountain, Share2 } from 'lucide-react';
+import { Heart, Clock, Navigation2, Mountain, Share2 } from 'lucide-react';
 import FiltrosTitulo from "@/components/common/titulo-filtro"; // Verifica ruta
 import { CldImage } from 'next-cloudinary';
 import type { RutaListItem, ComentarioItem } from '@/types/listadoRutas'; // Ajusta ruta
-import { generateSlug } from '@/lib/utils';
 import { fetchRutaComentarios } from '@/lib/api-listadoRutas'; // Importa la función para obtener comentarios
 
 

@@ -3,12 +3,11 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { X } from 'lucide-react';
 
-const MapComponent = ({ isOpen, onClose, coordinates, establishmentName }) => {
+const MapComponent = ({ isOpen, onClose, coordinates }) => {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const userMarker = useRef(null);
     const watchId = useRef(null);
-    let guidanceRoute = null;
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {

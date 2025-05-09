@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'; // Importamos el hook de Next.js pa
 import { Heart, Star, ChevronRight } from 'lucide-react'; // Importamos iconos
 import { CldImage } from 'next-cloudinary'; // Importamos CldImage
 import { generateSlug } from '@/lib/utils';
-import { title } from 'process';
 
 // --- Interfaces de Tipos (TypeScript) ---
 // Estas interfaces deberían idealmente vivir en tu archivo de tipos (ej: src/types/destino.ts)
@@ -90,7 +89,7 @@ const transformAlojamientosData = (lugares: LugarAlojamiento[]): Accommodation[]
 };
 
 
-const AccommodationsSection: React.FC<AccommodationsSectionProps> = ({ alojamientos = [], destino_id, municipio }) => {
+const AccommodationsSection: React.FC<AccommodationsSectionProps> = ({ alojamientos = [], municipio }) => {
   const router = useRouter(); // Hook de navegación de Next.js
   // Transformamos los datos al inicio
   const accommodations = transformAlojamientosData(alojamientos);

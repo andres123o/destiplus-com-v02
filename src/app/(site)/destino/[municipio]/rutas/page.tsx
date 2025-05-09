@@ -1,7 +1,5 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
 import { fetchRutaListByIdAndType } from '@/lib/api-listadoRutas'; // API de rutas
-import type { RutaListItem } from '@/types/listadoRutas'; // Ajusta ruta
 import ListadoRutasClient from '@/components/features/rutas/listadoRutas'; // Cliente
 import type { Metadata } from 'next';
 

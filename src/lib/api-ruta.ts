@@ -1,7 +1,6 @@
-// src/lib/api-ruta.ts
 import axios from 'axios';
 // Importa los tipos necesarios
-import type { RutaDetallado, ComentarioItem, TreeCounterData, Plantador, BasicRutaInfo } from '@/types/ruta';
+import type { RutaDetallado, ComentarioItem, TreeCounterData } from '@/types/ruta';
 
 
 const API_BASE_URL = 'https://tree-suesca-backend-production.up.railway.app/api/v1';
@@ -65,18 +64,46 @@ export async function fetchRutaComentarios(rutaId: string | number): Promise<Com
     }
 }
 
+
+interface RawTreeCountResponse {
+  total_arboles?: number;
+  co2_ahorrado_kg?: number;
+  ultimos_plantadores?: Array<{
+    id: number;
+    nombre: string;
+    foto_perfil: string;
+    fecha: string;
+  }>;
+}
+
 // --- Obtener Datos de Árboles por ID de Ruta ---
 export async function fetchTreeCountData(rutaId: string | number): Promise<TreeCounterData | null> {
     const url = `${API_BASE_URL}/contador/arboles/${rutaId}`;
     console.log(`Workspaceing Tree Count Data for Ruta ID ${rutaId}: ${url}`);
+    interface RawTreeCountResponse {
+      total_arboles?: number;
+      co2_ahorrado_kg?: number;
+      ultimos_plantadores?: Array<{
+        id: number;
+        nombre: string;
+        foto_perfil: string;
+        fecha: string;
+      }>;
+    }
+    interface RawPlanter {
+      id: number;
+      nombre: string;
+      foto_perfil: string;
+      fecha: string;
+    }
     try {
-        const response = await axios.get<{ /* ... define la estructura de respuesta API ... */ }>(url, { timeout: 5000 });
+        const response = await axios.get<RawTreeCountResponse>(url, { timeout: 5000 });
         if (!response.data) return null;
         // Mapea al tipo TreeCounterData
         return {
             totalArboles: response.data.total_arboles || 0,
             co2Ahorrado: response.data.co2_ahorrado_kg || 0,
-            ultimosPlantadores: (response.data.ultimos_plantadores || []).map((p: any) => ({
+            ultimosPlantadores: (response.data.ultimos_plantadores || []).map((p: RawPlanter) => ({
                 id: p.id, nombre: p.nombre, foto_perfil: p.foto_perfil, fecha: p.fecha
             }))
         };

@@ -6,18 +6,12 @@ import { Heart, Star, Calendar } from 'lucide-react'; // Iconos relevantes
 import FiltrosTitulo from "@/components/common/titulo-filtro"; // Verifica ruta
 import { CldImage } from 'next-cloudinary';
 import type { EventoListItem } from '@/types/listadoEventos'; // O @/types/evento
-import { generateSlug } from '@/lib/utils'; // Para la navegación al detalle
 
 // --- Props Interface ---
 interface ListadoEventosClientProps {
   initialEventos: EventoListItem[];
   municipio: string; // Recibe el nombre del municipio
 }
-
-// --- Helper Format Currency (igual) ---
-const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('es-CO', { /* ... */ }).format(amount);
-};
 
 // --- Componente ---
 const ListadoEventosClient: React.FC<ListadoEventosClientProps> = ({ initialEventos, municipio }) => {

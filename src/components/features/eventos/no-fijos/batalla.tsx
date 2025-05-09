@@ -37,7 +37,7 @@ interface Participant {
 
 const BurgerBattle = () => {
   const router = useRouter();
-  const [participants, setParticipants] = useState<Participant[]>([
+  const [participants] = useState<Participant[]>([
     {
       id: 1,
       name: "La Tropical Smash",
@@ -229,7 +229,7 @@ const BurgerBattle = () => {
   const isDraggingRef = useRef(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [showPlayButton, setShowPlayButton] = useState(true);
+  const [showPlayButton] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
 

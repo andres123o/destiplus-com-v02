@@ -1,7 +1,5 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
 import { fetchRestauranteListById } from '@/lib/api-listadoRestaurantes'; // API de restaurantes
-import { generateSlug } from '@/lib/utils'; // Para el mapeo si usas slug en URL
 import type { RestauranteListItem } from '@/types/listadoRestaurantes'; // O @/types/restaurante
 import ListadoRestaurantesClient from '@/components/features/restaurantes/listadoRestaurantes'; // Componente Cliente
 import type { Metadata } from 'next';

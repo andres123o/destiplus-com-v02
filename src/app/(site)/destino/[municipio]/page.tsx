@@ -15,7 +15,6 @@ interface DestinoPageProps {
 // --- Generación de Metadata Dinámica por Municipio ---
 export async function generateMetadata(
   { params }: DestinoPageProps,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   // params.municipio viene decodificado (ej: "Villa de Leyva")
   const municipioName = params.municipio;

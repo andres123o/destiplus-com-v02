@@ -1,7 +1,5 @@
-// app/(site)/destino/[municipio]/bares/page.tsx
 
 import React from 'react';
-import { notFound } from 'next/navigation';
 import { fetchBarListById } from '@/lib/api-listadoBares';         // API de bares
 import type { BarListItem } from '@/types/ListadoBar';        // O @/types/bar
 import ListadoBaresClient from '@/components/features/bares/ListadoBaresClient'; // Componente Cliente

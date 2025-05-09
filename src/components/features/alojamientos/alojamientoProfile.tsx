@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import * as LucideIcons from 'lucide-react'; // Importa todos los iconos de lucide
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { MapPin, Star, Clock, Award, MessageCircle, CircleDot } from 'lucide-react'; // Iconos específicos usados
+import { Star, Clock, Award, CircleDot } from 'lucide-react'; // Iconos específicos usados
 import { CldImage } from 'next-cloudinary'; // Usamos CldImage
 import AuthButtons from '@/components/common/logUser'
-import type { AlojamientoDetailData, AlojamientoDetallado } from '@/types/alojamiento';
+import type { AlojamientoDetailData } from '@/types/alojamiento';
 
 // --- Props Interface ---
 interface AlojamientoProfileProps {
@@ -100,21 +100,6 @@ const AlojamientoProfile: React.FC<AlojamientoProfileProps> = ({ initialData }) 
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
-    };
-
-    const handleWhatsAppClick = () => {
-        // Asegúrate que oferente.contacto y alojamiento.name existan
-        if (!oferente.contacto || !alojamiento.name) return;
-        const message = `¡Hola! Me interesa reservar ${alojamiento.name} para mi estadía en ${oferente.municipio || 'el destino'}`;
-        const whatsappUrl = `https://wa.me/${oferente.contacto}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-        // Gtag opcional para este clic
-        if (typeof window !== 'undefined' && window.gtag) {
-             window.gtag('event', 'contacto_whatsapp', {
-                 tipo_negocio: 'alojamiento',
-                 nombre_alojamiento: alojamiento.name
-             });
-        }
     };
 
     const handleGalleryNav = (direction: 'prev' | 'next') => {
@@ -341,7 +326,7 @@ const AlojamientoProfile: React.FC<AlojamientoProfileProps> = ({ initialData }) 
                     {oferente.politicas && Object.keys(oferente.politicas).length > 0 && (
                         <div className='accordion-aloja'>
                              {Object.entries(oferente.politicas)
-                                .filter(([key, value]) => value) // No mostrar si el valor es null/undefined/vacío
+                                .filter(([value]) => value) // No mostrar si el valor es null/undefined/vacío
                                 .map(([key, value], index) => (
                                  <div key={key} className='accordion-item2'>
                                      <button

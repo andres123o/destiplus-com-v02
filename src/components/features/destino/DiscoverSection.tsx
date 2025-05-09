@@ -28,7 +28,7 @@ interface DiscoverSectionProps {
 }
 // --- Fin Tipos ---
 
-const DiscoverSection: React.FC<DiscoverSectionProps> = ({ destino_id, pueblo }) => {
+const DiscoverSection: React.FC<DiscoverSectionProps> = ({ pueblo }) => {
   const router = useRouter(); // Hook de navegación de Next.js
 
   // Mantenemos los datos de las categorías como estaban

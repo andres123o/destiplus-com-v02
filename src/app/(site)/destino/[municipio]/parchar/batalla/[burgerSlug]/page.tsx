@@ -1,7 +1,6 @@
 // app/(site)/burger-profile/[burgerId]/page.tsx
 
 import React from 'react';
-import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import BurgerProfileClient from '@/components/features/eventos/no-fijos/perfil-burguer'; // Ajusta ruta al cliente
 
@@ -19,7 +18,6 @@ export async function generateMetadata(
   const title = ` Batalla de Hamburguesas en Suesca, la mejor de la región.`;
   const description = `Descubre las mejores burger de Suesca, la propuesta Suescana para la Batalla de Hamburguesas. Ingredientes: panela, mango, maduro, lulo, piña, naranja, champiñones, café, vino, maracuyá, uchuva, maíz, frutos rojos y pimentón.`;
   // Construye URL de Cloudinary para OG image (asegúrate que NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME esté definido)
-  const ogImageUrl = `https://res.cloudinary.com/destinoplus/image/upload/v1746721138/dcyghr6nulheihralqbg.jpg`;
 
   return {
     title,

@@ -8,7 +8,7 @@ export interface DestinoType {
   frase: string;
   img: string; // URL de la imagen
   calificacion?: number; // Opcional
-  items?: Record<string, any>; // O una interfaz más específica
+  items?: Record<string, unknown>; // O una interfaz más específica
   slug: string;
 }
 

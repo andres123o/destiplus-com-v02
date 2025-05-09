@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { notFound } from 'next/navigation';
 import { fetchEventoListById } from '@/lib/api-listadoEventos';     // API de eventos
 import type { EventoListItem } from '@/types/listadoEventos';    // O @/types/evento
 import ListadoEventosClient from '@/components/features/eventos/listadoEventos'; // Componente Cliente

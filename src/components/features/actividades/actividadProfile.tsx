@@ -1,26 +1,23 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import * as LucideIcons from 'lucide-react';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaPerson } from "react-icons/fa6";
 import { FaGripfire } from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa6";
-import { MapPin, Star, Clock, Award, MessageCircle, CircleDot } from 'lucide-react';
+import { Star, Clock, Award } from 'lucide-react';
 // import AuthButtons from '@/components/common/logUser'; // Asegúrate que esté migrado/disponible
 import { CldImage } from 'next-cloudinary';
 import AuthButtons from '@/components/common/logUser'
-import type { ActividadDetailData, ActividadDetallada } from '@/types/actividad';
+import type { ActividadDetailData } from '@/types/actividad';
 
 // --- Props Interface ---
 interface ActividadProfileProps {
   initialData: ActividadDetailData; // Recibe datos (no nulos)
 }
 
-// --- Icon Mapping Helper (igual) ---
-const getIconComponent = (serviceName: string) => { /* ... */ };
 
-const formatCurrency = (amount) => {
+const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-CO', {
       style: 'currency',
       currency: 'COP',
@@ -262,7 +259,14 @@ const ActividadProfile: React.FC<ActividadProfileProps> = ({ initialData }) => {
                                    <div className="rating-number">{actividad.calificacion.toFixed(1)}</div>
                                    <div className="rating-stats">
                                        <div className="rating-stars" aria-label={`Calificación: ${actividad.calificacion.toFixed(1)} de 5 estrellas`}>
-                                           {[...Array(5)].map((_, index) => ( <Star /* ... */ /> ))}
+                                       {[...Array(5)].map((_, index) => (
+                                            <Star
+                                                key={index}
+                                                size={20}
+                                                fill={index < Math.floor(actividad.calificacion) ? "#FFB800" : "none"}
+                                                color={index < Math.floor(actividad.calificacion) ? "#FFB800" : "#e0e0e0"}
+                                            />
+                                        ))}
                                        </div>
                                        <p className="rating-text">Calificación de Usuarios</p> {/* Cambiado */}
                                    </div>

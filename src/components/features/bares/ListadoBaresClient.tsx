@@ -6,7 +6,6 @@ import { Heart, Star } from 'lucide-react'; // Iconos
 import FiltrosTitulo from "@/components/common/titulo-filtro"; // Verifica ruta
 import { CldImage } from 'next-cloudinary';
 import type { BarListItem } from '@/types/ListadoBar'; // O @/types/bar
-import { generateSlug } from '@/lib/utils'; // Para la navegación al detalle
 
 // --- Props Interface ---
 interface ListadoBaresClientProps {

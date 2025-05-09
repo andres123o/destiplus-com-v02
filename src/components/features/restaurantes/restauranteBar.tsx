@@ -6,11 +6,11 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaPerson } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa6";
 import { FaGripfire } from "react-icons/fa";
-import { MapPin, Star, Clock, Award, MessageCircle, CircleDot, Bike, SquareParking, Music } from 'lucide-react';
+import { Star, Clock, Award, CircleDot } from 'lucide-react';
 import AuthButtons from '@/components/common/logUser'; // Verifica ruta
 import { CldImage } from 'next-cloudinary';
 // Asegúrate que los tipos se importen correctamente
-import type { EstablecimientoDetailData, EstablecimientoDetallado, MenuItem } from '@/types/restaurante-bar'; // Ajusta ruta a tus tipos
+import type { EstablecimientoDetailData, MenuItem } from '@/types/restaurante-bar'; // Ajusta ruta a tus tipos
 
 // --- FORMAT CURRENCY HELPER ---
 const formatCurrency = (amount: number): string => {
@@ -19,28 +19,6 @@ const formatCurrency = (amount: number): string => {
     style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0
   }).format(amount);
 };
-
-// --- ICON MAPPING HELPER --- (Si aplica para este tipo de establecimiento)
-const getIconComponent = (serviceName: string) => {
-    const iconMapping: { [key: string]: keyof typeof LucideIcons } = {
-        'Wi-Fi': 'Wifi',
-        'Baño privado': 'ShowerHead',
-        'TV': 'Tv',
-        'Desayuno incluido': 'Coffee',
-        'Petfriendly': 'PawPrint',
-        'Estacionamiento': 'SquareParking',
-        'Balcón privado': 'Mountain', // Usamos Mountain como fallback
-        'Jacuzzi': 'Bath',
-        'Cover': 'Music', // Ejemplo para cover
-        'Reservas': 'CalendarCheck', // Ejemplo
-        'Parking': 'SquareParking', // Ejemplo
-        'Domicilios': 'Bike' // Ejemplo
-        // Añade más mapeos según necesites
-    };
-    const iconName = iconMapping[serviceName] || 'CircleDot';
-    return LucideIcons[iconName] || CircleDot;
-};
-
 
 // --- COMPONENTES INTERNOS REUTILIZABLES (DEFINIDOS AQUÍ MISMO) ---
 
@@ -126,6 +104,10 @@ interface DescriptionProps {
 }
 const Description: React.FC<DescriptionProps> = ({ texto, isExpanded, toggleExpand }) => {
     const [maxTextLength, setMaxTextLength] = useState(100); // Mantiene su estado interno
+    const safeTexto = texto || '';
+    const needsTruncation = maxTextLength !== Infinity && safeTexto.length > maxTextLength;
+    const truncatedText = safeTexto.slice(0, maxTextLength);
+    const visibleText = isExpanded ? safeTexto : `${truncatedText}${needsTruncation ? "..." : ""}`;
 
     useEffect(() => { // Mantiene su efecto interno
         const handleResize = () => {
@@ -135,11 +117,6 @@ const Description: React.FC<DescriptionProps> = ({ texto, isExpanded, toggleExpa
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-
-    const safeTexto = texto || '';
-    const needsTruncation = maxTextLength !== Infinity && safeTexto.length > maxTextLength;
-    const truncatedText = safeTexto.slice(0, maxTextLength);
-    const visibleText = isExpanded ? safeTexto : `${truncatedText}${needsTruncation ? "..." : ""}`;
 
     return (
         <div className='container-descripcion'>
@@ -219,22 +196,21 @@ interface EstablecimientoProfileProps {
 
 // --- COMPONENTE PRINCIPAL DE UI (Antes DescripcionEstablecimientos) ---
 const EstablecimientoProfile: React.FC<EstablecimientoProfileProps> = ({ initialData, tipoActual }) => {
-  // --- Estado ---
-  const establecimiento = initialData; // Usa initialData directamente como 'establecimiento'
+    const establecimiento = initialData; // Usa initialData directamente como 'establecimiento'
+    const [backgroundImage, setBackgroundImg] = useState(establecimiento.img || '');
+    const [selectedImgIndex, setSelectedImgIndex] = useState<number | null>(
+        establecimiento.imgs?.imagenes && establecimiento.imgs.imagenes.length > 0 ? 0 : null
+    );
+    const [isExpanded, setIsExpanded] = useState(false); // Para Description
+    const isNewListing = !establecimiento.calificacion || establecimiento.calificacion === 0;
+    const metodosDePagoCorrectos = establecimiento.metodosdepago ?? establecimiento.metodos_de_pago ?? null;
 
-  // Verifica si hay datos básicos antes de continuar
+    // Verifica si hay datos básicos antes de continuar
    if (!establecimiento?.name) {
        return <div>Cargando o datos no disponibles...</div>;
    }
 
-  // Estado para la UI interactiva
-  const [backgroundImage, setBackgroundImg] = useState(establecimiento.img || '');
-  const [selectedImgIndex, setSelectedImgIndex] = useState<number | null>(
-      establecimiento.imgs?.imagenes && establecimiento.imgs.imagenes.length > 0 ? 0 : null
-  );
-  const [isExpanded, setIsExpanded] = useState(false); // Para Description
 
-  const isNewListing = !establecimiento.calificacion || establecimiento.calificacion === 0;
 
   useEffect(() => {
     // Verifica que tengamos un nombre de establecimiento para el tracking
@@ -300,7 +276,7 @@ const EstablecimientoProfile: React.FC<EstablecimientoProfileProps> = ({ initial
             : [])); // Fallback a un array vacío
 
   // --- Determinar qué propiedad usar para "Métodos de Pago" ---
-  const metodosDePagoCorrectos = establecimiento.metodosdepago ?? establecimiento.metodos_de_pago ?? null;
+
 
   // --- Renderizado ---
   return (

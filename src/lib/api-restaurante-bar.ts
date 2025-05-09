@@ -1,6 +1,6 @@
 // src/lib/api-establecimiento.ts
 import axios from 'axios';
-import type { EstablecimientoDetailData, BasicEstablecimientoInfo } from '@/types/restaurante-bar'; // O tu archivo de tipos
+import type { EstablecimientoDetailData} from '@/types/restaurante-bar'; // O tu archivo de tipos
 
 const API_BASE_URL = 'https://tree-suesca-backend-production.up.railway.app/api/v1';
 

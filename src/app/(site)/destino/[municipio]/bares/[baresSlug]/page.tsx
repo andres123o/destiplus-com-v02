@@ -2,7 +2,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getEstablecimientoData } from '@/lib/api-restaurante-bar'; // API de establecimiento
-import type { EstablecimientoDetailData } from '@/types/restaurante-bar'; // O tu archivo de tipos
 import EstablecimientoProfile from '@/components/features/restaurantes/restauranteBar'; // El componente cliente
 import type { Metadata, ResolvingMetadata } from 'next';
 
@@ -16,7 +15,6 @@ interface EstablecimientoDetailPageProps {
 // --- Metadata Dinámica ---
 export async function generateMetadata(
   { params }: EstablecimientoDetailPageProps,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { municipio, baresSlug } = params;
 
@@ -42,7 +40,7 @@ export async function generateMetadata(
 
 // --- Componente de Página ---
 export default async function EstablecimientoDetailPage({ params }: EstablecimientoDetailPageProps) {
-  const { municipio, baresSlug } = params; // Recibe tipo y nombre decodificados
+  const { baresSlug } = params; // Recibe tipo y nombre decodificados
 
   console.log(`Server: Rendering EstablecimientoDetailPage for tipo, nombre (${baresSlug})`);
   

@@ -1,4 +1,3 @@
-// src/components/features/home/DemoModal.tsx
 'use client';
 
 import React, { useEffect, useRef } from 'react';
@@ -10,7 +9,6 @@ interface DemoModalProps {
 }
 
 const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
-  const inputRef = useRef<HTMLTextAreaElement>(null); // Tipamos el ref
 
   // Efecto para enfocar el campo de búsqueda al cerrar (igual que antes)
   useEffect(() => {
@@ -60,37 +58,37 @@ const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
             <div className="demo-category">
               <h4>ALOJAMIENTOS</h4>
               <p>Pregunta por precio, tipo, ubicación o comodidades específicas</p>
-              <span className="demo-example">Ej: "¿Hay cabañas en Suesca por menos de 200.000?"</span>
+              <span className="demo-example">{`Ej: "¿Hay cabañas en Suesca por menos de 200.000?"`}</span>
             </div>
             <div className="demo-category">
               <h4>ACTIVIDADES</h4>
               <p>Desde escalada hasta tours guiados, te decimos dónde y cuánto cuestan</p>
-              <span className="demo-example">Ej: "¿Dónde puedo hacer escalada en Suesca?"</span>
+              <span className="demo-example">{`Ej: "¿Dónde puedo hacer escalada en Suesca?`}"</span>
             </div>
              <div className="demo-category">
                <h4>GASTRONOMÍA</h4>
                <p>Restaurantes por tipo de comida, precio o ubicación</p>
-               <span className="demo-example">Ej: "Restaurantes con buena vista en Sesquilé"</span>
+               <span className="demo-example">{`Ej: "Restaurantes con buena vista en Sesquilé"`}</span>
              </div>
              <div className="demo-category">
                <h4>VIDA NOCTURNA</h4>
                <p>Bares, discotecas y lugares para tomar</p>
-               <span className="demo-example">Ej: "¿Dónde puedo tomarme unas cervezas en Suesca?"</span>
+               <span className="demo-example">{`Ej: "¿Dónde puedo tomarme unas cervezas en Suesca?"`}</span>
              </div>
              <div className="demo-category">
                <h4>EVENTOS</h4>
                <p>Conciertos, festivales y actividades especiales</p>
-               <span className="demo-example">Ej: "¿Hay algún evento este fin de semana en Suesca?"</span>
+               <span className="demo-example">{`Ej: "¿Hay algún evento este fin de semana en Suesca?"`}</span>
              </div>
              <div className="demo-category">
                <h4>SPOTS SECRETOS</h4>
                <p>Lugares escondidos que solo conocen los locales</p>
-               <span className="demo-example">Ej: "¿Hay algún mirador poco conocido en Sesquilé?"</span>
+               <span className="demo-example">{`Ej: "¿Hay algún mirador poco conocido en Sesquilé?"`}</span>
              </div>
              <div className="demo-category">
                <h4>PAISAJES ÚNICOS</h4>
                <p>Miradores y rutas no turísticas</p>
-               <span className="demo-example">Ej: "Rutas de senderismo tranquilas en Suesca"</span>
+               <span className="demo-example">{`Ej: "Rutas de senderismo tranquilas en Suesca"`}</span>
              </div>
             {/* ... más categorías ... */}
           </div>

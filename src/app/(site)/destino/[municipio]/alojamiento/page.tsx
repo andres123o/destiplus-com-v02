@@ -1,7 +1,5 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
 import { fetchAlojamientoListById } from '@/lib/api-listaAlojamientos'; // Función para obtener alojamientos por ID
-import { generateSlug } from '@/lib/utils'; // Para el mapeo
 import type { AlojamientoListItem } from '@/types/listadoAlojamiento';
 import ListadoAlojamientoClient from '@/components/features/alojamientos/listaAlojamientos'; // Importa el componente cliente
 import type { Metadata } from 'next';

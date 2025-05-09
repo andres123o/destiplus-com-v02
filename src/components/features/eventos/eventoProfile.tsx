@@ -1,21 +1,18 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import * as LucideIcons from 'lucide-react'; // Para getIconComponent si lo usaras
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaPerson, FaRegClock, FaGripfire } from "react-icons/fa6"; // Iconos originales
-import { Star, Clock, Award, MessageCircle } from 'lucide-react'; // Iconos de Lucide
+import { Star, Clock, Award } from 'lucide-react'; // Iconos de Lucide
 import AuthButtons from '@/components/common/logUser'; // Verifica ruta
 import { CldImage } from 'next-cloudinary';
-import type { EventoDetailData, EventoDetallado } from '@/types/evento'; // Ajusta ruta
+import type { EventoDetailData } from '@/types/evento'; // Ajusta ruta
 
 // --- Props Interface ---
 interface EventoProfileProps {
   initialData: EventoDetailData;
 }
 
-// --- FORMAT CURRENCY HELPER ---
-const formatCurrency = (amount: number | string | null | undefined): string => { /* ... (igual que antes) ... */ };
 
 // --- COMPONENTES INTERNOS (Adaptados de tu original) ---
 
@@ -135,19 +132,18 @@ const EventoProfile: React.FC<EventoProfileProps> = ({ initialData }) => {
     // Extrae el objeto 'evento' principal y los datos del 'oferente'
     const evento = initialData.evento?.[0]; // Asume que el detalle del evento está en el primer item del array
     const oferente = initialData; // Asume que los datos del oferente están en la raíz
-
-    if (!evento || !evento.name) {
-        return <div className="loading-container"><div className="loading-content"><div className="loading-spinner"></div><h5 className="loading-text">Información del evento no disponible...</h5></div></div>;
-    }
-
-    const [backgroundImage, setBackgroundImg] = useState(evento.img || '');
+    const [backgroundImage, setBackgroundImg] = useState(evento?.img || '');
     const [selectedImgIndex, setSelectedImgIndex] = useState<number | null>(
-        evento.imgs?.imagenes && evento.imgs.imagenes.length > 0 ? 0 : null
+        evento?.imgs?.imagenes && evento.imgs.imagenes.length > 0 ? 0 : null
     );
     const [expandedSection, setExpandedSection] = useState<number | null>(null); // Para acordeón
     const [isExpanded, setIsExpanded] = useState(false); // Para descripción
 
     const isNewListing = !evento.calificacion || evento.calificacion === 0;
+
+    if (!evento || !evento.name) {
+        return <div className="loading-container"><div className="loading-content"><div className="loading-spinner"></div><h5 className="loading-text">Información del evento no disponible...</h5></div></div>;
+    }
 
     // Efecto para tracking de tiempo
     useEffect(() => {
@@ -173,7 +169,7 @@ const EventoProfile: React.FC<EventoProfileProps> = ({ initialData }) => {
     }, [evento.img, evento.imgs?.imagenes]);
 
     // Handlers
-    const handleImageClick = (imgSrc: string, index: number) => { /* ... */ };
+    const handleImageClick = () => { /* ... */ };
     const toggleExpand = () => setIsExpanded(!isExpanded);
     const toggleSection = (index: number) => {
         setExpandedSection(current => (current === index ? null : index));

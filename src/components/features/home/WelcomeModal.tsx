@@ -1,7 +1,7 @@
 // src/components/features/home/WelcomeModal.tsx
 'use client'; // Necesario por useState, useEffect, localStorage, setTimeout
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { CldImage } from 'next-cloudinary'; // ¡Importa CldImage!
 import { X } from 'lucide-react';
 
@@ -12,6 +12,21 @@ interface WelcomeModalProps {
 const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(true); // Controla si se renderiza o no
+
+  const showBanner = useCallback(() => {
+    setIsVisible(true);
+    const now = new Date().getTime();
+    localStorage.setItem('destiplus_banner_last_shown', now.toString());
+
+    // Ocultar automáticamente después de 10 segundos
+    const autoCloseTimer = setTimeout(() => {
+      handleClose();
+    }, 10000);
+
+    // Guardar el ID del timer para limpiarlo si se cierra manualmente
+    (window as unknown as { __welcomeModalTimer?: ReturnType<typeof setTimeout> })
+    .__welcomeModalTimer = autoCloseTimer;
+  }, []);
 
   useEffect(() => {
     const checkLastShown = () => {
@@ -54,28 +69,14 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
 
     return () => clearTimeout(timerId); // Limpia el timeout si el componente se desmonta
 
-  }, []); // Se ejecuta solo una vez al montar
-
-  const showBanner = () => {
-    setIsVisible(true);
-    const now = new Date().getTime();
-    localStorage.setItem('destiplus_banner_last_shown', now.toString());
-
-    // Ocultar automáticamente después de 10 segundos
-    const autoCloseTimer = setTimeout(() => {
-      handleClose();
-    }, 10000);
-
-    // Guardar el ID del timer para limpiarlo si se cierra manualmente
-    (window as any).__welcomeModalTimer = autoCloseTimer;
-  };
+  }, [showBanner]); // Se ejecuta solo una vez al montar
 
   const handleClose = () => {
-     // Limpiar el timer de auto-cierre si existe
-     if ((window as any).__welcomeModalTimer) {
-          clearTimeout((window as any).__welcomeModalTimer);
-          delete (window as any).__welcomeModalTimer;
-     }
+    const w = window as unknown as { __welcomeModalTimer?: ReturnType<typeof setTimeout> };
+    if (w.__welcomeModalTimer) {
+      clearTimeout(w.__welcomeModalTimer);
+      delete w.__welcomeModalTimer;
+    }
 
     setIsVisible(false);
     setTimeout(() => {

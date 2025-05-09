@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { HandPlatter, Star, MapPin, Loader2, Sparkles, ArrowLeft, Share } from 'lucide-react'; // Iconos Lucide
 import VotingModal from './votingModal'; // Ajusta ruta si es necesario
@@ -88,7 +88,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           lng: number;
         };
     }
-    const [participants, setParticipants] = useState<Participant[]>([
+    const [participants] = useState<Participant[]>([
         {
           id: 1,
           name: "La Tropical Smash",

@@ -1,9 +1,7 @@
-// app/(site)/actividad/[slug]/page.tsx
 
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { getActividadDataBySlug, fetchAllActividadSlugs } from '@/lib/api-actividadProfule'; 
-import type { ActividadDetailData } from '@/types/actividad'; // Tipos específicos
+import { getActividadDataBySlug } from '@/lib/api-actividadProfule'; 
 import ActividadProfile from '@/components/features/actividades/actividadProfile'; // Componente cliente
 import type { Metadata, ResolvingMetadata } from 'next';
 
@@ -18,7 +16,6 @@ interface ActividadDetailPageProps {
 // --- Metadata Dinámica ---
 export async function generateMetadata(
   { params }: ActividadDetailPageProps,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const slug = params.actividadSlug;
   const data = await getActividadDataBySlug(slug); // Busca por slug

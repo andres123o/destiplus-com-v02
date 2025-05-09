@@ -3,7 +3,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getAlojamientoDataBySlug } from '@/lib/api-alojamientoProfile';
-import type { AlojamientoDetailData } from '@/types/alojamiento';
 import AlojamientoProfile from '@/components/features/alojamientos/alojamientoProfile'; // Importa el Client Component
 import type { Metadata, ResolvingMetadata } from 'next';
 
@@ -17,7 +16,6 @@ interface AlojamientoDetailPageProps {
 // --- Metadata Dinámica ---
 export async function generateMetadata(
   { params }: AlojamientoDetailPageProps,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const slug = params.alojamientoSlug;
   const data = await getAlojamientoDataBySlug(slug);

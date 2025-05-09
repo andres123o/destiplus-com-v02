@@ -1,7 +1,3 @@
-// Reutiliza o define tipos para estructuras anidadas si es necesario
-// import { EquipamentoAlojamiento, AlojamientoIndividual, LugarAlojamiento } from './alojamiento'; // Ejemplo si los separaste
-// import { ImagenSimple } from './general'; // Ejemplo
-
 // --- Define aquí las interfaces que ya creamos si no las tienes centralizadas ---
 interface EquipamentoAlojamiento {
     habitaciones: number;
@@ -44,10 +40,10 @@ interface EquipamentoAlojamiento {
     alojamientos?: LugarAlojamiento[] | null; // Array de lugares
     tendencias?: ContenidoItem[] | null; // Para PopularActivities
     // Asegúrate de incluir cualquier otra propiedad que devuelva la API
-    restaurantes?: any[] | null; // Define una interfaz si tienes la estructura
-    bares?: any[] | null;        // Define una interfaz si tienes la estructura
-    actividades?: any[] | null;  // Define una interfaz si tienes la estructura
-    eventos?: any[] | null;      // Define una interfaz si tienes la estructura
+    restaurantes?: unknown[] | null; // Define una interfaz si tienes la estructura
+    bares?: unknown[] | null;        // Define una interfaz si tienes la estructura
+    actividades?: unknown[] | null;  // Define una interfaz si tienes la estructura
+    eventos?: unknown[] | null;      // Define una interfaz si tienes la estructura
     id?: number | string; // El ID del propio destino si viene en la respuesta
     // ... otras propiedades ...
   }

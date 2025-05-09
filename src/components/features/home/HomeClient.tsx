@@ -1,17 +1,16 @@
 'use client'; 
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import { useRouter } from "next/navigation"; // Hook de enrutamiento de Next.js
 import { CldImage } from 'next-cloudinary'; // ¡Importa CldImage!
 import Image from 'next/image';
 
-import { generateSlug } from '@/lib/utils'; //
 
 // --- Iconos ---
-import { MdExplore, MdError } from "react-icons/md";
+import { MdExplore } from "react-icons/md";
 // import { IoMdArrowDropdown } from "react-icons/io"; // No parece usarse en el JSX final
 import { FaUserGroup } from "react-icons/fa6";
-import { ChevronDown, X } from 'lucide-react'; // Iconos usados
+import { ChevronDown} from 'lucide-react'; // Iconos usados
 
 // --- Componentes Hijos (Asegúrate que existan en estas rutas y estén adaptados) ---
 import SearchBox from '@/components/features/home/SearchBox';
@@ -38,13 +37,11 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
   const router = useRouter();
 
   // --- Estados ---
-  const [destinos, setDestinos] = useState<DestinoType[]>(initialDestinos); // Datos originales
+  const [setDestinos] = useState<DestinoType[]>(initialDestinos); // Datos originales
   const [rutasFiltradas, setRutasFiltradas] = useState<DestinoType[]>(initialDestinos); // Datos a mostrar (filtrados)
-  const [filtros, setFiltros] = useState<Record<string, Set<{ value: any }>>>({}); // Estado para filtros si los implementas más a fondo
 
   // Estados de UI
-  const [loading, setLoading] = useState(false); // Para cargas iniciadas por el cliente (ej: AI)
-  const [error, setError] = useState<string | null>(null); // Para errores del cliente
+  const [setError] = useState<string | null>(null); // Para errores del cliente
 
   // Estados de Modales y Chat
   // WelcomeModal ahora controla su propia visibilidad inicial
@@ -54,42 +51,6 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
   const [showChat, setShowChat] = useState(false);
   const [titleVisible, setTitleVisible] = useState(true); // Controla si se ve el título o el chat
 
-  // --- Efectos ---
-  useEffect(() => {
-    // Inicializa los filtros basados en los datos iniciales cuando el componente monta o los datos cambian
-    if (initialDestinos && initialDestinos.length > 0) {
-      initializeFiltros(initialDestinos);
-    }
-    // Actualiza los estados si los datos iniciales cambian (útil si hay revalidación)
-    setDestinos(initialDestinos);
-    setRutasFiltradas(initialDestinos);
-  }, [initialDestinos]);
-
-  // Nota: El listener para el auto-resize del textarea se ha omitido aquí.
-  // Es MEJOR práctica manejar ese listener DENTRO del componente SearchBox.tsx
-  // para mantener la encapsulación. Si no lo haces allí, puedes descomentar
-  // el useEffect correspondiente de respuestas anteriores aquí.
-
-
-  // --- Funciones ---
-
-  // Inicializa la estructura de filtros (si se usa para UI de filtros)
-  const initializeFiltros = (data: DestinoType[]) => {
-    const nuevosFiltros: Record<string, Set<{ value: any }>> = {};
-    data.forEach((destino) => {
-      if (destino.items && typeof destino.items === 'object') {
-        Object.entries(destino.items).forEach(([key, value]) => {
-          if (!nuevosFiltros[key]) nuevosFiltros[key] = new Set();
-          // Compara valores (podría necesitar ajuste si son objetos complejos)
-           if (!Array.from(nuevosFiltros[key]).some(item => JSON.stringify(item.value) === JSON.stringify(value))) {
-               nuevosFiltros[key].add({ value });
-            }
-        });
-      }
-    });
-    setFiltros(nuevosFiltros);
-    // console.log("Filtros inicializados:", nuevosFiltros); // Para depuración
-  };
 
   // Manejadores de Modales
   const handleDemoClick = () => {
@@ -126,7 +87,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
     try {
       const response = await consultarOpenAI(query); // Llama al servicio de IA
       setChatMessages(prev => [...prev, { text: response, sender: 'ai' }]); // Muestra la respuesta de la IA
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error consultando IA:', err);
       const errorMsg = err.response?.data?.message || err.message || 'Lo siento, hubo un problema. Intenta de nuevo.';
       setChatMessages(prev => [...prev, { text: errorMsg, sender: 'ai' }]); // Muestra mensaje de error en el chat

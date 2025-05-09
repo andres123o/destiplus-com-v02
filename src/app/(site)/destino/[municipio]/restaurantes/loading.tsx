@@ -1,6 +1,5 @@
 // app/(site)/impactoAmbiental/loading.tsx
 import React from 'react';
-import { LucideLeaf } from 'lucide-react'; // Usaremos solo la hoja
 
 export default function Loading() {
   return (

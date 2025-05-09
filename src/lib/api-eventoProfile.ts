@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { EventoDetailData, BasicEventoInfo } from '@/types/evento'; // Ajusta ruta
+import type { EventoDetailData } from '@/types/evento'; // Ajusta ruta
 
 const API_BASE_URL = 'https://tree-suesca-backend-production.up.railway.app/api/v1';
 

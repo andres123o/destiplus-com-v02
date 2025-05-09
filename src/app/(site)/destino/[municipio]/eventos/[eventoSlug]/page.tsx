@@ -1,7 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getEventoDataBySlug } from '@/lib/api-eventoProfile';
-import type { EventoDetailData } from '@/types/evento'; // Ajusta ruta
 import EventoProfile from '@/components/features/eventos/eventoProfile'; // Ajusta ruta
 import type { Metadata, ResolvingMetadata } from 'next';
 
@@ -12,7 +11,6 @@ interface EventoDetailPageProps {
 // --- Metadata Dinámica ---
 export async function generateMetadata(
   { params }: EventoDetailPageProps,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const slug = params.eventoSlug;
   const data = await getEventoDataBySlug(slug);
@@ -24,7 +22,6 @@ export async function generateMetadata(
   const evento = data.evento[0];
   const title = `${evento.name || 'Evento'} | Destiplus`;
   const description = `Detalles del evento ${evento.name}: ${evento.itinerario?.substring(0, 150) || 'Participa en esta increíble experiencia.'}...`;
-  const imageUrl = evento.img || '/placeholder-og-image.jpg';
   const canonicalUrl = `https://www.destiplus.com/evento/${slug}`; // Actualiza dominio
 
   return {

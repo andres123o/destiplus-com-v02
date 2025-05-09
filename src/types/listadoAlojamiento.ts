@@ -1,14 +1,13 @@
-// src/types/alojamiento.ts (o donde definas tipos)
 
 // Reutiliza si ya existe
 interface EquipamentoAlojamiento {
     habitaciones: number;
     camas: number;
     baños: number;
-  }
+}
   
-  // Interfaz para cada item en la lista de alojamientos
-  export interface AlojamientoListItem {
+ // Interfaz para cada item en la lista de alojamientos
+export interface AlojamientoListItem {
     id?: number | string; // ¿La API devuelve un ID único para el alojamiento? Es útil para keys.
     name: string;
     img: string; // URL/Public ID imagen principal
@@ -21,9 +20,4 @@ interface EquipamentoAlojamiento {
     };
     slug?: string; // <-- IMPORTANTE: Idealmente, tu API debería devolver un slug aquí
     // ...otras propiedades que devuelva la API de lista...
-  }
-  
-  // Mantenemos las otras interfaces si las necesitas en otros lugares
-  export interface AlojamientoDetallado { /* ... */ }
-  export interface OferenteData { /* ... */ }
-  export interface AlojamientoDetailData extends OferenteData { /* ... */ }
+}

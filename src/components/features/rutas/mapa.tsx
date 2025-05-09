@@ -3,21 +3,18 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { ClipLoader } from 'react-spinners';
-import { IoIosArrowBack, IoIosArrowForward, IoIosArrowDown } from "react-icons/io"; // Asegura importar Down si se usa en accordion
+import { IoIosArrowForward } from "react-icons/io"; // Asegura importar Down si se usa en accordion
 import mapboxgl from 'mapbox-gl';
-import type { Map, Marker, Popup, LngLatBounds, LngLatLike, MapSourceDataEvent } from 'mapbox-gl';
+import type { Map, LngLatLike } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Chart from 'chart.js/auto';
 // Importa los iconos necesarios
-import { MapPin, Star, Clock, Award, MessageCircle, Users, Leaf, TreePine, ChevronRight, Navigation2, Mountain, ThumbsUp, Share2, Bike, SquareParking } from 'lucide-react';
-import { CldImage } from 'next-cloudinary'; // Para avatares
 // Ajusta la ruta a tus tipos definidos
 import type { RutaMapData, LocationState, MetricsState } from '@/types/mapa';
 
 // --- Configuración Mapbox (Usa Variables de Entorno) ---
 mapboxgl.accessToken =  'pk.eyJ1IjoiZGVzdGluby1wbHVzIiwiYSI6ImNtM3QzY3VkcTA0MnMybHBqaG42cnlwMGQifQ.yCsdkgJaxSy22A9sjgyikQ'; 
 const CACHE_NAME = 'mapbox-tiles-cache-v1';
-const LOCATION_STORAGE_KEY = 'tracked-locations';
 
 // --- HELPER FUNCTIONS (Definidas localmente) ---
 const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
@@ -120,15 +117,14 @@ interface RutaMapaClientProps {
 
 // --- Componente Principal del Mapa ---
 const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
-    const router = useRouter();
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     const containerChart = useRef<HTMLCanvasElement | null>(null);
-    const [map, setMap] = useState<Map | null>(null);
+    const [mapInstance, setMapInstance] = useState<Map | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isOnline, setIsOnline] = useState(true); // Se actualizará en useEffect
     const [currentLocation, setCurrentLocation] = useState<LocationState | null>(null);
     const [metrics, setMetrics] = useState<MetricsState>({ kmRecorridos: '0.00', velocidadPromedio: '0.0', tiempoRecorrido: '00:00', porcentajeCompletado: 0 });
-    const [isEmergencyExpanded, setIsEmergencyExpanded] = useState(false); // Estado para acordeón emergencia
+    const [isEmergencyExpanded] = useState(false); // Estado para acordeón emergencia
     const locationTrackerRef = useRef<{ clearWatch: () => void } | null>(null);
     const distanceAccumulatorRef = useRef(0);
     const startTimeRef = useRef<number | null>(null);
@@ -175,7 +171,18 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                 const response = await fetch(elevationUrl);
                 if (!response.ok) throw new Error(`Mapbox Tilequery failed: ${response.statusText}`);
                 const data = await response.json();
-                const elevations = data.features.map((feature: any) => feature.properties?.ele ?? 0);
+                const elevations = data.features.map((feat: unknown) => {
+                    if (
+                      typeof feat === 'object' &&
+                      feat !== null &&
+                      'properties' in feat &&
+                      typeof (feat as any).properties === 'object'
+                    ) {
+                      const ele = (feat as { properties?: { ele?: unknown } }).properties?.ele;
+                      return typeof ele === 'number' ? ele : 0;
+                    }
+                    return 0;
+                });
                 elevationData.push(...elevations);
             }
             // Asegurar longitud correcta (como antes)
@@ -306,7 +313,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
     const initLocationTrackingInternal = useCallback((mapInstance: Map, firstStationCoords: [number, number], setCurrentLoc: (loc: LocationState) => void) => {
         let userMarker: mapboxgl.Marker | null = null;
         let watchId: number | null = null;
-        let locationHistory: LocationState[] = [];
+        const locationHistory: LocationState[] = [];
         let lastKnownLocation: LocationState | null = null;
         let hasReachedFirstStation = false;
         const ARRIVAL_THRESHOLD = 0.03; // 30m
@@ -327,7 +334,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
              }
              return false;
         };
-        const createUserMarker = (lngLat: LngLatLike, accuracy?: number) => {
+        const createUserMarker = (lngLat: LngLatLike) => {
              if (!mapInstance) return;
              const el = document.createElement('div');
              el.className = 'user-location-marker'; // Necesitas CSS
@@ -425,7 +432,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
         const initMap = async () => {
             try {
                  mapObj = new mapboxgl.Map({ container: mapContainerRef.current!, style: 'mapbox://styles/mapbox/satellite-streets-v12', center: [ruta.estaciones![0].lng, ruta.estaciones![0].lat], zoom: 13, preserveDrawingBuffer: true });
-                 setMap(mapObj);
+                 setMapInstance(mapObj);
 
                  mapObj.on('load', async () => {
                     if (!isMounted || !mapObj) return;
@@ -463,7 +470,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
             } catch(e) { console.error("InitMap Error:", e); if (isMounted) setIsLoading(false); }
         };
         initMap();
-        return () => { isMounted = false; locationTrackerRef.current?.clearWatch(); chartInstanceRef.current?.destroy(); mapObj?.remove(); setMap(null); };
+        return () => { isMounted = false; locationTrackerRef.current?.clearWatch(); chartInstanceRef.current?.destroy(); mapObj?.remove(); setMapInstance(null); };
     }, [ruta, getElevationInternal, initLocationTrackingInternal]); // Incluye funciones useCallback
 
 
