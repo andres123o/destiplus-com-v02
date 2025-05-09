@@ -20,7 +20,7 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      url: `https://www.destiplus.com/destino/${params.municipio}/actividades`,
+      url: `https://www.destiplus.com/destino/${municipioName}/actividades`,
     },
   };
 }
