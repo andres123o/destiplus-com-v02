@@ -141,10 +141,6 @@ const EventoProfile: React.FC<EventoProfileProps> = ({ initialData }) => {
 
     const isNewListing = !evento.calificacion || evento.calificacion === 0;
 
-    if (!evento || !evento.name) {
-        return <div className="loading-container"><div className="loading-content"><div className="loading-spinner"></div><h5 className="loading-text">Información del evento no disponible...</h5></div></div>;
-    }
-
     // Efecto para tracking de tiempo
     useEffect(() => {
         const nameToTrack = evento.name;
@@ -167,6 +163,10 @@ const EventoProfile: React.FC<EventoProfileProps> = ({ initialData }) => {
         setBackgroundImg(evento.img || '');
         setSelectedImgIndex(evento.imgs?.imagenes?.length > 0 ? 0 : null);
     }, [evento.img, evento.imgs?.imagenes]);
+
+    if (!evento || !evento.name) {
+        return <div className="loading-container"><div className="loading-content"><div className="loading-spinner"></div><h5 className="loading-text">Información del evento no disponible...</h5></div></div>;
+    }
 
     // Handlers
     const handleImageClick = () => { /* ... */ };

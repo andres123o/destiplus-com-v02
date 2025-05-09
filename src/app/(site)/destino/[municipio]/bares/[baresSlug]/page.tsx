@@ -3,7 +3,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { getEstablecimientoData } from '@/lib/api-restaurante-bar'; // API de establecimiento
 import EstablecimientoProfile from '@/components/features/restaurantes/restauranteBar'; // El componente cliente
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 
 interface EstablecimientoDetailPageProps {
   params: {

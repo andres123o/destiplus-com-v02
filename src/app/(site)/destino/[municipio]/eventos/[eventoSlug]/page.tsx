@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { getEventoDataBySlug } from '@/lib/api-eventoProfile';
 import EventoProfile from '@/components/features/eventos/eventoProfile'; // Ajusta ruta
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 
 interface EventoDetailPageProps {
   params: { eventoSlug: string }; // Recibe el slug del evento (decodificado)

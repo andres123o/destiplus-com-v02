@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import { ClipLoader } from 'react-spinners';
 import { IoIosArrowForward } from "react-icons/io"; // Asegura importar Down si se usa en accordion
 import mapboxgl from 'mapbox-gl';
@@ -161,6 +160,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
         console.log("getElevationInternal: Fetching elevation data...");
         try {
             // 1. Fetch de Datos de Elevación (como antes)
+            
             const batchSize = 30;
             const elevationData: number[] = [];
             for (let i = 0; i < coordinates.length; i += batchSize) {
@@ -171,14 +171,21 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                 const response = await fetch(elevationUrl);
                 if (!response.ok) throw new Error(`Mapbox Tilequery failed: ${response.statusText}`);
                 const data = await response.json();
-                const elevations = data.features.map((feat: unknown) => {
+                interface FeatureWithEle {
+                    properties?: {
+                      ele?: unknown;
+                    };
+                }
+                const elevations = (data.features as unknown[]).map(feat => {
+                    // Primero verifica que sea un objeto y tenga “properties”
                     if (
                       typeof feat === 'object' &&
                       feat !== null &&
-                      'properties' in feat &&
-                      typeof (feat as any).properties === 'object'
+                      'properties' in feat
                     ) {
-                      const ele = (feat as { properties?: { ele?: unknown } }).properties?.ele;
+                      // Ahora TS sabe que feat es FeatureWithEle
+                      const f = feat as FeatureWithEle;
+                      const ele = f.properties?.ele;
                       return typeof ele === 'number' ? ele : 0;
                     }
                     return 0;
@@ -470,7 +477,15 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
             } catch(e) { console.error("InitMap Error:", e); if (isMounted) setIsLoading(false); }
         };
         initMap();
-        return () => { isMounted = false; locationTrackerRef.current?.clearWatch(); chartInstanceRef.current?.destroy(); mapObj?.remove(); setMapInstance(null); };
+        return () => {
+            isMounted = false;
+            locationTrackerRef.current?.clearWatch();
+            chartInstanceRef.current?.destroy();
+            chartInstanceRef.current = null;
+            // if (mapObj) mapObj.remove(); // Si usas la variable local del efecto
+            if (mapInstance) mapInstance.remove(); // Puedes usar el estado aquí
+            setMapInstance(null);
+        };
     }, [ruta, getElevationInternal, initLocationTrackingInternal]); // Incluye funciones useCallback
 
 

@@ -89,15 +89,17 @@ const RouteHeader: React.FC<RouteHeaderProps> = ({ ruta }) => {
 // 3. Descripción con "Leer más"
 const Description: React.FC<DescriptionProps> = ({ texto, isExpanded, toggleExpand }) => {
     const [maxTextLength, setMaxTextLength] = useState(100);
+    const safeTexto = texto || '';
+    const needsTruncation = maxTextLength !== Infinity && safeTexto.length > maxTextLength;
+    const truncatedText = safeTexto.slice(0, maxTextLength);
+    const visibleText = isExpanded ? safeTexto : `${truncatedText}${needsTruncation ? "..." : ""}`;
+
     useEffect(() => {
         const handleResize = () => setMaxTextLength(window.innerWidth < 768 ? 100 : Infinity);
         handleResize(); window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-    const safeTexto = texto || '';
-    const needsTruncation = maxTextLength !== Infinity && safeTexto.length > maxTextLength;
-    const truncatedText = safeTexto.slice(0, maxTextLength);
-    const visibleText = isExpanded ? safeTexto : `${truncatedText}${needsTruncation ? "..." : ""}`;
+
     return (
         <div className='container-descripcion'>
             <p className='descripcion' id="descripcion-texto">
@@ -141,6 +143,13 @@ const RatingStats: React.FC<RatingStatsProps> = ({ ruta, rutaID, comentarios }) 
 const ComentariosRutaInternal: React.FC<ComentariosRutaProps> = ({ initialComentarios }) => {
     const [mostrarTodos, setMostrarTodos] = useState(false);
     const [reaccion, setReaccion] = useState<Record<string | number, boolean>>({});
+    const toggleMostrarTodos = () => setMostrarTodos(!mostrarTodos);
+    const toggleReaccion = (id: string | number) => setReaccion(prev => ({ ...prev, [id]: !prev[id] }));
+
+    // --- CORRECCIÓN AQUÍ ---
+    // Usa 'initialComentarios' y añade fallback a array vacío por seguridad
+    const comentariosParaMapear = initialComentarios || [];
+    const comentariosAMostrar = mostrarTodos ? comentariosParaMapear : comentariosParaMapear.slice(0, 3);
 
     // El useEffect para inicializar reacciones AHORA debe usar initialComentarios
     useEffect(() => {
@@ -153,15 +162,6 @@ const ComentariosRutaInternal: React.FC<ComentariosRutaProps> = ({ initialComent
         });
         setReaccion(reaccionesIniciales);
     }, [initialComentarios]); // Depende de la prop
-
-    const toggleMostrarTodos = () => setMostrarTodos(!mostrarTodos);
-    const toggleReaccion = (id: string | number) => setReaccion(prev => ({ ...prev, [id]: !prev[id] }));
-
-    // --- CORRECCIÓN AQUÍ ---
-    // Usa 'initialComentarios' y añade fallback a array vacío por seguridad
-    const comentariosParaMapear = initialComentarios || [];
-    const comentariosAMostrar = mostrarTodos ? comentariosParaMapear : comentariosParaMapear.slice(0, 3);
-    // ------------------------
 
     // La condición ahora usa la prop
     if (!comentariosParaMapear || comentariosParaMapear.length === 0) {
@@ -505,30 +505,27 @@ interface RutaProfileClientProps {
   municipio: string;
 }
 const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, municipio }) => {
-  const router = useRouter();
-  const { ruta, comentarios, treeData } = initialData; // Desestructura datos
-  const isNewRoute = !ruta.calificacion || Number(ruta.calificacion) === 0;
-  const [backgroundImage, setBackgroundImg] = useState(ruta.img || '');
-  const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(
+    const router = useRouter();
+    const { ruta, comentarios, treeData } = initialData; // Desestructura datos
+    const isNewRoute = !ruta.calificacion || Number(ruta.calificacion) === 0;
+    const [backgroundImage, setBackgroundImg] = useState(ruta.img || '');
+    const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(
       ruta.imagenes && ruta.imagenes.length > 0 ? 0 : null
-  );
-  // Estado para descripción
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-
-  if (!ruta) { return <div>Ruta no encontrada.</div>; }
-
-  // Efecto para actualizar imagen si cambian las props
-  useEffect(() => {
+    );
+    // Estado para descripción
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+    // Efecto para actualizar imagen si cambian las props
+    useEffect(() => {
     setBackgroundImg(ruta.img || '');
     setCurrentImageIndex(ruta.imagenes && ruta.imagenes.length > 0 ? 0 : null);
-  }, [ruta.img, ruta.imagenes]);
+    }, [ruta.img, ruta.imagenes]);
 
-  // Handlers galería
-  const handleImageSelect = (imgSrc: string, index: number) => {
+     // Handlers galería
+     const handleImageSelect = (imgSrc: string, index: number) => {
     setBackgroundImg(imgSrc);
     setCurrentImageIndex(index);
-  };
-  const handleGalleryNav = (direction: 'prev' | 'next') => {
+    };
+    const handleGalleryNav = (direction: 'prev' | 'next') => {
     const imageList = ruta.imagenes;
     if (!imageList || imageList.length <= 1 || currentImageIndex === null) return;
     let newIndex: number;
@@ -539,12 +536,12 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
     }
     setCurrentImageIndex(newIndex);
     setBackgroundImg(imageList[newIndex].url); // Accede a la URL dentro del objeto imagen
-  };
+    };
 
-  // Handler descripción
-  const toggleExpandDescription = () => setIsDescriptionExpanded(!isDescriptionExpanded);
+    // Handler descripción
+    const toggleExpandDescription = () => setIsDescriptionExpanded(!isDescriptionExpanded);
 
-  // Handler para el botón "Iniciar Aventura"
+    // Handler para el botón "Iniciar Aventura"
     const handleStartAdventure = () => {
         const startMap = ruta.nombre; // Consider using ID for consistency
         const tipoNegocio = 'rutas';
@@ -566,9 +563,12 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
         console.log(startMap)
     };
 
+    if (!ruta) { return <div>Ruta no encontrada.</div>; }
 
-  // --- Renderizado ---
-  return (
+
+
+    // --- Renderizado ---
+    return (
     <>
       {/* <ScrollToTop /> */}
       <div className='container-actividades-div'> {/* O usa 'container-ruta-div' */}
@@ -649,7 +649,7 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
         </div> {/* Fin container-info */}
       </div> {/* Fin container-actividades-div */}
     </>
-  );
+    );
 };
 
 export default RutaProfileClient; // Exporta el componente cliente principal

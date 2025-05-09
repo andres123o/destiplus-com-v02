@@ -4,7 +4,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { getAlojamientoDataBySlug } from '@/lib/api-alojamientoProfile';
 import AlojamientoProfile from '@/components/features/alojamientos/alojamientoProfile'; // Importa el Client Component
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 
 interface AlojamientoDetailPageProps {
   params: {

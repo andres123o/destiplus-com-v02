@@ -309,7 +309,7 @@ const ActividadProfile: React.FC<ActividadProfileProps> = ({ initialData }) => {
                     {actividad.requisitosRecomendaciones && Object.keys(actividad.requisitosRecomendaciones).length > 0 && (
                         <div className='accordion-aloja'> {/* Reusa clase o crea nueva */}
                              {Object.entries(actividad.requisitosRecomendaciones)
-                                .filter(([key, value]) => value)
+                                .filter(([value]) => value)
                                 .map(([key, value], index) => (
                                  <div key={key} className='accordion-item2'>
                                      <button 

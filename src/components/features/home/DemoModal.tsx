@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 
 interface DemoModalProps {
@@ -63,7 +63,7 @@ const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
             <div className="demo-category">
               <h4>ACTIVIDADES</h4>
               <p>Desde escalada hasta tours guiados, te decimos dónde y cuánto cuestan</p>
-              <span className="demo-example">{`Ej: "¿Dónde puedo hacer escalada en Suesca?`}"</span>
+              <span className="demo-example">{`Ej: "¿Dónde puedo hacer escalada en Suesca?"`}</span>
             </div>
              <div className="demo-category">
                <h4>GASTRONOMÍA</h4>

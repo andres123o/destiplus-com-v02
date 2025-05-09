@@ -3,7 +3,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { getActividadDataBySlug } from '@/lib/api-actividadProfule'; 
 import ActividadProfile from '@/components/features/actividades/actividadProfile'; // Componente cliente
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 
 interface ActividadDetailPageProps {
   params: { 

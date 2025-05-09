@@ -6,7 +6,7 @@ import { getDestinoDataByMunicipio } from '@/lib/api-destino';
 import type { DestinoData } from '@/types/destino';
 // Ajusta la ruta si tu componente cliente tiene otro nombre/ubicación
 import DestinoPageContent from '@/components/features/destino/destino';
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 
 interface DestinoPageProps {
   params: { municipio: string }; // <-- Recibe 'municipio' (ya decodificado por Next.js)

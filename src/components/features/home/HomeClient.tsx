@@ -1,6 +1,6 @@
 'use client'; 
 
-import React, { useState, useEffect} from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Hook de enrutamiento de Next.js
 import { CldImage } from 'next-cloudinary'; // ¡Importa CldImage!
 import Image from 'next/image';
@@ -36,9 +36,6 @@ interface HomeClientProps {
 const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
   const router = useRouter();
 
-  // --- Estados ---
-  const [setDestinos] = useState<DestinoType[]>(initialDestinos); // Datos originales
-  const [rutasFiltradas, setRutasFiltradas] = useState<DestinoType[]>(initialDestinos); // Datos a mostrar (filtrados)
 
   // Estados de UI
   const [setError] = useState<string | null>(null); // Para errores del cliente
@@ -244,8 +241,8 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
       {/* --- Lista de Destinos (Clases originales) --- */}
       <div className="container-seccion-lista-home">
         {/* Verifica si hay destinos filtrados para mostrar */}
-        {rutasFiltradas && rutasFiltradas.length > 0 ? (
-          rutasFiltradas.map((item) => {
+        {initialDestinos.length > 0 ? (
+          initialDestinos.map((item) => {
             const badgeType = getBadgeType(item.calificacion);
             return (
               <div

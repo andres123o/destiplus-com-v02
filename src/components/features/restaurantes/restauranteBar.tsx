@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import * as LucideIcons from 'lucide-react'; // Sigue siendo necesario para getIconComponent si lo usas
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaPerson } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa6";
 import { FaGripfire } from "react-icons/fa";
-import { Star, Clock, Award, CircleDot } from 'lucide-react';
+import { Star, Clock, Award } from 'lucide-react';
 import AuthButtons from '@/components/common/logUser'; // Verifica ruta
 import { CldImage } from 'next-cloudinary';
 // Asegúrate que los tipos se importen correctamente
@@ -203,16 +202,8 @@ const EstablecimientoProfile: React.FC<EstablecimientoProfileProps> = ({ initial
     );
     const [isExpanded, setIsExpanded] = useState(false); // Para Description
     const isNewListing = !establecimiento.calificacion || establecimiento.calificacion === 0;
-    const metodosDePagoCorrectos = establecimiento.metodosdepago ?? establecimiento.metodos_de_pago ?? null;
 
-    // Verifica si hay datos básicos antes de continuar
-   if (!establecimiento?.name) {
-       return <div>Cargando o datos no disponibles...</div>;
-   }
-
-
-
-  useEffect(() => {
+    useEffect(() => {
     // Verifica que tengamos un nombre de establecimiento para el tracking
     const nombreEstablecimiento = establecimiento?.name;
     if (!nombreEstablecimiento) {
@@ -245,17 +236,17 @@ const EstablecimientoProfile: React.FC<EstablecimientoProfileProps> = ({ initial
         console.warn('EstablecimientoProfile: window.gtag no está disponible para el tracking de tiempo.');
       }
     };
-  }, [establecimiento?.name, tipoActual, initialData?.municipio]);
+    }, [establecimiento?.name, tipoActual, initialData?.municipio]);
 
-  useEffect(() => { /* Efecto setBackgroundImg (sin cambios) */ }, [establecimiento.img, establecimiento.imgs?.imagenes]);
+    useEffect(() => { /* Efecto setBackgroundImg (sin cambios) */ }, [establecimiento.img, establecimiento.imgs?.imagenes]);
 
-  // --- Handlers ---
-  const handleImageClick = (imgSrc: string, index: number) => {
-    setSelectedImgIndex(index);
-    setBackgroundImg(imgSrc);
-  };
-  const toggleExpand = () => setIsExpanded(!isExpanded);
-  const handleGalleryNav = (direction: 'prev' | 'next') => {
+    // --- Handlers ---
+    const handleImageClick = (imgSrc: string, index: number) => {
+        setSelectedImgIndex(index);
+        setBackgroundImg(imgSrc);
+    };
+    const toggleExpand = () => setIsExpanded(!isExpanded);
+    const handleGalleryNav = (direction: 'prev' | 'next') => {
     const imageList = establecimiento.imgs?.imagenes;
     if (!imageList || imageList.length <= 1 || selectedImgIndex === null) return;
     let newIndex: number;
@@ -266,20 +257,23 @@ const EstablecimientoProfile: React.FC<EstablecimientoProfileProps> = ({ initial
     }
     setSelectedImgIndex(newIndex);
     setBackgroundImg(imageList[newIndex]);
-  };
+    };
 
-  const principalesItems: MenuItem[] = 
-    (Array.isArray(establecimiento.recurrentes) && establecimiento.recurrentes.length > 0
+    const principalesItems: MenuItem[] = 
+        (Array.isArray(establecimiento.recurrentes) && establecimiento.recurrentes.length > 0
         ? establecimiento.recurrentes
         : (Array.isArray(establecimiento.recurrente) && establecimiento.recurrente.length > 0 // Chequeo para la propiedad singular
             ? establecimiento.recurrente
             : [])); // Fallback a un array vacío
 
-  // --- Determinar qué propiedad usar para "Métodos de Pago" ---
+    // --- Determinar qué propiedad usar para "Métodos de Pago" ---
 
-
-  // --- Renderizado ---
-  return (
+    // Verifica si hay datos básicos antes de continuar
+    if (!establecimiento?.name) {
+        return <div>Cargando o datos no disponibles...</div>;
+    }
+    // --- Renderizado ---
+    return (
     <>
         <div className='container-actividades-div'> 
             <div className='carousel-main-container'>
@@ -480,7 +474,7 @@ const EstablecimientoProfile: React.FC<EstablecimientoProfileProps> = ({ initial
                 <MenuSection title="Bebidas" items={establecimiento.bebidas} itemLayoutType="bebida" />
         </div>
     </>
-  );
+    );
 };
 
 export default EstablecimientoProfile; 
