@@ -6,25 +6,19 @@ import { getEstablecimientoData } from '@/lib/api-restaurante-bar'; // API de es
 import EstablecimientoProfile from '@/components/features/restaurantes/restauranteBar'; // El componente cliente
 import type { Metadata } from 'next';
 
-interface EstablecimientoDetailPageProps {
-  params: {
-    municipio: string;   // ej: "restaurante" (decodificado)
-    restauranteSlug: string; // ej: "Restaurante La Casona" (decodificado)
-  }
-}
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  { params }: EstablecimientoDetailPageProps,
+  { params }: { params: Promise<{ restauranteSlug: string, municipio: string }> }
 ): Promise<Metadata> {
-  const { municipio, restauranteSlug } = params;
+  const { restauranteSlug: slug, municipio } = await params
 
 
-  const title = `${restauranteSlug || 'Establecimiento'} | Destiplus`;
+  const title = `${slug || 'Establecimiento'} | Destiplus`;
   // Ajusta la descripción según los datos disponibles
-  const description = `Descubre ${municipio}. ${restauranteSlug || 'Menú, horarios, contacto y más.'}`.substring(0, 160);
+  const description = `Descubre ${municipio}. ${slug || 'Menú, horarios, contacto y más.'}`.substring(0, 160);
   // Construye la URL canónica
-  const canonicalUrl = `https://www.destiplus.com/destino/${municipio}/restaurantes/${restauranteSlug}`; // ¡Actualiza dominio!
+  const canonicalUrl = `https://www.destiplus.com/destino/${municipio}/restaurantes/${slug}`; // ¡Actualiza dominio!
 
   return {
     title,
@@ -40,17 +34,19 @@ export async function generateMetadata(
 
 
 // --- Componente de Página ---
-export default async function EstablecimientoDetailPage({ params }: EstablecimientoDetailPageProps) {
-  const { restauranteSlug } = params; // Recibe tipo y nombre decodificados
+export default async function EstablecimientoDetailPage(
+  { params }: { params: Promise<{ restauranteSlug: string, municipio: string }> }
+) {
+  const { restauranteSlug: slug, municipio } = await params
 
-  console.log(`Server: Rendering EstablecimientoDetailPage for tipo, nombre (${restauranteSlug})`);
+  console.log(`Server: Rendering EstablecimientoDetailPage for tipo, nombre (${slug})`);
   
   const tipo = "restaurante"
 
-  const initialData = await getEstablecimientoData(tipo, restauranteSlug)
+  const initialData = await getEstablecimientoData(tipo, slug)
 
   if (!initialData) {
-    console.log(`Server: Establecimiento not found for ${tipo}/${restauranteSlug}. Triggering 404.`);
+    console.log(`Server: Establecimiento not found for ${tipo}/${slug}. Triggering 404.`);
     notFound();
   }
 

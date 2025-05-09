@@ -4,17 +4,14 @@ import type { AlojamientoListItem } from '@/types/listadoAlojamiento';
 import ListadoAlojamientoClient from '@/components/features/alojamientos/listaAlojamientos'; // Importa el componente cliente
 import type { Metadata } from 'next';
 
-interface AlojamientosListPageProps {
-  params: { municipio: string }; // Recibe el nombre/slug del municipio
-}
+
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  { params }: AlojamientosListPageProps
+  { params }: { params: Promise<{ municipio: string }>}
 ): Promise<Metadata> {
-  // Necesitamos obtener el nombre real del municipio para el título
-  // Podríamos hacer el mapeo aquí también o asumir que params.municipio es usable
-  const municipioName = decodeURIComponent(params.municipio); // Decodifica por si acaso
+  const { municipio: municipioRaw } = await params
+  const municipioName = decodeURIComponent(municipioRaw); // Decodifica por si acaso
   const title = `Alojamientos en ${municipioName} | Destiplus`;
   const description = `Encuentra los mejores lugares para hospedarte en ${municipioName}. Hoteles, hostales, glamping y más.`;
 
@@ -31,8 +28,10 @@ export async function generateMetadata(
 }
 
 // --- Componente de Página ---
-export default async function AlojamientosListPage({ params }: AlojamientosListPageProps) {
-  const municipioParam = params.municipio; // Puede ser slug o nombre codificado
+export default async function AlojamientosListPage(
+  { params }: { params: Promise<{ municipio: string }>}
+) {
+  const { municipio: municipioParam } = await params; // Puede ser slug o nombre codificado
   console.log(`Server: Rendering AlojamientosListPage for municipio (${municipioParam})`);
 
 

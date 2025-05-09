@@ -5,18 +5,11 @@ import { getActividadDataBySlug } from '@/lib/api-actividadProfule';
 import ActividadProfile from '@/components/features/actividades/actividadProfile'; // Componente cliente
 import type { Metadata } from 'next';
 
-interface ActividadDetailPageProps {
-  params: Promise<{
-    actividadSlug: string;
-    municipio: string;
-  }>;
-}
-
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  props: ActividadDetailPageProps
+  { params }: { params: Promise<{ actividadSlug: string; municipio: string }> }
 ): Promise<Metadata> {
-  const { actividadSlug: slug } = await props.params;
+  const { actividadSlug: slug, municipio } = await params;
   const data = await getActividadDataBySlug(slug); // Busca por slug
 
   if (!data || !data.actividad || data.actividad.length === 0) {
@@ -46,10 +39,10 @@ export async function generateMetadata(
 
 
 // --- Componente de Página ---
-export default async function ActividadDetailPage(props: ActividadDetailPageProps) {
-  const { actividadSlug: slug } = await props.params;
-
-  // Llama a la API directamente con el slug
+export default async function ActividadDetailPage(
+  { params }: { params: Promise<{ actividadSlug: string; municipio: string }> }
+) {
+  const { actividadSlug: slug } = await params;
   const initialData = await getActividadDataBySlug(slug);
 
   if (!initialData) {

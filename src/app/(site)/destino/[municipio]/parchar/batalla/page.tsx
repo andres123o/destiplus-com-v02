@@ -2,8 +2,6 @@ import React from 'react';
 import type { Metadata } from 'next';
 import BurgerBattle from '@/components/features/eventos/no-fijos/batalla'; // Ajusta la ruta a donde guardaste tu componente
 
-// --- Metadata para la página de la Batalla ---
-// Como el contenido es mayormente estático, podemos definirla directamente
 
 const municipio = 'Suesca'
 export const metadata: Metadata = {

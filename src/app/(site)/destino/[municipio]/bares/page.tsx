@@ -5,15 +5,13 @@ import type { BarListItem } from '@/types/ListadoBar';        // O @/types/bar
 import ListadoBaresClient from '@/components/features/bares/ListadoBaresClient'; // Componente Cliente
 import type { Metadata } from 'next';
 
-interface BaresListPageProps {
-  params: { municipio: string }; // Recibe nombre/slug del municipio
-}
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  { params }: BaresListPageProps
+  { params }: { params: Promise<{ municipio: string }> }
 ): Promise<Metadata> {
-  const municipioName = decodeURIComponent(params.municipio);
+  const { municipio: municipioRaw } = await params
+  const municipioName = decodeURIComponent(municipioRaw);
   const title = `Bares y Cafés en ${municipioName} | Destiplus`;
   const description = `Encuentra los mejores bares y cafés en ${municipioName} para disfrutar con amigos.`;
 
@@ -31,8 +29,11 @@ export async function generateMetadata(
 
 
 // --- Componente de Página ---
-export default async function BaresListPage({ params }: BaresListPageProps) {
-  const municipioParam = params.municipio;
+export default async function BaresListPage(
+  { params }: { params: Promise<{ municipio: string }> }
+) {
+  const { municipio: municipioRaw } = await params
+  const municipioParam = municipioRaw;
   console.log(`Server: Rendering BaresListPage for municipio (${municipioParam})`);
 
 

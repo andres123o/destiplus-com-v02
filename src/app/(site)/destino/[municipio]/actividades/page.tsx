@@ -4,15 +4,14 @@ import type { ActividadListItem } from '@/types/listadoActividades'; // O @/type
 import ListadoActividadesClient from '@/components/features/actividades/listadoActividades'; // Componente Cliente
 import type { Metadata } from 'next';
 
-interface ActividadesListPageProps {
-  params: { municipio: string }; // Recibe nombre/slug municipio
-}
+
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  { params }: ActividadesListPageProps
+  { params }: { params: Promise<{ municipio: string }> }
 ): Promise<Metadata> {
-  const municipioName = decodeURIComponent(params.municipio); // Decodifica por si acaso
+  const { municipio: rawMunicipio } = await params;
+  const municipioName = decodeURIComponent(rawMunicipio);
   const title = `Actividades en ${municipioName} | Destiplus`;
   const description = `Encuentra las mejores actividades y experiencias en ${municipioName}: Caminatas, escalada, aventura y más.`;
 
@@ -28,36 +27,19 @@ export async function generateMetadata(
 }
 
 
-// --- Componente de Página ---
-export default async function ActividadesListPage({ params }: ActividadesListPageProps) {
-  const municipioParam = params.municipio;
-  console.log(`Server: Rendering ActividadesListPage for municipio (${municipioParam})`);
-
-
+export default async function ActividadesListPage(
+  { params }: { params: Promise<{ municipio: string }> }
+) {
+  const { municipio: municipioParam } = await params;
   const destinoId = municipioParam === "Suesca" ? 1 : municipioParam === "Sesquile" ? 2 : "";
-
-  console.log(`Server: Found Destino ID ${destinoId} for ${municipioParam}. Fetching actividades...`);
-
-  // 2. Obtener lista de actividades usando el ID
   const initialActividades = await fetchActividadListById(destinoId);
-
-  // 3. Filtrar inválidos en servidor
-  const filtrarActividadesValidas = (data: ActividadListItem[]): ActividadListItem[] => {
-      return data.filter(actividad =>
-          actividad.name && actividad.name !== "Pendiente" &&
-          actividad.img &&
-          actividad.logo
-      );
-  };
-  const validActividades = filtrarActividadesValidas(initialActividades);
-
-  console.log(`Server: Received ${validActividades.length} valid actividades for ${municipioParam}. Rendering client component.`);
-
-  // Renderiza el componente cliente
+  const validActividades = initialActividades.filter(a =>
+    a.name && a.name !== "Pendiente" && a.img && a.logo
+  );
   return (
-      <ListadoActividadesClient
-          initialActividades={validActividades}
-          municipio={municipioParam} // Pasa el nombre real
-      />
+    <ListadoActividadesClient
+      initialActividades={validActividades}
+      municipio={municipioParam}
+    />
   );
 }

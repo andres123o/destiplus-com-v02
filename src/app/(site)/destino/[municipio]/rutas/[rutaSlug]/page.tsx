@@ -20,10 +20,9 @@ interface RutaDetailPageProps {
 
 // --- Metadata ---
 export async function generateMetadata(
-  { params }: RutaDetailPageProps
+  { params }: { params: Promise<{ rutaSlug: string, municipio: string }> }
 ): Promise<Metadata> {
-  const slug = params.rutaSlug;
-  const municipio = params.municipio
+  const { rutaSlug: slug, municipio } = await params
   const rutaData = await getRutaDataBySlug(slug); // Busca por slug
 
   if (!rutaData) return { title: 'Ruta no Encontrada' };
@@ -45,8 +44,10 @@ export async function generateMetadata(
 }
 
 // --- Componente Página ---
-export default async function RutaDetailPage({ params }: RutaDetailPageProps) {
-  const slug = params.rutaSlug;
+export default async function RutaDetailPage(
+  { params }: { params: Promise<{ rutaSlug: string, municipio: string }> }
+) {
+  const { rutaSlug: slug, municipio } = await params
   console.log(`Server: Rendering RutaDetailPage for slug (${slug})`);
 
   // 1. Obtener datos principales (y el ID si existe)
@@ -75,5 +76,5 @@ export default async function RutaDetailPage({ params }: RutaDetailPageProps) {
   console.log(initialData)
 
    console.log(`Server: All data received for ${initialData.ruta.nombre}. Rendering client component.`);
-   return <RutaProfileClient initialData={initialData} municipio={params.municipio}/>;
+   return <RutaProfileClient initialData={initialData} municipio={municipio}/>;
 }

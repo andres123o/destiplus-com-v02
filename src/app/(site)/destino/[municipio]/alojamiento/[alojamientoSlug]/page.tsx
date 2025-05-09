@@ -6,18 +6,13 @@ import { getAlojamientoDataBySlug } from '@/lib/api-alojamientoProfile';
 import AlojamientoProfile from '@/components/features/alojamientos/alojamientoProfile'; // Importa el Client Component
 import type { Metadata } from 'next';
 
-interface AlojamientoDetailPageProps {
-  params: {
-    municipio: string;       // ej: "Suesca" (decodificado)
-    alojamientoSlug: string; // ej: "hostal-la-roca" (decodificado)
-  }
-}
+
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  { params }: AlojamientoDetailPageProps,
+  { params }: { params: Promise<{ alojamientoSlug: string; municipio: string }> }
 ): Promise<Metadata> {
-  const slug = params.alojamientoSlug;
+  const { alojamientoSlug: slug, municipio } = await params
   const data = await getAlojamientoDataBySlug(slug);
 
   if (!data || !data.alojamiento || data.alojamiento.length === 0) {
@@ -25,10 +20,10 @@ export async function generateMetadata(
   }
 
   const alojamiento = data.alojamiento[0]; // Tomamos el primero del array
-  const title = `${alojamiento.name} en ${data.municipio || params.municipio} | Destiplus`;
+  const title = `${alojamiento.name} en ${municipio || municipio} | Destiplus`;
   const description = `Detalles, servicios y reserva de ${alojamiento.name}. ${alojamiento.detalle?.substring(0, 150) || 'Encuentra tu estadía ideal.'}...`;
   const imageUrl = alojamiento.img || '/placeholder-og-image.jpg'; // Imagen principal
-  const canonicalUrl = `https://www.destiplus.com/destino/${params.municipio}/alojamiento/${slug}`; // Actualiza dominio
+  const canonicalUrl = `https://www.destiplus.com/destino/${municipio}/alojamiento/${slug}`; // Actualiza dominio
 
   return {
     title: title,
@@ -44,20 +39,12 @@ export async function generateMetadata(
   };
 }
 
-// --- (Opcional) generateStaticParams ---
-// Si quieres generar estas páginas estáticamente, necesitas devolver todos los pares posibles
-// export async function generateStaticParams() {
-//   const paths = await fetchAllAlojamientoPaths(); // Necesitas crear esta función en la API lib
-//   return paths.map(path => ({
-//     municipio: path.municipio,
-//     alojamientoSlug: path.alojamientoSlug,
-//   }));
-// }
-
 // --- Componente de Página ---
-export default async function AlojamientoDetailPage({ params }: AlojamientoDetailPageProps) {
-  const slug = params.alojamientoSlug;
-  console.log(`Server: Rendering AlojamientoDetailPage for slug (${slug}) in municipio (${params.municipio})`);
+export default async function AlojamientoDetailPage(
+  { params }: { params: Promise<{ alojamientoSlug: string; municipio: string }> }
+) {
+  const { alojamientoSlug: slug, municipio } = await params
+  console.log(`Server: Rendering AlojamientoDetailPage for slug (${slug}) in municipio (${municipio})`);
 
   const initialData = await getAlojamientoDataBySlug(slug);
 

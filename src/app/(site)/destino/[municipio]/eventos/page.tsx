@@ -11,9 +11,10 @@ interface EventosListPageProps {
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  { params }: EventosListPageProps
+  { params }: { params: Promise<{municio: string}> }
 ): Promise<Metadata> {
-  const municipioName = decodeURIComponent(params.municipio);
+  const { municio: municipioRaw } = await params
+  const municipioName = decodeURIComponent(municipioRaw);
   const title = `Eventos en ${municipioName} | Destiplus`;
   const description = `Descubre los próximos eventos y festivales en ${municipioName}. ¡No te los pierdas!`;
 
@@ -23,15 +24,18 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      url: `https://www.destiplus.com/destino/${params.municipio}/eventos`, // URL Canónica
+      url: `https://www.destiplus.com/destino/${municipioName}/eventos`, // URL Canónica
     },
-    alternates: { canonical: `https://www.destiplus.com/destino/${params.municipio}/eventos` }
+    alternates: { canonical: `https://www.destiplus.com/destino/${municipioName}/eventos` }
   };
 }
 
 // --- Componente de Página ---
-export default async function EventosListPage({ params }: EventosListPageProps) {
-  const municipioParam = params.municipio;
+export default async function EventosListPage(
+  { params }: { params: Promise<{ municipio: string }> }
+) {
+  const { municipio: municipioRaw } = await params
+  const municipioParam = municipioRaw;
   console.log(`Server: Rendering EventosListPage for municipio (${municipioParam})`);
 
   const destinoId = municipioParam === "Suesca" ? 1 : municipioParam === "Sesquile" ? 2 : "";

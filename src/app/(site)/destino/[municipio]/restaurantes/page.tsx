@@ -4,15 +4,13 @@ import type { RestauranteListItem } from '@/types/listadoRestaurantes'; // O @/t
 import ListadoRestaurantesClient from '@/components/features/restaurantes/listadoRestaurantes'; // Componente Cliente
 import type { Metadata } from 'next';
 
-interface RestaurantesListPageProps {
-  params: { municipio: string }; // Recibe nombre/slug municipio
-}
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  { params }: RestaurantesListPageProps
+  { params }: { params: Promise<{ municipio: string }>}
 ): Promise<Metadata> {
-  const municipioName = decodeURIComponent(params.municipio);
+  const { municipio: municipioRaw } = await params
+  const municipioName = decodeURIComponent(municipioRaw);
   const title = `Restaurantes en ${municipioName} | Destiplus`;
   const description = `Descubre dónde comer en ${municipioName}. Encuentra los mejores restaurantes, precios y ambientes.`;
 
@@ -30,8 +28,11 @@ export async function generateMetadata(
 
 
 // --- Componente de Página ---
-export default async function RestaurantesListPage({ params }: RestaurantesListPageProps) {
-  const municipioParam = params.municipio; // Puede ser nombre o slug
+export default async function RestaurantesListPage(
+  { params }: { params: Promise<{ municipio: string }>}
+) {
+  const { municipio: municipioRaw } = await params
+  const municipioParam = municipioRaw; // Puede ser nombre o slug
   console.log(`Server: Rendering RestaurantesListPage for municipio (${municipioParam})`);
 
   const destinoId = municipioParam === "Suesca" ? 1 : municipioParam === "Sesquile" ? 2 : "";

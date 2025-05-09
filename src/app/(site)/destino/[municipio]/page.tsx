@@ -14,10 +14,11 @@ interface DestinoPageProps {
 
 // --- Generación de Metadata Dinámica por Municipio ---
 export async function generateMetadata(
-  { params }: DestinoPageProps,
+  { params }: { params: Promise<{ municipio: string }> }
 ): Promise<Metadata> {
+  const { municipio: municipioRaw } = await params
   // params.municipio viene decodificado (ej: "Villa de Leyva")
-  const municipioName = params.municipio;
+  const municipioName = municipioRaw;
   // Llama a la API con el nombre exacto
   const destino = await getDestinoDataByMunicipio(municipioName);
 
@@ -48,9 +49,12 @@ export async function generateMetadata(
 
 
 // --- Componente de Página ---
-export default async function DestinoPage({ params }: DestinoPageProps) {
+export default async function DestinoPage(
+  { params }: { params: Promise<{ municipio: string }> }
+) {
+  const { municipio: municipioRaw } = await params
   // params.municipio ya viene decodificado por Next.js
-  const municipioName = params.municipio;
+  const municipioName = municipioRaw;
   console.log(`Server: Rendering DestinoPage for municipio (${municipioName}), fetching data...`);
 
   // Llama a la función de API que busca por el nombre exacto del municipio

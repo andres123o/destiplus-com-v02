@@ -10,9 +10,10 @@ interface BurgerProfilePageProps {
 
 // --- Metadata Dinámica (lee de datos hardcodeados) ---
 export async function generateMetadata(
-  { params }: BurgerProfilePageProps
+  { params }: { params: Promise<{ burgerSlug: string }>}
 ): Promise<Metadata> {
-  const burgerIdNum = parseInt(params.burgerSlug, 10);
+  const { burgerSlug: slug } = await params
+  const burgerIdNum = parseInt(slug, 10);
 
 
   const title = ` Batalla de Hamburguesas en Suesca, la mejor de la región.`;
@@ -35,10 +36,15 @@ export async function generateMetadata(
 
 
 // --- Componente de Página ---
-export default function BurgerProfilePage({ params }: BurgerProfilePageProps) {
-  console.log(`Server: Rendering BurgerProfilePage for burgerId (${params.burgerSlug})`);
+export default async function BurgerProfilePage(
+  { params }: { params: Promise<{ burgerSlug: string }> }
+) {
+  const { burgerSlug: slug } = await params
+  console.log(`Server: Rendering BurgerProfilePage for burgerId (${slug})`);
 
 
   // Renderiza el componente cliente, pasándole solo el ID
-  return <BurgerProfileClient burgerId={params.burgerSlug} />;
+  return (
+    <BurgerProfileClient burgerId={slug} />
+  );
 }

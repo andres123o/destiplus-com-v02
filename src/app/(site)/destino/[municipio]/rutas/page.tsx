@@ -9,9 +9,10 @@ interface RutasSenderismoListPageProps {
 
 // --- Metadata ---
 export async function generateMetadata(
-  { params }: RutasSenderismoListPageProps
+  { params }: { params: Promise<{ municipio: string }> }
 ): Promise<Metadata> {
-  const municipioName = decodeURIComponent(params.municipio);
+  const { municipio: municipioRaw } = await params
+  const municipioName = decodeURIComponent(municipioRaw);
   const title = `Rutas de Senderismo en ${municipioName} | Destiplus`;
   const description = `Explora las mejores rutas y miradores para senderismo en ${municipioName}. Encuentra tu próxima aventura.`;
   const canonicalUrl = `https://www.destiplus.com/destino/${municipioName}/rutas`;
@@ -34,8 +35,11 @@ export async function generateMetadata(
 // export async function generateStaticParams() { ... }
 
 // --- Componente Página ---
-export default async function RutasSenderismoListPage({ params }: RutasSenderismoListPageProps) {
-  const municipioParam = params.municipio;
+export default async function RutasSenderismoListPage(
+  { params }: { params: Promise<{ municipio: string }> }
+) {
+  const { municipio: municipioRaw } = await params
+  const municipioParam = municipioRaw;
   console.log(`Server: Rendering RutasSenderismoListPage for municipio (${municipioParam})`);
 
   const destinoId = municipioParam === "Suesca" ? 1 : municipioParam === "Sesquile" ? 2 : "";

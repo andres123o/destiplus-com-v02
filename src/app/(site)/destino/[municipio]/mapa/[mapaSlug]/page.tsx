@@ -5,16 +5,12 @@ import { getRutaMapDataBySlug, /* fetchAllRutaMapIdentifiers */ } from '@/lib/ap
 import RutaMapaClient from '@/components/features/rutas/mapa'; // Ajusta ruta
 import type { Metadata } from 'next';
 
-interface RutaMapaPageProps {
-  params: { mapaSlug: string }; // Recibe slug
-}
 
 // --- Metadata ---
-export async function generateMetadata({ params }: RutaMapaPageProps): Promise<Metadata> {
-  const slug = params.mapaSlug;
-  // Podrías buscar datos aquí para un título más dinámico, pero requiere API call extra
-  // const data = await getRutaMapDataBySlug(slug);
-  // const title = data ? `Mapa: ${data.nombre} | Destiplus` : 'Mapa de Ruta | Destiplus';
+export async function generateMetadata(
+  { params }: { params: Promise<{ mapaSlug: string}>}
+): Promise<Metadata> {
+  const { mapaSlug: slug } = await params 
   const title = `Mapa de Ruta: ${decodeURIComponent(slug).replace(/-/g, ' ')} | Destiplus`; // Título genérico
 
   return {
@@ -24,15 +20,12 @@ export async function generateMetadata({ params }: RutaMapaPageProps): Promise<M
   };
 }
 
-// --- Static Params ---
-// export async function generateStaticParams() {
-//    const paths = await fetchAllRutaMapIdentifiers();
-//    return paths.map((p) => ({ slug: p.slug }));
-// }
 
 // --- Componente Página ---
-export default async function RutaMapaPage({ params }: RutaMapaPageProps) {
-  const slug = params.mapaSlug;
+export default async function RutaMapaPage(
+  { params }: { params: Promise<{ mapaSlug: string }>}
+) {
+  const { mapaSlug: slug } = await params
   console.log(`Server: Rendering RutaMapaPage for slug (${slug})`);
 
   // Fetch inicial de datos del mapa
