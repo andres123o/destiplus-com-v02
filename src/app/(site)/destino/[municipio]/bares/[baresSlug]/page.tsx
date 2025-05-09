@@ -37,7 +37,7 @@ export default async function EstablecimientoDetailPage(
 ) {
   const { baresSlug: slug, municipio } = await params; // Recibe tipo y nombre decodificados
 
-  console.log(`Server: Rendering EstablecimientoDetailPage for tipo, nombre (${slug})`);
+  console.log(`Server: Rendering EstablecimientoDetailPage for tipo, nombre (${slug}, ${municipio})`);
   
   const tipo = "bares"
 

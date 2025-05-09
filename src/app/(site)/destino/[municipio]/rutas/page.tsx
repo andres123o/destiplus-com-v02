@@ -3,10 +3,6 @@ import { fetchRutaListByIdAndType } from '@/lib/api-listadoRutas'; // API de rut
 import ListadoRutasClient from '@/components/features/rutas/listadoRutas'; // Cliente
 import type { Metadata } from 'next';
 
-interface RutasSenderismoListPageProps {
-  params: { municipio: string };
-}
-
 // --- Metadata ---
 export async function generateMetadata(
   { params }: { params: Promise<{ municipio: string }> }

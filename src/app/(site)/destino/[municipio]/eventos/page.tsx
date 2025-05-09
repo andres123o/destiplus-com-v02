@@ -5,9 +5,6 @@ import type { EventoListItem } from '@/types/listadoEventos';    // O @/types/ev
 import ListadoEventosClient from '@/components/features/eventos/listadoEventos'; // Componente Cliente
 import type { Metadata } from 'next';
 
-interface EventosListPageProps {
-  params: { municipio: string }; // Recibe nombre/slug municipio
-}
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(

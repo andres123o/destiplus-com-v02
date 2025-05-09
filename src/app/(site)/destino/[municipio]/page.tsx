@@ -8,9 +8,6 @@ import type { DestinoData } from '@/types/destino';
 import DestinoPageContent from '@/components/features/destino/destino';
 import type { Metadata } from 'next';
 
-interface DestinoPageProps {
-  params: { municipio: string }; // <-- Recibe 'municipio' (ya decodificado por Next.js)
-}
 
 // --- Generación de Metadata Dinámica por Municipio ---
 export async function generateMetadata(

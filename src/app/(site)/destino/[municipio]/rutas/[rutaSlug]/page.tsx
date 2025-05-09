@@ -11,12 +11,6 @@ import type { RutaProfileData } from '@/types/ruta'; // Ajusta ruta
 import RutaProfileClient from '@/components/features/rutas/ruta'; // Ajusta ruta
 import type { Metadata } from 'next';
 
-interface RutaDetailPageProps {
-  params: { 
-    rutaSlug: string 
-    municipio: string
-};
-}
 
 // --- Metadata ---
 export async function generateMetadata(

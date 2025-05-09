@@ -1,12 +1,9 @@
-// app/(site)/burger-profile/[burgerId]/page.tsx
 
 import React from 'react';
 import type { Metadata } from 'next';
 import BurgerProfileClient from '@/components/features/eventos/no-fijos/perfil-burguer'; // Ajusta ruta al cliente
 
-interface BurgerProfilePageProps {
-  params: { burgerSlug: string };
-}
+
 
 // --- Metadata Dinámica (lee de datos hardcodeados) ---
 export async function generateMetadata(

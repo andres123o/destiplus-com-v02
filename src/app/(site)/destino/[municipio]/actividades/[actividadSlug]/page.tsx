@@ -17,11 +17,11 @@ export async function generateMetadata(
   }
 
   const actividad = data.actividad[0];
-  const title = `${actividad.name || 'Actividad'} en ${data.municipio || 'Destiplus'}`;
+  const title = `${actividad.name || 'Actividad'} en ${municipio || 'Destiplus'}`;
   // Usa itinerario o una descripción corta si existe
   const description = `Información sobre ${actividad.name}. ${actividad.itinerario?.substring(0, 150) || 'Descubre esta experiencia.'}...`;
   const imageUrl = actividad.img || '/placeholder-og-image.jpg';
-  const canonicalUrl = `https://www.destiplus.com/destino/${data.municipio}}actividades/${slug}`; // Actualiza dominio
+  const canonicalUrl = `https://www.destiplus.com/destino/${municipio}}actividades/${slug}`; // Actualiza dominio
 
   return {
     title: title,
