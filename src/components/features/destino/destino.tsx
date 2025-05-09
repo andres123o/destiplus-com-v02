@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import type { DestinoData } from '@/types/destino';
 
 // Importa los sub-componentes que ya migraste (verifica nombres/rutas)
 import Header from '@/components/features/destino/header';
@@ -11,8 +12,6 @@ import AccommodationsSection from '@/components/features/destino/AccommodationsS
 import DiscoverSection from '@/components/features/destino/DiscoverSection';
 import DestinationInfo from '@/components/features/destino/DestinationInfo';
 import { CldImage } from 'next-cloudinary'; // ¡Importa CldImage!
-
-import type { DestinoData } from '@/types/destino'; // Importa tu tipo principal
 
 // --- Helper de Analytics (igual que antes) ---
 const Analytics = {
@@ -102,7 +101,6 @@ const DestinoPageContent: React.FC<DestinoPageContentProps> = ({ initialContent,
     } = initialContent;
 
     // Recreamos objetos para pasar a componentes hijos si mantienen esa estructura de props
-     const infoDesParaDescripcion = { imagenes, frase, descripcion, municipio };
      const infoDesParaTips = { municipio, epocas, clima, seguridad, transporte };
 
     return (
@@ -147,7 +145,7 @@ const DestinoPageContent: React.FC<DestinoPageContentProps> = ({ initialContent,
              <div className='container-tendencias-miradores'>
                 <PopularActivities contenido={tendencias || []} />
                 <ViewpointsSection
-                    imagenes={imagenes as any || []}
+                    imagenes={imagenes?.map(img => ({ img: img.img })) || []}
                     destino_id={destinoIdFromParam}
                     municipio={municipio || 'Suesca'}
                 />

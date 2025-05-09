@@ -40,7 +40,7 @@ interface InstructionsAccordionProps {
 // --- SUB-COMPONENTES LOCALES (Adaptados) ---
 
 // 1. Galería de Miniaturas
-const ImageGallery: React.FC<ImageGalleryProps> = ({ imagenes, selectedIndex, onImageSelect, establecimientoName }) => {
+const ImageGallery: React.FC<ImageGalleryProps> = ({ imagenes, selectedIndex, onImageSelect }) => {
     const imageList = imagenes || [];
     if (imageList.length <= 1) return null;
     return (

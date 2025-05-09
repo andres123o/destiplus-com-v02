@@ -15,7 +15,7 @@ interface EquipamentoAlojamiento {
     id: number | string;
     alojamiento?: AlojamientoIndividual[] | null;
   }
-  interface ImagenSimple {
+  export interface ImagenSimple {
     id: number | string; // Asume que las imágenes tienen ID
     img: string;
   }

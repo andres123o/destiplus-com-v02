@@ -230,7 +230,7 @@ const AlojamientoProfile: React.FC<AlojamientoProfileProps> = ({ initialData }) 
                                         <p key={index} className="servicio-item">
                                             {(() => {
                                                 const IconName = getIconComponent(servicio);
-                                                const Icon = (LucideIcons[IconName] || CircleDot) as any;
+                                                const Icon = (LucideIcons[IconName] || CircleDot) as React.ComponentType<{ size: number; 'aria-hidden'?: string }>;
                                                 return <Icon size={18} aria-hidden="true" />;
                                             })()}
                                             {servicio}
