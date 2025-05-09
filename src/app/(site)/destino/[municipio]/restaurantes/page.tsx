@@ -20,9 +20,9 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      url: `https://www.destiplus.com/destino/${params.municipio}/restaurantes`, // URL Canónica
+      url: `https://www.destiplus.com/destino/${municipioName}/restaurantes`, // URL Canónica
     },
-     alternates: { canonical: `https://www.destiplus.com/destino/${params.municipio}/restaurantes` }
+     alternates: { canonical: `https://www.destiplus.com/destino/${municipioName}/restaurantes` }
   };
 }
 

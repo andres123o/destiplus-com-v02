@@ -21,7 +21,7 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      url: `https://www.destiplus.com/destino/${params.municipio}/alojamientos`,
+      url: `https://www.destiplus.com/destino/${municipioName}/alojamientos`,
       // images: [...]
     },
   };
