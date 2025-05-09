@@ -11,10 +11,10 @@ import type { RutaProfileData, RutaDetallado, ComentarioItem, TreeCounterData, R
 
 // --- INTERFACES PARA SUB-COMPONENTES LOCALES ---
 interface ImageGalleryProps {
-    imagenes: RutaImagen[] | null | undefined; // Usa el tipo RutaImagen
-    imgPrincipal: string | null | undefined;
-    onImageSelect: (url: string, index: number) => void;
+    imagenes: RutaImagen[] | null | undefined;
     selectedIndex: number | null;
+    onImageSelect: (url: string, index: number) => void;
+    establecimientoName?: string;
 }
 interface RouteHeaderProps {
     ruta: RutaDetallado;
@@ -40,7 +40,7 @@ interface InstructionsAccordionProps {
 // --- SUB-COMPONENTES LOCALES (Adaptados) ---
 
 // 1. Galería de Miniaturas
-const ImageGallery: React.FC<ImageGalleryProps> = ({ imagenes, selectedIndex, onImageSelect }) => {
+const ImageGallery: React.FC<ImageGalleryProps> = ({ imagenes, selectedIndex, onImageSelect, establecimientoName }) => {
     const imageList = imagenes || [];
     if (imageList.length <= 1) return null;
     return (
@@ -48,11 +48,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ imagenes, selectedIndex, on
             <div className='carrusel-imgs'>
                 {imageList.map((imgSrc, index) => (
                     <CldImage
-                        key={index} // Usa id si existe
-                        src={imgSrc} // Usa la propiedad 'url'
+                        key={index}
+                        src={imgSrc.url}
                         alt={`Miniatura ${index + 1} de la ruta`}
                         width={60} height={80} crop="fill" gravity="center"
-                        onClick={() => onImageSelect(img.url, index)}
+                        onClick={() => onImageSelect(imgSrc.url, index)}
                         className={`carrusel-img ${index === selectedIndex ? 'selected' : ''}`}
                         loading="lazy" style={{ cursor: 'pointer' }}
                     />
@@ -593,10 +593,10 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
         {/* Contenedor de Info */}
         <div className='container-info'>
             <ImageGallery
-                imagenes={ruta.imagenes?.map(img => img.url)} // Pasa solo las URLs
+                imagenes={ruta.imagenes}
                 selectedIndex={currentImageIndex}
                 onImageSelect={handleImageSelect}
-                establecimientoName={ruta.nombre} // Cambiado para claridad
+                establecimientoName={ruta.nombre}
             />
             <RouteHeader ruta={ruta} />
             <div className='separador'></div>

@@ -30,16 +30,22 @@ interface LugarAlojamiento {
 }
 
 // Tipo para los datos transformados
+interface AccommodationDetails {
+  rooms: number;
+  beds: number;
+  bathrooms: number;
+}
+
 interface Accommodation {
-  id: string; // ID combinado
+  id: string;
   slug: string;
   title: string;
   rating: number;
-  details: EquipamentoAlojamiento; // Reutilizamos la interfaz
+  details: AccommodationDetails;
   price: number;
   isSuperhost: boolean;
   isNew: boolean;
-  image: string; // URL o Public ID
+  image: string;
 }
 
 // Props del componente

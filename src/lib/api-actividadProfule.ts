@@ -5,6 +5,14 @@ import { generateSlug } from '@/lib/utils';
 
 const API_BASE_URL = 'https://tree-suesca-backend-production.up.railway.app/api/v1';
 
+interface ActividadListItem {
+  id: number;
+  name: string;
+  img: string;
+  logo: string;
+  calificacion?: number | null;
+}
+
 // --- Función para obtener DATOS DETALLADOS por SLUG ---
 // Asume que la API acepta el slug directamente ahora
 export async function getActividadDataBySlug(slug: string): Promise<ActividadDetailData | null> {

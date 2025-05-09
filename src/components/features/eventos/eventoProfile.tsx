@@ -161,7 +161,7 @@ const EventoProfile: React.FC<EventoProfileProps> = ({ initialData }) => {
     // Efecto para actualizar imagen principal
     useEffect(() => {
         setBackgroundImg(evento.img || '');
-        setSelectedImgIndex(evento.imgs?.imagenes?.length > 0 ? 0 : null);
+        setSelectedImgIndex(evento.imgs?.imagenes && evento.imgs.imagenes.length > 0 ? 0 : null);
     }, [evento.img, evento.imgs?.imagenes]);
 
     if (!evento || !evento.name) {
@@ -344,7 +344,7 @@ const EventoProfile: React.FC<EventoProfileProps> = ({ initialData }) => {
 
                     {/* seccion de accordean, recomendaciones y mas */}
                     <div className='accordion-aloja'>
-                        {Object.entries(evento.requisitos).map(([key, value], index) => (
+                        {Object.entries(evento.requisitos || {}).map(([key, value], index) => (
                             <div key={key} className='accordion-item1'>
                             <button 
                                 className={`accordion-header ${expandedSection === index ? 'active' : ''}`}
@@ -359,7 +359,7 @@ const EventoProfile: React.FC<EventoProfileProps> = ({ initialData }) => {
                             >
                                 {typeof value === 'string' ? (
                                 <p>{value}</p>
-                                ) : typeof value === 'object' ? (
+                                ) : typeof value === 'object' && value !== null ? (
                                 Object.entries(value).map(([subKey, subValue]) => (
                                     <div className='emergencia-item' key={subKey}>
                                     <p>{subKey}: </p>

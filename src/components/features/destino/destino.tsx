@@ -107,48 +107,57 @@ const DestinoPageContent: React.FC<DestinoPageContentProps> = ({ initialContent,
 
     return (
         <>
-            <Header destino={municipio} />
+            <Header destino={municipio || 'Suesca'} />
 
             <DescripcionCarousel
-                destino={infoDesParaDescripcion}
+                destino={{
+                    ...initialContent,
+                    municipio: municipio || 'Suesca',
+                    imagenes: imagenes || [],
+                    frase: frase || '',
+                    descripcion: descripcion || ''
+                }}
                 destino_id={destinoIdFromParam}
             />
 
-            {/* Banner Ad con next/image */}
+            {/* Banner Ad with next/image */}
             <div className='banner-ads'>
                  <CldImage
                     src='https://res.cloudinary.com/destinoplus/image/upload/v1741362727/pptjxoehzinr0ciqxjyy.jpg'
-                    alt="Publicidad Destiplus" // Alt más descriptivo
-                    width={1200} // Ancho intrínseco o deseado grande
-                    height={200} // Alto intrínseco o deseado - AJUSTA ESTOS VALORES
-                    priority // Marcar como priority si es visible pronto? O quitar si no.
+                    alt="Publicidad Destiplus"
+                    width={1200}
+                    height={200}
+                    priority
                  />
             </div>
 
             <AccommodationsSection
-                alojamientos={alojamientos}
+                alojamientos={alojamientos || []}
                 destino_id={destinoIdFromParam}
-                municipio={initialContent.municipio || ''}
+                municipio={municipio || ''}
             />
 
             <div className='separador'></div>
 
             <DiscoverSection
                 destino_id={destinoIdFromParam}
-                pueblo={municipio}
+                pueblo={municipio || 'Suesca'}
             />
 
              <div className='container-tendencias-miradores'>
-                <PopularActivities contenido={tendencias} />
+                <PopularActivities contenido={tendencias || []} />
                 <ViewpointsSection
-                    imagenes={imagenes}
+                    imagenes={imagenes as any || []}
                     destino_id={destinoIdFromParam}
-                    municipio={municipio}
+                    municipio={municipio || 'Suesca'}
                 />
              </div>
 
             <DestinationInfo
-                destino={infoDesParaTips}
+                destino={{
+                    ...infoDesParaTips,
+                    municipio: municipio || 'Suesca'
+                }}
             />
         </>
     );

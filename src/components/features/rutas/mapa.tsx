@@ -123,7 +123,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
     const [isOnline, setIsOnline] = useState(true); // Se actualizará en useEffect
     const [currentLocation, setCurrentLocation] = useState<LocationState | null>(null);
     const [metrics, setMetrics] = useState<MetricsState>({ kmRecorridos: '0.00', velocidadPromedio: '0.0', tiempoRecorrido: '00:00', porcentajeCompletado: 0 });
-    const [isEmergencyExpanded] = useState(false); // Estado para acordeón emergencia
+    const [isExpanded, setIsExpanded] = useState(false); // Estado para acordeón emergencia
     const locationTrackerRef = useRef<{ clearWatch: () => void } | null>(null);
     const distanceAccumulatorRef = useRef(0);
     const startTimeRef = useRef<number | null>(null);
@@ -177,7 +177,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                     };
                 }
                 const elevations = (data.features as unknown[]).map(feat => {
-                    // Primero verifica que sea un objeto y tenga “properties”
+                    // Primero verifica que sea un objeto y tenga "properties"
                     if (
                       typeof feat === 'object' &&
                       feat !== null &&
@@ -262,7 +262,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                                 const chart = context.chart;
                                 const {ctx, chartArea} = chart;
                                 if (!chartArea) {
-                                    return null;
+                                    return undefined;
                                 }
                                 const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
                                 gradient.addColorStop(0, 'rgba(0, 156, 255, 0.6)');
@@ -288,7 +288,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                                 const chart = context.chart;
                                 const {ctx, chartArea} = chart;
                                 if (!chartArea) {
-                                    return null;
+                                    return undefined;
                                 }
                                 const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
                                 gradient.addColorStop(1, 'rgba(30,100,211,0.7)');
@@ -368,7 +368,14 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                          mapInstance.removeSource('guidance-route');
                      }
                       if(routeGeometry && mapInstance){ // Verifica mapInstance de nuevo
-                         mapInstance.addSource('guidance-route', { type: 'geojson', data: { type: 'Feature', geometry: routeGeometry } });
+                         mapInstance.addSource('guidance-route', { 
+                             type: 'geojson', 
+                             data: { 
+                                 type: 'Feature', 
+                                 geometry: routeGeometry,
+                                 properties: {} 
+                             } 
+                         });
                          mapInstance.addLayer({ id: 'guidance-route', type: 'line', source: 'guidance-route', layout: {'line-join': 'round','line-cap': 'round'}, paint: {'line-color': '#0066ff', 'line-width': 4, 'line-dasharray': [2, 1]} });
                      }
                  } else if (mapInstance?.getSource('guidance-route')) {
@@ -385,7 +392,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                     if (checkArrivalToFirstStation(userLocation)) { }
                     locationHistory.push(userLocation); saveLocations();
                     lastKnownLocation = userLocation; // Actualiza última conocida
-                    createUserMarker([userLocation.lng, userLocation.lat], userLocation.accuracy);
+                    createUserMarker([userLocation.lng, userLocation.lat]);
                     if (!hasReachedFirstStation) updateGuidanceRoute(userLocation);
                     setCurrentLoc(userLocation);
                 },
@@ -459,7 +466,7 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                          el.className = 'station-marker';
                          el.innerHTML = `<svg width="30" height="42" viewBox="0 0 24 34"><path d="M12 0C7 0 3 4 3 9c0 7 9 17 9 17s9-10 9-17C21 4 17 0 12 0z" fill="#00CD70"/><text x="12" y="15" font-size="10" fill="#fff" text-anchor="middle">${estacion.numero_estacion || '?'}</text></svg>`;
                          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`<h3>${estacion.nombre}</h3><p>${estacion.description || ''}</p>${estacion.img ? `<img src="${estacion.img}" alt="${estacion.nombre}" style="width:100px; height:auto;">` : ''}`);
-                         new mapboxgl.Marker(el).setLngLat([estacion.lng, estacion.lat]).setPopup(popup).addTo(mapObj);
+                         new mapboxgl.Marker(el).setLngLat([estacion.lng, estacion.lat]).setPopup(popup).addTo(mapObj as mapboxgl.Map);
                     });
 
                     const bounds = coordinates.reduce((b, coord) => b.extend(coord as LngLatLike), new mapboxgl.LngLatBounds(coordinates[0] as LngLatLike, coordinates[0] as LngLatLike));
@@ -553,14 +560,14 @@ const RutaMapaClient: React.FC<RutaMapaClientProps> = ({ initialRutaData }) => {
                         <div className='accordion-emergencia'> {/* Usa esta clase o la genérica 'accordion' */}
                              <div className='accordion-item1'> {/* O la clase que uses */}
                                  <button
-                                     className={`accordion-header ${isEmergencyExpanded ? 'active' : ''}`}
+                                     className={`accordion-header ${isExpanded ? 'active' : ''}`}
                                      onClick={toggleEmergencyAccordion}
-                                     aria-expanded={isEmergencyExpanded}
+                                     aria-expanded={isExpanded}
                                  >
                                       Emergencias
-                                     <IoIosArrowForward className={`icon ${isEmergencyExpanded ? 'rotated' : ''}`} />
+                                     <IoIosArrowForward className={`icon ${isExpanded ? 'rotated' : ''}`} />
                                  </button>
-                                 {isEmergencyExpanded && (
+                                 {isExpanded && (
                                       <div className='accordion-content-aloja'> {/* Usa clase consistente */}
                                           {ruta.emergencias.map(emergencia => (
                                               <div key={emergencia.id} className="emergency-contact">

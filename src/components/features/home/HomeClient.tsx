@@ -38,7 +38,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
 
 
   // Estados de UI
-  const [setError] = useState<string | null>(null); // Para errores del cliente
+  const [error, setError] = useState<string | null>(null); // Para errores del cliente
 
   // Estados de Modales y Chat
   // WelcomeModal ahora controla su propia visibilidad inicial
@@ -69,6 +69,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
 
     setAiLoading(true); // Muestra el indicador de carga en ChatAI
     setError(null); // Limpia errores previos
+    console.log(error)
     setChatMessages(prev => [...prev, { text: query, sender: 'user' }]); // Muestra la pregunta del usuario
 
      // Limpiar Input - Idealmente SearchBox debería manejar esto internamente o vía callback
@@ -86,8 +87,14 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
       setChatMessages(prev => [...prev, { text: response, sender: 'ai' }]); // Muestra la respuesta de la IA
     } catch (err: unknown) {
       console.error('Error consultando IA:', err);
-      const errorMsg = err.response?.data?.message || err.message || 'Lo siento, hubo un problema. Intenta de nuevo.';
-      setChatMessages(prev => [...prev, { text: errorMsg, sender: 'ai' }]); // Muestra mensaje de error en el chat
+      const errorMsg = err instanceof Error ? err.message : 
+                      (err && typeof err === 'object' && 'response' in err && 
+                       typeof err.response === 'object' && err.response && 
+                       'data' in err.response && typeof err.response.data === 'object' && 
+                       err.response.data && 'message' in err.response.data && 
+                       typeof err.response.data.message === 'string' ? 
+                       err.response.data.message : 'Lo siento, hubo un problema. Intenta de nuevo.');
+      setChatMessages(prev => [...prev, { text: errorMsg, sender: 'ai' }]);
       setError(errorMsg); // Guarda el error por si necesitas mostrarlo en otro lugar
     } finally {
       setAiLoading(false); // Oculta el indicador de carga
@@ -251,7 +258,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
                 onClick={() => handleNavigateToDestino(item)}
                 role="link"
                 tabIndex={0}
-                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleNavigateToDestino(item.id, item.municipio)}
+                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleNavigateToDestino(item)}
                 aria-label={`Explorar ${item.municipio}`}
               >
                 <div className="image-section"> {/* Contenedor de la imagen y overlays */}

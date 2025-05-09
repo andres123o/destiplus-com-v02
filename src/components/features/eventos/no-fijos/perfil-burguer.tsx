@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { HandPlatter, Star, MapPin, Loader2, Sparkles, ArrowLeft, Share } from 'lucide-react'; // Iconos Lucide
 import VotingModal from './votingModal'; // Ajusta ruta si es necesario
 import NotificationModal from './notificacion'; // Ajusta ruta si es necesario
-import axios from 'axios'; // Mantenemos axios como en el original
+import axios, { AxiosError } from 'axios'; // Mantenemos axios como en el original
 import { CldImage } from 'next-cloudinary';
 
 // --- Helpers (definidos localmente) ---
@@ -52,6 +52,9 @@ const formatCurrency = (amount: number | string | null | undefined): string => {
 
 const API_BASE_URL = "https://tree-suesca-backend-production.up.railway.app/api/v1";
 
+interface ErrorResponse {
+    detail?: string;
+}
 
 interface BurgerProfileClientProps {
     burgerId: string;
@@ -351,7 +354,8 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
     const handleGoBack = () => router.back();
 
     const handleShare = () => {
-        // (Misma lógica de compartir que en la respuesta anterior)
+        if (!burgerData) return;
+        
         if (navigator.share) {
           navigator.share({
             title: burgerData.name,
@@ -481,7 +485,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
               setIsModalOpen(false);
               setSubmitSuccess("¡Gracias por tu voto!");
               setVoteCount(prevCount => (prevCount !== null ? prevCount + 1 : 1));
-              const votedKey = `voted_burger_${voteData.burger_id}`;
+              const votedKey = `voted_burger_${burgerData.id}`;
               localStorage.setItem(votedKey, 'true');
               setHasVotedLocally(true);
             } else {
@@ -495,37 +499,36 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
       
           } catch (error) {
             console.error('Error al enviar el voto (axios):', error);
-            setIsModalOpen(false); // Cierra el modal en cualquier error
+            setIsModalOpen(false);
       
-            let userMessage = "Ocurrió un error al enviar tu voto. Inténtalo de nuevo."; // Mensaje por defecto
+            let userMessage = "Ocurrió un error al enviar tu voto. Inténtalo de nuevo.";
       
-            if (error.response) {
-                const detail = error.response.data?.detail;
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError<ErrorResponse>;
+                const detail = axiosError.response?.data?.detail;
       
-                if (error.response.status === 409) { // Duplicado
+                if (axiosError.response?.status === 409) {
                   console.warn('Voto duplicado detectado (409)');
                   setNotificationMessage("No puedes votar 2 veces por este participante");
                   setShowNotificationModal(true);
                   return;
-                // ***** CORRECCIÓN: Manejar error 422 con un string *****
-                } else if (error.response.status === 422) { // Error de validación
+                } else if (axiosError.response?.status === 422) { // Error de validación
                   userMessage = "Hubo un problema con los datos enviados. Por favor, revisa el formulario.";
                   console.error("Detalles Validación (422):", detail);
                 } else { // Otros errores del servidor
-                  userMessage = typeof detail === 'string' ? detail : `Error del servidor (${error.response.status}).`;
+                  userMessage = typeof detail === 'string' ? detail : `Error del servidor (${axiosError.response?.status}).`;
                 }
-            } else if (error.request) { // Error de red
-                userMessage = 'No se pudo conectar con el servidor. Verifica tu conexión.';
-            } else { // Otros errores
+            } else if (error instanceof Error) {
                 userMessage = `Ocurrió un error inesperado: ${error.message}`;
+            } else {
+                userMessage = 'Ocurrió un error inesperado';
             }
-            setSubmitError(userMessage); // Asigna el MENSAJE STRING al estado
+            setSubmitError(userMessage);
           }
     };
 
     // --- RENDERIZADO ---
     if (!burgerData) {
-        // Muestra un estado de carga o no encontrado si burgerData aún es null después del efecto
         return (
             <div className="loading-container">
                  <Loader2 className="animate-spin" size={48} />
@@ -534,7 +537,6 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
         );
     }
 
-    // JSX principal del componente
     return (
         <div className="burger-profile-container">
             {/* Header */}
@@ -602,31 +604,31 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
             {/* Fixed Actions */}
             <div className="burger-profile-actions">
                 <button className={`${"burger-profile-btn"} ${"directions"}`} onClick={handleDirections} disabled={!burgerData.location?.lat}>
-                     <MapPin size={18} /><span>Cómo llegar</span>
-                 </button>
-                 <button className={`${"burger-profile-btn"} ${"vote"}`} onClick={handleVote} disabled={isCheckingLocation || hasVotedLocally || !burgerData.location?.lat}>
+                    <MapPin size={18} /><span>Cómo llegar</span>
+                </button>
+                <button className={`${"burger-profile-btn"} ${"vote"}`} onClick={handleVote} disabled={isCheckingLocation || hasVotedLocally || !burgerData.location?.lat}>
                     {isCheckingLocation ? (<><Loader2 className="animate-spin" size={18} /><span>Verificando...</span></>)
                      : hasVotedLocally ? (<>✓<span> Votado</span></>)
                      : (<><Star size={18} /><span> Votar</span></>)}
-                 </button>
+                </button>
             </div>
 
             {/* Modals */}
-             {selectedBurgerForVote && (
-                 <VotingModal
-                     isOpen={isModalOpen}
-                     onClose={() => setIsModalOpen(false)}
-                     burger={selectedBurgerForVote}
-                     onSubmit={handleActualSubmitVote}
-                 />
-             )}
-             <NotificationModal
-                 isOpen={showNotificationModal}
-                 message={notificationMessage}
-                 duration={submitSuccess ? 4000 : 8000}
-                 onClose={() => setShowNotificationModal(false)}
-                 type={submitError ? "error" : "success"}
-             />
+            {selectedBurgerForVote && (
+                <VotingModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    burger={selectedBurgerForVote}
+                    onSubmit={handleActualSubmitVote}
+                />
+            )}
+            <NotificationModal
+                isOpen={showNotificationModal}
+                message={notificationMessage}
+                duration={submitSuccess ? 4000 : 8000}
+                onClose={() => setShowNotificationModal(false)}
+                type={submitError ? "error" : "success"}
+            />
         </div>
     );
 };

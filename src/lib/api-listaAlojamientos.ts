@@ -1,6 +1,7 @@
 // src/lib/api-alojamiento.ts
 import axios from 'axios';
-import type { AlojamientoDetailData, AlojamientoListItem } from '@/types/listadoAlojamiento';
+import type { AlojamientoDetailData } from '@/types/alojamiento';
+import type { AlojamientoListItem } from '@/types/listadoAlojamiento';
 
 const API_BASE_URL = 'https://tree-suesca-backend-production.up.railway.app/api/v1';
 

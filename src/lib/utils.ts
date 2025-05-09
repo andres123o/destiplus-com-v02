@@ -25,8 +25,8 @@ export const formatMarkdownText = (text: string | null | undefined): string => {
      formattedText = formattedText.replace(/^([*]|-) (.*)$/gm, '<li>$2</li>');
      // Envuelve bloques de <li> en <ul> (esto es simplificado, puede fallar con listas complejas)
      if (formattedText.includes('<li>')) {
-         formattedText = formattedText.replace(/^(<li>.*?<\/li>)/gs, '<ul>$1</ul>'); // Inicio del bloque
-         formattedText = formattedText.replace(/(<li>.*?<\/li>)\n(?!<li>)/gs, '$1</ul>'); // Fin del bloque
+         formattedText = formattedText.replace(/^([\s\S]*?<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>'); // Inicio del bloque
+         formattedText = formattedText.replace(/(<li>[\s\S]*?<\/li>)\n(?!<li>)/g, '$1</ul>'); // Fin del bloque
          formattedText = formattedText.replace(/<\/ul>\n<ul>/g, '\n'); // Fusionar listas adyacentes
      }
   

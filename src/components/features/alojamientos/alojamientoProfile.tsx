@@ -14,7 +14,6 @@ interface AlojamientoProfileProps {
 }
 
 // --- Icon Mapping Helper ---
-// Mantenemos esta lógica
 const getIconComponent = (serviceName: string) => {
     const iconMapping: { [key: string]: keyof typeof LucideIcons } = {
         'Wi-Fi': 'Wifi',
@@ -23,13 +22,11 @@ const getIconComponent = (serviceName: string) => {
         'Desayuno incluido': 'Coffee',
         'Petfriendly': 'PawPrint',
         'Estacionamiento': 'SquareParking',
-        'Balcón privado': 'MountainSnow', // Cambiado de MountainSnow (no existe) a un icono representativo, ajusta si es necesario
+        'Balcón privado': 'MountainSnow',
         'Jacuzzi': 'Bath',
-        // Añade más mapeos según necesites
     };
-    const iconName = iconMapping[serviceName] || 'CircleDot'; // Fallback a CircleDot
-    // Devuelve el componente o el fallback
-    return LucideIcons[iconName] || CircleDot;
+    const iconName = iconMapping[serviceName] || 'CircleDot';
+    return iconName;
 };
 
 
@@ -229,10 +226,13 @@ const AlojamientoProfile: React.FC<AlojamientoProfileProps> = ({ initialData }) 
                         <div className='container-carrusel-servicios'>
                             <div className='sub-container-carrusel-servicios'>
                                 {alojamiento.servicios.servicios.map((servicio, index) => {
-                                    const IconComponent = getIconComponent(servicio);
                                     return (
                                         <p key={index} className="servicio-item">
-                                            <IconComponent size={18} aria-hidden="true" /> {/* Icono decorativo */}
+                                            {(() => {
+                                                const IconName = getIconComponent(servicio);
+                                                const Icon = (LucideIcons[IconName] || CircleDot) as any;
+                                                return <Icon size={18} aria-hidden="true" />;
+                                            })()}
                                             {servicio}
                                         </p>
                                     );

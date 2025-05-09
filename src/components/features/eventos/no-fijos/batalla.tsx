@@ -273,7 +273,7 @@ const BurgerBattle = () => {
       const rect = element.getBoundingClientRect();
       const elementCenter = rect.left + rect.width / 2;
       const distanceFromCenter = Math.abs(elementCenter - containerVisibleCenter);
-      const threshold = element.offsetWidth / 4;
+      const threshold = (element as HTMLElement).offsetWidth / 4;
 
       if (distanceFromCenter < minDistanceFromCenter && distanceFromCenter < threshold * 4) {
         minDistanceFromCenter = distanceFromCenter;
@@ -300,7 +300,7 @@ const BurgerBattle = () => {
     if (categoriesRef.current && index !== -1) {
       const categoryElements = categoriesRef.current.querySelectorAll(`.${'burger-battle-category'}`);
       if (categoryElements?.[index]) {
-        const elementToScrollTo = categoryElements?.[index];
+        const elementToScrollTo = categoryElements?.[index] as HTMLElement;
         const containerWidth = categoriesRef.current.offsetWidth;
         const elementWidth = elementToScrollTo.offsetWidth;
         const scrollLeftPosition = elementToScrollTo.offsetLeft - (containerWidth / 2) + (elementWidth / 2);
@@ -552,8 +552,8 @@ const BurgerBattle = () => {
                     <div className='burger-battle-price-area'>
                       <p className='burger-battle-card-price'>
                         <strong>
-                          {!isNaN(parseFloat(participant.price))
-                            ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(parseFloat(participant.price))
+                          {!isNaN(participant.price)
+                            ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(participant.price)
                             : 'Precio no disponible'}
                         </strong>
                       </p>

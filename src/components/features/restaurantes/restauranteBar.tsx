@@ -9,14 +9,17 @@ import { Star, Clock, Award } from 'lucide-react';
 import AuthButtons from '@/components/common/logUser'; // Verifica ruta
 import { CldImage } from 'next-cloudinary';
 // Asegúrate que los tipos se importen correctamente
-import type { EstablecimientoDetailData, MenuItem } from '@/types/restaurante-bar'; // Ajusta ruta a tus tipos
+import type { EstablecimientoDetailData, MenuItem, EstablecimientoDetallado } from '@/types/restaurante-bar'; // Ajusta ruta a tus tipos
+
+type EstablecimientoCompleto = EstablecimientoDetailData & EstablecimientoDetallado;
 
 // --- FORMAT CURRENCY HELPER ---
-const formatCurrency = (amount: number): string => {
-  if (isNaN(amount)) return '';
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0
-  }).format(amount);
+const formatCurrency = (amount: number | string): string => {
+    const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+    if (isNaN(numAmount)) return '';
+    return new Intl.NumberFormat('es-CO', {
+        style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0
+    }).format(numAmount);
 };
 
 // --- COMPONENTES INTERNOS REUTILIZABLES (DEFINIDOS AQUÍ MISMO) ---
@@ -195,7 +198,7 @@ interface EstablecimientoProfileProps {
 
 // --- COMPONENTE PRINCIPAL DE UI (Antes DescripcionEstablecimientos) ---
 const EstablecimientoProfile: React.FC<EstablecimientoProfileProps> = ({ initialData, tipoActual }) => {
-    const establecimiento = initialData; // Usa initialData directamente como 'establecimiento'
+    const establecimiento = (initialData.establecimiento?.[0] || initialData) as EstablecimientoCompleto;
     const [backgroundImage, setBackgroundImg] = useState(establecimiento.img || '');
     const [selectedImgIndex, setSelectedImgIndex] = useState<number | null>(
         establecimiento.imgs?.imagenes && establecimiento.imgs.imagenes.length > 0 ? 0 : null

@@ -69,7 +69,11 @@ const ActividadProfile: React.FC<ActividadProfileProps> = ({ initialData }) => {
     useEffect(() => {
         setBackgroundImg(actividad.img);
         // Resetea el índice seleccionado si la imagen principal cambia
-        setSelectedImgIndex(actividad.imgs && actividad.imgs.length > 0 ? 0 : null);
+        setSelectedImgIndex(
+            actividad.imgs?.Imagenes && actividad.imgs.Imagenes.length > 0 
+            ? 0 
+            : null
+        );
     }, [actividad.img, actividad.imgs]);
 
     // --- Handlers (de DescripcionActividades) ---
@@ -263,8 +267,8 @@ const ActividadProfile: React.FC<ActividadProfileProps> = ({ initialData }) => {
                                             <Star
                                                 key={index}
                                                 size={20}
-                                                fill={index < Math.floor(actividad.calificacion) ? "#FFB800" : "none"}
-                                                color={index < Math.floor(actividad.calificacion) ? "#FFB800" : "#e0e0e0"}
+                                                fill={index < Math.floor(actividad.calificacion!) ? "#FFB800" : "none"}
+                                                color={index < Math.floor(actividad.calificacion!) ? "#FFB800" : "#e0e0e0"}
                                             />
                                         ))}
                                        </div>
