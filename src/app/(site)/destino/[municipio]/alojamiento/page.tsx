@@ -35,7 +35,7 @@ export default async function AlojamientosListPage(
   console.log(`Server: Rendering AlojamientosListPage for municipio (${municipioParam})`);
 
 
-  const destinoId = municipioParam === "Suesca" ? 1 : municipioParam === "Sesquile" ? 2 : "";
+  const destinoId = municipioParam === "Suesca" ? 1 : municipioParam === "Sesquile" ? 2 : 1;
 
   console.log(`Server: Found Destino ID ${destinoId} for ${municipioParam}. Fetching alojamientos...`);
 
