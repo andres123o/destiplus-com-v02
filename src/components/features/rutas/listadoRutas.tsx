@@ -30,11 +30,10 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ imageSrc, alt, index }) => {
 
 // Componente para Grupo de Avatares (usando comentarios del server)
 interface UserAvatarsProps {
-    rutaId: number | string;
     comentarios: ComentarioItem[];
 }
 
-const UserAvatars: React.FC<UserAvatarsProps> = ({ rutaId, comentarios }) => {
+const UserAvatars: React.FC<UserAvatarsProps> = ({ comentarios }) => {
     if (!comentarios || comentarios.length === 0) {
         return (
             <div className="avatar-group">
@@ -62,7 +61,7 @@ const UserAvatars: React.FC<UserAvatarsProps> = ({ rutaId, comentarios }) => {
 // --- Props Interface para ListadoRutasClient ---
 interface ListadoRutasClientProps {
     initialRutas: RutaListItem[];
-    comentariosMap: Record<string | number, ComentarioItem[]>;
+    comentariosMap: Record<string, ComentarioItem[]>;
     municipio: string;
 }
 const ListadoRutasClient: React.FC<ListadoRutasClientProps> = ({ initialRutas, municipio, comentariosMap }) => {
@@ -151,8 +150,26 @@ const ListadoRutasClient: React.FC<ListadoRutasClientProps> = ({ initialRutas, m
                 aria-label={`Ver detalles de la ruta ${item.nombre}`}
             >
                 <div className="route-social"> {/* Botones sociales */}
-                    <button className="interaction-button" onClick={(e) => { e.stopPropagation(); /* Lógica Fav */ }}><Heart className="icon2" size={14}/></button>
-                    <button className="interaction-button" onClick={(e) => { e.stopPropagation(); /* Lógica Share */ }}><Share2 className="icon2" size={14}/></button>
+                    <button 
+                        className="interaction-button" 
+                        onClick={(e) => { 
+                            e.stopPropagation();
+                            // TODO: Implementar lógica de favoritos
+                        }}
+                        aria-label="Agregar a favoritos"
+                    >
+                        <Heart className="icon2" size={14}/>
+                    </button>
+                    <button 
+                        className="interaction-button" 
+                        onClick={(e) => { 
+                            e.stopPropagation();
+                            // TODO: Implementar lógica de compartir
+                        }}
+                        aria-label="Compartir ruta"
+                    >
+                        <Share2 className="icon2" size={14}/>
+                    </button>
                 </div>
 
                 <CldImage // Imagen de la ruta
@@ -181,7 +198,6 @@ const ListadoRutasClient: React.FC<ListadoRutasClientProps> = ({ initialRutas, m
                     <div className="route-footer"> {/* Avatares y botón */}
                        <div className="user-count">
                             <UserAvatars 
-                                rutaId={item.id} 
                                 comentarios={comentariosMap[String(item.id)] || []}
                             />
                             <span>{getUserCountText(item)}</span>
