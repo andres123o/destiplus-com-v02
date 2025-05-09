@@ -6,18 +6,17 @@ import ActividadProfile from '@/components/features/actividades/actividadProfile
 import type { Metadata } from 'next';
 
 interface ActividadDetailPageProps {
-  params: { 
-    actividadSlug: string 
-    municipio: string
-}; 
-  
+  params: Promise<{
+    actividadSlug: string;
+    municipio: string;
+  }>;
 }
 
 // --- Metadata Dinámica ---
 export async function generateMetadata(
-  { params }: ActividadDetailPageProps,
+  props: ActividadDetailPageProps
 ): Promise<Metadata> {
-  const slug = params.actividadSlug;
+  const { actividadSlug: slug } = await props.params;
   const data = await getActividadDataBySlug(slug); // Busca por slug
 
   if (!data || !data.actividad || data.actividad.length === 0) {
@@ -47,9 +46,8 @@ export async function generateMetadata(
 
 
 // --- Componente de Página ---
-export default async function ActividadDetailPage({ params }: ActividadDetailPageProps) {
-  const slug = params.actividadSlug;
-  console.log(`Server: Rendering ActividadDetailPage for slug (${slug})`);
+export default async function ActividadDetailPage(props: ActividadDetailPageProps) {
+  const { actividadSlug: slug } = await props.params;
 
   // Llama a la API directamente con el slug
   const initialData = await getActividadDataBySlug(slug);
