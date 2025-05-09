@@ -50,7 +50,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ imagenes, selectedIndex, on
                     <CldImage
                         key={index}
                         src={imgSrc.url}
-                        alt={`Miniatura ${index + 1} de la ruta`}
+                        alt={`Miniatura ${index + 1} de la rutaa`}
                         width={60} height={80} crop="fill" gravity="center"
                         onClick={() => onImageSelect(imgSrc.url, index)}
                         className={`carrusel-img ${index === selectedIndex ? 'selected' : ''}`}
