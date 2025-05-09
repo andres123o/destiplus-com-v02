@@ -1,8 +1,8 @@
 import React from 'react';
-import { fetchRutaListByIdAndType } from '@/lib/api-listadoRutas'; // API de rutas
+import { fetchRutaListByIdAndType, fetchRutaComentarios } from '@/lib/api-listadoRutas'; // API de rutas
 import ListadoRutasClient from '@/components/features/rutas/listadoRutas'; // Cliente
 import type { Metadata } from 'next';
-
+import type { RutaListItem, ComentarioItem } from '@/types/listadoRutas';
 // --- Metadata ---
 export async function generateMetadata(
   { params }: { params: Promise<{ municipio: string }> }
@@ -36,20 +36,26 @@ export default async function RutasSenderismoListPage(
 ) {
   const { municipio: municipioRaw } = await params
   const municipioParam = municipioRaw;
-  console.log(`Server: Rendering RutasSenderismoListPage for municipio (${municipioParam})`);
-
   const destinoId = municipioParam === "Suesca" ? 1 : municipioParam === "Sesquile" ? 2 : "";
+  
 
   console.log(`Server: Found Destino ID ${destinoId}. Fetching 'Senderismo' routes...`);
 
   // 2. Obtener lista de rutas de Senderismo
-  const initialRutas = await fetchRutaListByIdAndType(destinoId, 'Senderismo');
+  const rutas: RutaListItem[] = await fetchRutaListByIdAndType(destinoId, 'Senderismo');
+  const comentariosPorRuta: { [key: number]: ComentarioItem[] } = {};
+  await Promise.all(
+    rutas.map(async (ruta) => {
+      comentariosPorRuta[ruta.id as number] = await fetchRutaComentarios(ruta.id);
+    })
+  );
 
   // Renderiza el componente cliente
   return (
-      <ListadoRutasClient
-          initialRutas={initialRutas}
-          municipio={municipioParam}
-      />
+    <ListadoRutasClient
+      initialRutas={rutas}
+      comentariosMap={comentariosPorRuta}
+      municipio={municipioParam}
+    />
   );
 }

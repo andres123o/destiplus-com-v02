@@ -6,91 +6,44 @@ import { Heart, Clock, Navigation2, Mountain, Share2 } from 'lucide-react';
 import FiltrosTitulo from "@/components/common/titulo-filtro"; // Verifica ruta
 import { CldImage } from 'next-cloudinary';
 import type { RutaListItem, ComentarioItem } from '@/types/listadoRutas'; // Ajusta ruta
-import { fetchRutaComentarios } from '@/lib/api-listadoRutas'; // Importa la función para obtener comentarios
-
-
+ 
 // Componente para Avatar
 interface UserAvatarProps {
     imageSrc?: string | null;
     alt?: string | null;
     index: number;
 }
+
 const UserAvatar: React.FC<UserAvatarProps> = ({ imageSrc, alt, index }) => {
-    // Usa CldImage para optimización y fallback
     return (
-        <div
-            className="avatar" // Tu clase CSS
-            style={{ marginLeft: index > 0 ? '-8px' : '0' }} // Estilo original para superposición
-            title={alt || 'Usuario'}
-        >
-             <CldImage
-                src={imageSrc || 'URL_IMAGEN_POR_DEFECTO_AVATAR'} // Necesitas una imagen por defecto
-                alt={alt || 'Avatar de usuario'}
-                width={32} // Tamaño pequeño para avatar
-                height={32} // Tamaño pequeño para avatar
-                crop="thumb" // Ideal para avatares
-                gravity="face" // Intenta centrar en cara
-                className="avatar-image" // Clase para border-radius: 50% en CSS
-                // Opcional: añade un placeholder
-                // placeholder="blur"
-                // blurDataURL="..."
-             />
+        <div className="avatar" style={{ marginLeft: index > 0 ? '-8px' : '0' }}>
+            <CldImage
+                src={imageSrc || '/avatar-default.png'}
+                alt={alt || 'Usuario'}
+                width={32}
+                height={32}
+                style={{ objectFit: 'cover' }}
+            />
         </div>
     );
 };
 
-// Componente para Grupo de Avatares (con fetch de comentarios)
+// Componente para Grupo de Avatares (usando comentarios del server)
 interface UserAvatarsProps {
     rutaId: number | string;
+    comentarios: ComentarioItem[];
 }
-const UserAvatars: React.FC<UserAvatarsProps> = ({ rutaId }) => {
-    const [comentarios, setComentarios] = useState<ComentarioItem[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        let isMounted = true; // Flag para evitar updates si se desmonta
-        const obtenerComentarios = async () => {
-            if (!rutaId) {
-                setLoading(false);
-                return;
-            };
-            setLoading(true);
-            setError(null);
-            try {
-                const data = await fetchRutaComentarios(rutaId);
-                if (isMounted) {
-                    setComentarios(data);
-                }
-            } catch (err) {
-                console.error(`Error al cargar comentarios client-side para ruta ${rutaId}:`, err);
-                if (isMounted) {
-                    setError(err instanceof Error ? err.message : 'Error al cargar comentarios');
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        };
-
-        obtenerComentarios();
-
-        return () => { isMounted = false; }; // Cleanup
-    }, [rutaId]);
-
-    // Mostrar placeholders mientras carga o si hay error/no hay comentarios
-    if (loading || error || comentarios.length === 0) {
+const UserAvatars: React.FC<UserAvatarsProps> = ({ rutaId, comentarios }) => {
+    if (!comentarios || comentarios.length === 0) {
         return (
             <div className="avatar-group">
-                {/* Placeholder avatars */}
                 <div className="avatar placeholder"></div>
                 <div className="avatar placeholder" style={{ marginLeft: '-8px' }}></div>
             </div>
         );
     }
 
-    // Mostrar avatares reales
     return (
         <div className="avatar-group">
             {comentarios.slice(0, 3).map((comentario, index) => (
@@ -108,10 +61,11 @@ const UserAvatars: React.FC<UserAvatarsProps> = ({ rutaId }) => {
 
 // --- Props Interface para ListadoRutasClient ---
 interface ListadoRutasClientProps {
-  initialRutas: RutaListItem[];
-  municipio: string;
+    initialRutas: RutaListItem[];
+    comentariosMap: Record<string | number, ComentarioItem[]>;
+    municipio: string;
 }
-const ListadoRutasClient: React.FC<ListadoRutasClientProps> = ({ initialRutas, municipio }) => {
+const ListadoRutasClient: React.FC<ListadoRutasClientProps> = ({ initialRutas, municipio, comentariosMap }) => {
   const router = useRouter();
 
   // Estado para Filtros y Lista Filtrada
@@ -226,10 +180,13 @@ const ListadoRutasClient: React.FC<ListadoRutasClientProps> = ({ initialRutas, m
                     </div>
                     <div className="route-footer"> {/* Avatares y botón */}
                        <div className="user-count">
-                            <UserAvatars rutaId={item.id!} /> {/* Pasa el ID de la ruta, asegura que no sea undefined con '!' si estás seguro que existe */}
+                            <UserAvatars 
+                                rutaId={item.id} 
+                                comentarios={comentariosMap[String(item.id)] || []}
+                            />
                             <span>{getUserCountText(item)}</span>
                        </div>
-                       <button className="ver-ruta-btn"> {/* Este botón es redundante si toda la card es clickeable */}
+                       <button className="ver-ruta-btn">
                             Ver Ruta
                        </button>
                     </div>

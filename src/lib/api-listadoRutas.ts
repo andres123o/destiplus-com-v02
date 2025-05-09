@@ -23,7 +23,7 @@ export async function fetchRutaListByIdAndType(
 
 // --- Función para obtener COMENTARIOS de una Ruta específica ---
 export async function fetchRutaComentarios(rutaId: string | number): Promise<ComentarioItem[]> {
-    const url = `${API_BASE_URL}/ruta/comentarios/${rutaId}/`;
+    const url = `${API_BASE_URL}/ruta/comentarios/${rutaId}`;
     console.log(`Client Fetching Comentarios for Ruta ID ${rutaId}: ${url}`);
     try {
         // Esta función se llamará desde el cliente, pero la definimos aquí por organización
