@@ -17,18 +17,16 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.destiplus.com'),
   title: {
-    default: 'Destiplus | Descubre experiencias únicas: Alojamientos, Gastronomía y Aventuras', // Título por defecto
-    template: ' %s | Destiplus', // Plantilla para títulos de páginas hijas
+    default: 'Tu Asistente Inteligente para Viajar a Suesca Colombia | Destiplus', // Título por defecto
+    template: '%s', // Plantilla para títulos de páginas hijas
   },
-  description: 'Centraliza toda tu experiencia turística: alojamientos únicos, rutas exclusivas, restaurantes locales y actividades inolvidables. Reserva directamente sin intermediarios.',
-  keywords: ['alojamiento', 'experiencias locales', 'rutas turísticas', 'gastronomía regional', 'actividades al aire libre', 'reserva directa', 'hoteles boutique', 'glamping', 'cabañas', 'miradores', 'restaurantes locales', 'donde quedarse en', 'que hacer en', 'cundinamarca', 'suesca', 'guatavita'],
+  description: 'Planifica tu viaje a Suesca Colombia con Destiplus, tu asistente inteligente: descubre hoteles, gastronomía, miradores y rutas imperdibles.',
+  keywords: ['suesca cundinamarca', 'suesca', 'que hacer en suesca', 'suesca colombia', 'suesca escalada', 'cabañas en suesca', 'suesca restaurantes', 'suesca restaurantes', 'suesca pueblo', 'suesca que hacer'],
   icons: {
     icon: [ // Puedes definir varios tipos/tamaños
-      { url: 'https://res.cloudinary.com/destinoplus/image/upload/v1732547115/tree_suesca_bdaba9.png', type: 'image/png' }, // Ajusta type si es necesario (png, ico, etc.)
-      // { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' }, // Ejemplo con más tamaños
+      { url: 'https://res.cloudinary.com/destinoplus/image/upload/v1732547115/tree_suesca_bdaba9.png', type: 'image/png'}
     ],
-    shortcut: ['https://res.cloudinary.com/destinoplus/image/upload/v1732547115/tree_suesca_bdaba9.png'], // Para rel="shortcut icon"
-    // apple: '/apple-touch-icon.png', // Ejemplo para Apple
+    shortcut: ['https://res.cloudinary.com/destinoplus/image/upload/v1732547115/tree_suesca_bdaba9.png']
   },
   robots: { // Robots por defecto
     index: true,
@@ -42,20 +40,30 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Destiplus | Tu plataforma turística integral',
-    description: 'Encuentra alojamientos únicos, descubre rutas secretas y vive experiencias gastronómicas auténticas - todo en un solo lugar',
+    title: 'Tu Asistente Inteligente para Viajar a Suesca Colombia | Destiplus', 
+    description: 'Planifica tu viaje a Suesca Colombia con Destiplus, tu asistente inteligente: descubre hoteles, gastronomía, miradores y rutas imperdibles.',
     url: '/', // URL relativa a metadataBase para la página principal
     siteName: 'Destiplus',
     images: [ // Imagen OG por defecto
       {
-        url: 'https://res.cloudinary.com/destinoplus/image/upload/v1733768211/destinos/Suesca/os8pyadsbjmldaased5j.jpg',
+        url: 'https://res.cloudinary.com/destinoplus/image/upload/v1735254381/k4csbetbhqotgqohq6ub.jpg',
         width: 1200, // Especifica dimensiones si las sabes
         height: 630,
-        alt: 'Descubre Cundinamarca con Destiplus',
+        alt: 'Descubre Suesca con Destiplus',
       },
     ],
     locale: 'es_CO',
     type: 'website',
+  },
+  alternates: {
+    languages: {
+      'es-CO':'/',
+      'en-US':'/en',
+    },
+    canonical: '/',
+  },
+  verification: {
+    google: 'yIPkQrNZpAuX4Q4LtIMOSxLL5yHX6gZcartjrJa5Iq0'
   },
 };
 
@@ -64,7 +72,6 @@ export default function RootLayout({
   }: {
   children: React.ReactNode;
   }) {
-  console.log("Rendering RootLayout...");
   return (
     <html lang="es" className={nunito.className}>
       <head>

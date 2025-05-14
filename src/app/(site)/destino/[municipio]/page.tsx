@@ -23,9 +23,9 @@ export async function generateMetadata(
     return { title: 'Destino no Encontrado' };
   }
 
-  const title = `${destino.municipio || 'Destino'} | Destiplus - Guía Completa`;
-  const description = `Explora ${destino.municipio || 'este destino'}: ${destino.descripcion?.substring(0, 150) || 'Descubre actividades, alojamiento, comida y más con nuestra guía inteligente'}.`;
-  const imageUrl = destino.imagenes?.[0]?.img || '/placeholder-og-image.jpg';
+  const title = `${destino.municipio} Colombia | Guía Completa Destiplus`;
+  const description = `Turismo en ${destino.municipio}: descubre actividades, hoteles, comida, rutas y más con nuestra guía inteligente`;
+  const imageUrl = destino.imagenes?.[0]?.img || 'https://res.cloudinary.com/destinoplus/image/upload/v1747070640/t2jb6rpavh6az9w6zj6y.jpg';
   // Usamos el nombre original (decodificado) para la URL canónica visible en el tag
   // Next.js/Google manejarán la codificación/decodificación necesaria.
   const canonicalUrl = `https://www.destiplus.com/destino/${municipioName}`;
@@ -37,10 +37,19 @@ export async function generateMetadata(
       title: title,
       description: description,
       url: canonicalUrl, // URL Canónica
-      images: [{ url: imageUrl }],
+      images: [
+        { 
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: `Vista de ${destino.municipio}` 
+        }
+      ],
       type: 'website',
     },
-    alternates: { canonical: canonicalUrl },
+    alternates: { 
+      canonical: canonicalUrl 
+    },
   };
 }
 

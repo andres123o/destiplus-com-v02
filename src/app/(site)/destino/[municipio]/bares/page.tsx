@@ -21,7 +21,8 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      url: `https://www.destiplus.com/destino/${municipioName}/bares`, // URL Canónica
+      url: `https://www.destiplus.com/destino/${municipioName}/bares`,
+      images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1735269957/nrvunwgbkt0y0bivanr4.jpg' }],
     },
     alternates: { canonical: `https://www.destiplus.com/destino/${municipioName}/bares` }
   };

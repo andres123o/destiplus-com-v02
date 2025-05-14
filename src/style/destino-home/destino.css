@@ -110,6 +110,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     cursor: pointer;
     transition: all 0.2s ease;
+    color: #333;
 }
 
 .categoria-burbuja:hover {
@@ -723,8 +724,9 @@
 .chat-ai-container {
     background-color: #fff;
     padding: 16px;
-    max-height: 50vh;
-    overflow-y: auto;
+    height: 400px; /* Altura fija para el contenedor */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Estilos para los mensajes */
@@ -732,6 +734,28 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px; /* Espacio para la barra de scroll */
+}
+
+/* Estilizar la barra de scroll */
+.chat-ai-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-ai-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-ai-messages::-webkit-scrollbar-thumb {
+    background: #00cd70;
+    border-radius: 10px;
+}
+
+.chat-ai-messages::-webkit-scrollbar-thumb:hover {
+    background: #00a050;
 }
 
 .chat-message {
@@ -2888,6 +2912,347 @@
     display: block;
     object-fit: cover;
   }
+  
+
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Muy alto para estar encima de todo */
+    background-color: var(--background-light, #ffffff);
+    padding: var(--spacing-sm, 8px) 0; /* Padding vertical ligero */
+    box-shadow: var(--shadow-soft, 0 2px 8px rgba(0,0,0,0.08));
+    transition: all 0.3s ease-in-out; /* Transición para padding, background, etc. */
+  }
+  
+  .site-header.scrolled {
+    padding: calc(var(--spacing-sm, 8px) / 2) 0; /* Menos padding al hacer scroll */
+    background-color: rgba(255, 255, 255, 0.97); /* Fondo ligeramente translúcido */
+    backdrop-filter: blur(5px); /* Efecto blur al hacer scroll */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra más pronunciada */
+  }
+  
+  /* Contenedor para alinear logo y navegación */
+  .header-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px; /* Ancho máximo del contenido del header */
+    margin: 0 auto;
+    padding: 0 5%; /* Padding lateral igual al que tenías */
+  }
+  
+  .logo-link {
+    text-decoration: none;
+    display: inline-block; /* Para que no ocupe todo el ancho */
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm, 8px); /* Espacio entre imagen del árbol y texto */
+  }
+  
+  .logo-image {
+    transition: transform 0.3s ease;
+  }
+  .site-header.scrolled .logo-image {
+    transform: scale(0.9); /* Encoge un poco el logo al hacer scroll */
+  }
+  
+  .logo-text {
+    font-size: 22px; /* Ajusta según tu preferencia */
+    font-weight: 700;
+    color: var(--text-dark, #333);
+    line-height: 1; /* Para mejor alineación vertical */
+  }
+  
+  .logo-plus {
+    color: var(--primary-color, #00cd70);
+    font-weight: 800; /* O más bold si tu fuente lo permite */
+  }
+  
+  /* Navegación Desktop */
+  .nav-desktop {
+    display: none; /* Oculto en móvil por defecto */
+    align-items: center;
+    gap: var(--spacing-lg, 24px); /* Espacio entre enlaces */
+  }
+  
+  .nav-desktop a {
+    text-decoration: none;
+    color: var(--text-medium, #666);
+    font-weight: 500;
+    font-size: var(--font-primary, 14px);
+    padding: var(--spacing-sm, 8px) 0;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+  
+  .nav-desktop a:hover {
+    color: var(--primary-color, #00cd70);
+  }
+  
+  /* Línea animada debajo del enlace activo/hover (opcional) */
+  .nav-desktop a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color, #00cd70);
+    transition: width 0.3s ease;
+  }
+  .nav-desktop a:hover::after,
+  .nav-desktop a.active-link::after { /* Necesitarás JS para la clase 'active-link' */
+    width: 100%;
+  }
+  
+  
+  /* Botón de Menú Hamburguesa */
+  .menu-toggle-button {
+    display: block; /* Mostrar en móvil */
+    background: none;
+    border: none;
+    color: var(--text-dark, #333);
+    padding: var(--spacing-sm, 8px);
+    cursor: pointer;
+    z-index: 1001; /* Encima del fondo del menú abierto */
+  }
+  .menu-toggle-button:hover {
+    color: var(--primary-color, #00cd70);
+  }
+  
+  /* Navegación Móvil (Dropdown) */
+  .nav-mobile {
+    display: flex;
+    flex-direction: column;
+    position: absolute; /* O fixed si el header no es fixed */
+    top: 100%; /* Justo debajo del header */
+    left: 0;
+    width: 100%;
+    background-color: var(--background-light, #ffffff);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: var(--spacing-md, 16px) 0;
+    transform: translateY(-10px); /* Efecto sutil de aparición */
+    opacity: 0;
+    animation: slideDownMenu 0.3s forwards ease-out;
+    border-top: 1px solid var(--border-light, #eee);
+  }
+  
+  @keyframes slideDownMenu {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .site-header.menu-open-bg {
+    /* Si quieres que el fondo del header cambie al abrir el menú */
+    /* background-color: var(--background-grey, #f9f9f9); */
+  }
+  
+  .nav-mobile a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-dark, #333);
+    font-weight: 500;
+    font-size: var(--font-medium, 18px); /* Más grande en móvil para fácil toque */
+    padding: var(--spacing-md, 16px) 5%; /* Buen padding para tocar */
+    border-bottom: 1px solid var(--border-light, #f0f0f0);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .nav-mobile a:last-child {
+    border-bottom: none;
+  }
+  .nav-mobile a:hover,
+  .nav-mobile a.active-link { /* JS para active-link */
+    background-color: var(--primary-color-light, #e6fff2); /* Un verde muy claro */
+    color: var(--primary-color, #00cd70);
+  }
+  
+  /* Botón CTA opcional en el header */
+  .cta-button-header {
+    background-color: var(--primary-color, #00cd70);
+    color: white;
+    padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
+    border-radius: var(--radius-md, 12px);
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+  .cta-button-header:hover {
+    background-color: var(--secondary-color, #00a050);
+  }
+  .nav-mobile .cta-button-header.mobile-cta {
+    margin: var(--spacing-md, 16px) 5%;
+    text-align: center;
+  }
+  
+
+.hero-section {
+  margin-top: 17%;
+  position: relative;
+  width: 100%;
+  min-height: 70vh; /* O la altura deseada */
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--header-height, 60px) + var(--spacing-xl, 40px)) 5% var(--spacing-xl, 40px) 5%; /* Padding superior incluye altura del header */
+  text-align: center;
+  overflow: hidden;
+  /* El color de fondo solo se verá si la imagen no carga o es transparente */
+  background-color: #2c3e50; /* Un color oscuro de respaldo */
+  color: var(--text-light-on-dark, #FFFFFF);
+}
+
+.hero-background { /* Si usas CldImage para el fondo */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Detrás del overlay y del contenido */
+}
+
+.hero-background::before {
+  content: "";
+  position: absolute;
+  bottom: 0; /* Comienza desde abajo */
+  left: 0;
+  width: 100%;
+  height: 80%; /* Altura del gradiente, ajusta según necesites */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.884) 0%, rgba(0, 0, 0, 0.514) 30%, rgba(0, 0, 0, 0) 100%);
+  /* El gradiente va de negro semi-transparente abajo a transparente arriba */
+  z-index: 1; /* Encima de la imagen, debajo del contenido de texto */
+  pointer-events: none;
+}
+
+.hero-background img { /* Para la CldImage si la usas */
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* Encima del overlay */
+  max-width: 700px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg, 24px);
+}
+
+.hero-title-container h1 {
+  font-family: var(--font-heading, 'Poppins', sans-serif);
+  font-size: calc(var(--font-xl, 2.25rem) * 1.6); /* Ejemplo: 3.6rem - ¡Grande e impactante! */
+  font-weight: 800; /* O 900 si tu fuente lo permite */
+  color: var(--text-light-on-dark, #FFFFFF); /* Texto blanco */
+  line-height: 1.15;
+  margin-bottom: var(--spacing-md, 16px);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6); 
+}
+
+.hero-title-container .highlight { /* Ya tienes .highlight, úsalo */
+  color: var(--primary-color, #00cd70); /* Tu verde principal */
+  font-family: var(--font-heading, 'Poppins', sans-serif);
+  font-size: calc(var(--font-xl, 2.25rem) * 1.6); /* Ejemplo: 3.6rem - ¡Grande e impactante! */
+  font-weight: 800; /* O 900 si tu fuente lo permite */
+  line-height: 1.15;
+  margin-bottom: var(--spacing-md, 16px);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.highlight-2 {
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  color: var(--primary-color, #00cd70); /* Tu verde principal */
+}
+
+.hero-subtitle {
+  font-size: calc(var(--font-medium, 1.125rem) * 1.15); /* ej: 1.3rem */
+  color: #e0e0e0; /* Un blanco ligeramente menos brillante para el subtítulo */
+  line-height: 1.6;
+  margin: 0;
+  max-width: 580px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+.hero-searchbox-container {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: var(--spacing-lg, 24px);  
+}
+
+.search-box { /* Asumiendo que .search-box ya tiene fondo blanco */
+  background-color: #ffffff; /* Fondo blanco para el searchbox es lo más común */
+  border-radius: var(--radius-lg, 50px);
+  padding: var(--spacing-xs, 4px) var(--spacing-xs, 4px) var(--spacing-xs, 4px) var(--spacing-md, 16px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* Ajustes para el chat dentro del Hero */
+.hero-section .chat-container {
+  width: 100%;
+  max-width: 600px;
+  background-color: rgb(255, 255, 255); /* Fondo ligeramente translúcido para el chat */
+  backdrop-filter: blur(5px); /* Efecto de vidrio esmerilado */
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  padding: var(--spacing-md, 16px);
+}
+
+.hero-close-chat-btn { /* Botón "Nueva Búsqueda" o "Cerrar" dentro del hero */
+  margin-top: var(--spacing-lg, 24px);
+  padding: var(--spacing-sm, 8px) var(--spacing-lg, 24px);
+  font-size: var(--font-primary, 14px);
+  font-weight: 600;
+  /* Reutiliza tus estilos de botón primario si tienes */
+  background-color: var(--primary-color, #00cd70);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg, 50px); /* Más redondeado */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.hero-close-chat-btn:hover {
+  background-color: var(--secondary-color, #00a050);
+  transform: translateY(-2px);
+}
+
+
+/* --- Título de Sección Genérico --- */
+.section-title-2 {
+  font-family: var(--font-heading, 'Poppins', sans-serif);
+  font-size: var(--font-large, 1.5rem);
+  font-weight: 600;
+  color: var(--text-dark, #333);
+  text-align: center;
+  margin-top: 5%;    /* Espacio arriba de cada sección */
+  margin-bottom: var(--spacing-lg, 1.5rem); /* Espacio debajo del título */
+  position: relative;
+  padding-bottom: var(--spacing-sm, 0.75rem);
+  text-align: center;
+}
+/* Línea decorativa opcional */
+.section-title-2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px; /* Ancho de la línea */
+    height: 3px; /* Grosor de la línea */
+    background-color: var(--primary-color, #00cd70);
+    border-radius: 2px;
+}
+
 
 /* Destok home*/
 @media (min-width: 768px) {

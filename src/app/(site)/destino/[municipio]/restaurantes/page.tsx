@@ -21,8 +21,16 @@ export async function generateMetadata(
       title,
       description,
       url: `https://www.destiplus.com/destino/${municipioName}/restaurantes`, // URL Canónica
+      images: [
+        { // Imagen principal del evento para compartir
+          url: 'https://res.cloudinary.com/destinoplus/image/upload/v1736722535/restaurantes/nixcal/iiwpzg8z9mtqpqaa2vi0.jpg', 
+          width: 1080, // Ancho real de la imagen
+          height: 1080, // Alto real de la imagen
+          alt: 'Batalla de Hamburguesas 3.0 Suesca',
+        },
+      ],
     },
-     alternates: { canonical: `https://www.destiplus.com/destino/${municipioName}/restaurantes` }
+    alternates: { canonical: `https://www.destiplus.com/destino/${municipioName}/restaurantes` }
   };
 }
 

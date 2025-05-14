@@ -20,9 +20,9 @@ export async function generateMetadata(
   }
 
   const alojamiento = data.alojamiento[0]; // Tomamos el primero del array
-  const title = `${alojamiento.name} en ${municipio || municipio} | Destiplus`;
-  const description = `Detalles, servicios y reserva de ${alojamiento.name}. ${alojamiento.detalle?.substring(0, 150) || 'Encuentra tu estadía ideal.'}...`;
-  const imageUrl = alojamiento.img || '/placeholder-og-image.jpg'; // Imagen principal
+  const title = `${alojamiento.name} en ${municipio} | Destiplus`;
+  const description = `${alojamiento.name}: ${alojamiento.detalle?.substring(0, 150)}...`;
+  const imageUrl = alojamiento.img || 'https://res.cloudinary.com/destinoplus/image/upload/v1747070640/t2jb6rpavh6az9w6zj6y.jpg'; // Imagen principal
   const canonicalUrl = `https://www.destiplus.com/destino/${municipio}/alojamiento/${slug}`; // Actualiza dominio
 
   return {
@@ -33,7 +33,7 @@ export async function generateMetadata(
       description: description,
       url: canonicalUrl,
       images: [{ url: imageUrl }],
-      type: 'website', // O 'product.group' si aplica
+      type: 'website', 
     },
     alternates: { canonical: canonicalUrl },
   };

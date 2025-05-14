@@ -22,6 +22,7 @@ export async function generateMetadata(
       title,
       description,
       url: `https://www.destiplus.com/destino/${municipioName}/eventos`, // URL Canónica
+      images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1741624924/eventos/casona-quesada/nqks1qvkl0hheoqofhvc.jpg' }],
     },
     alternates: { canonical: `https://www.destiplus.com/destino/${municipioName}/eventos` }
   };

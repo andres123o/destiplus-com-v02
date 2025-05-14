@@ -17,10 +17,9 @@ export async function generateMetadata(
   }
 
   const actividad = data.actividad[0];
-  const title = `${actividad.name || 'Actividad'} en ${municipio || 'Destiplus'}`;
-  // Usa itinerario o una descripción corta si existe
-  const description = `Información sobre ${actividad.name}. ${actividad.itinerario?.substring(0, 150) || 'Descubre esta experiencia.'}...`;
-  const imageUrl = actividad.img || '/placeholder-og-image.jpg';
+  const title = `${actividad.name} en ${municipio} | Destiplus`;
+  const description = `${actividad.name}: ${actividad.itinerario?.substring(0, 150)}...`;
+  const imageUrl = actividad.img || 'https://res.cloudinary.com/destinoplus/image/upload/v1747070640/t2jb6rpavh6az9w6zj6y.jpg';
   const canonicalUrl = `https://www.destiplus.com/destino/${municipio}}actividades/${slug}`; // Actualiza dominio
 
   return {
@@ -31,7 +30,6 @@ export async function generateMetadata(
       description: description,
       url: canonicalUrl,
       images: [{ url: imageUrl }],
-      type: 'website', // O 'activity' si es apropiado
     },
     alternates: { canonical: canonicalUrl },
   };

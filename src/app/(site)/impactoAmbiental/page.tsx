@@ -6,8 +6,31 @@ import type { ImpactoData } from '@/types/ImpactoData'; // Importa el tipo
 
 // Opcional: Metadata para SEO
 export const metadata = {
-  title: 'Impacto Ambiental - Destiplus',
-  description: 'Descubre cómo tus viajes con Destiplus ayudan a reforestar y a construir un futuro más verde.',
+  title: 'Impacto Ambiental | Turismo Sostenible en Suesca Colombia',
+  description: 'En Destiplus apostamos por un turismo responsable: descubre cómo tu viaje a Suesca contribuye a la reforestación y reducción de huella de carbono.',
+  openGraph: {
+    title: 'Impacto Ambiental | Turismo Sostenible en Suesca Colombia',
+    description: 'En Destiplus apostamos por un turismo responsable: descubre cómo tu viaje a Suesca contribuye a la reforestación y reducción de huella de carbono.',
+    url: 'https://www.destiplus.com/impactoAmbiental',
+    images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1742230984/kqun6wyxerltdimqbhpw.jpg' }],
+ },
+ keywords: [
+   'qué hacer en Suesca',
+   'planes en Suesca',
+   'rocas de Suesca',
+   'turismo en Suesca',
+   'hoteles en Suesca',
+   'cabañas en Suesca',
+   'camping en Suesca',
+   'glamping Cundinamarca',
+   'pueblos cerca de Bogotá',
+   'cómo llegar a Suesca',
+   'Suesca turismo',
+   'planes fin de semana Bogotá',
+   'escalada en Suesca',
+   'Rocas de Suesca Cundinamarca',
+   'Destiplus Suesca'
+ ],
 };
 
 // La página es un Async Server Component

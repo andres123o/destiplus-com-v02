@@ -16,8 +16,8 @@ export async function generateMetadata(
   }
 
   const evento = data.evento[0];
-  const title = `${evento.name || 'Evento'} | Destiplus`;
-  const description = `Detalles del evento ${evento.name}: ${evento.itinerario?.substring(0, 150) || 'Participa en esta increíble experiencia.'}...`;
+  const title = `${evento.name} | Destiplus`;
+  const description = `${evento.name}: ${evento.itinerario?.substring(0, 150)}...`;
   const canonicalUrl = `https://www.destiplus.com/destino/${municipio}/eventos/${slug}`; // Actualiza dominio
 
   return {
@@ -27,6 +27,7 @@ export async function generateMetadata(
       title,
       description,
       url: canonicalUrl,
+      images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1747070640/t2jb6rpavh6az9w6zj6y.jpg' }],
     },
     alternates: { canonical: canonicalUrl },
   };

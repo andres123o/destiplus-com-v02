@@ -21,6 +21,9 @@ export async function generateMetadata(
       description: description,
       url: canonicalUrl, // URL Canónica
       type: 'website',
+      images: {
+        url: 'https://res.cloudinary.com/destinoplus/image/upload/v1736911873/rutas/la-lucirnaga/wlzdyxviuowjjyexjelq.jpg'
+      }
     },
     alternates: { canonical: canonicalUrl },
   };

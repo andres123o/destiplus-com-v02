@@ -1,4 +1,3 @@
-// src/app/(site)/page.tsx  <--- ¡ESTE ES EL ARCHIVO PARA LA RUTA RAÍZ '/'!
 
 import type { Metadata } from 'next';
 // Importa TU componente cliente principal
@@ -9,24 +8,37 @@ import { getDestinosIniciales } from '@/lib/api-home'; // O '@/lib/api-home' si 
 
 // Metadata para la página RAÍZ '/'
 export const metadata: Metadata = {
-  title: 'Destiplus | Tu Guía Inteligente para Puebliar Cerca a Bogotá',
-  description: 'Encuentra fácil info de Suesca, Sesquilé y más: alojamiento, actividades, comida, rutas. ¡Pregúntale a nuestra IA!',
+  title: 'Destiplus | Qué hacer en Suesca Colombia, planes, hoteles y turismo',
+  description: 'Descubre Suesca, Colombia con Destiplus: actividades al aire libre, hoteles, las Rocas de Suesca, glamping, rutas, y más',
   openGraph: {
-     title: 'Destiplus | Explora Cundinamarca con IA',
-     description: 'Tu compañero de viaje para descubrir lo mejor de los pueblos cercanos a Bogotá.',
-     url: 'https://www.destiplus.com/', // Cambia a tu dominio real
-     // images: [ { url: 'https://www.destiplus.com/og-image.jpg' } ], // Imagen para compartir
+     title: 'Destiplus | Turismo inteligente en Suesca',
+     description: 'Planes de fin de semana cerca de Bogotá: camping, glamping, hoteles, rutas de viaje y más en Suesca y Sesquilé. Planea tu escapada con IA.',
+     url: 'https://www.destiplus.com/',
+     images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1734700730/vsgukkynidlmdmccxqhj.jpg' }],
   },
-  keywords: ['turismo cundinamarca', 'pueblos cerca bogota', 'suesca', 'sesquile', 'planes fin de semana', 'viajes colombia', 'turismo con IA'],
+  keywords: [
+    'qué hacer en Suesca',
+    'planes en Suesca',
+    'rocas de Suesca',
+    'turismo en Suesca',
+    'hoteles en Suesca',
+    'cabañas en Suesca',
+    'camping en Suesca',
+    'glamping Cundinamarca',
+    'pueblos cerca de Bogotá',
+    'cómo llegar a Suesca',
+    'Suesca turismo',
+    'planes fin de semana Bogotá',
+    'escalada en Suesca',
+    'Rocas de Suesca Cundinamarca',
+    'Destiplus Suesca'
+  ],
 };
 
 // Componente ASÍNCRONO de servidor para la página RAÍZ '/'
 export default async function HomePage() { // El nombre puede ser cualquiera, pero representa la página raíz
-  console.log("Server: Rendering HomePage (/), fetching initial data...");
-
   // 1. Llama a tu función de API en el servidor
   const initialDestinos = await getDestinosIniciales();
-  console.log(`Server: HomePage (/) received ${initialDestinos.length} initial destinos.`);
 
   // 2. Renderiza TU componente cliente, pasándole los datos
   return <HomeClient initialDestinos={initialDestinos} />;

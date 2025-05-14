@@ -21,6 +21,7 @@ export async function generateMetadata(
       title,
       description,
       url: `https://www.destiplus.com/destino/${municipioName}/actividades`,
+      images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1734236561/cajbjyr4g2g7oizfgweu.jpg' }],
     },
   };
 }

@@ -12,8 +12,8 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { municipio: municipioRaw } = await params
   const municipioName = decodeURIComponent(municipioRaw); // Decodifica por si acaso
-  const title = `Alojamientos en ${municipioName} | Destiplus`;
-  const description = `Encuentra los mejores lugares para hospedarte en ${municipioName}. Hoteles, hostales, glamping y más.`;
+  const title = `Hoteles en ${municipioName} | Destiplus`;
+  const description = `Encuentra los mejores lugares para hospedarte en ${municipioName}. Hoteles, cabañas, glamping y más.`;
 
   return {
     title,
@@ -22,7 +22,7 @@ export async function generateMetadata(
       title,
       description,
       url: `https://www.destiplus.com/destino/${municipioName}/alojamientos`,
-      // images: [...]
+      images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1733937504/alojamientos/casona-quesada/e2pi6ecstwuou0ghf7xa.jpg' }],
     },
   };
 }

@@ -1,7 +1,7 @@
 // src/components/features/home/ChatAI.tsx
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ChatMessage } from '@/types/index'; // Importa el tipo de mensaje
 
 interface ChatAIProps {
@@ -11,6 +11,13 @@ interface ChatAIProps {
 }
 
 const ChatAI: React.FC<ChatAIProps> = ({ messages, isLoading, formatTextFunction }) => {
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
 
   // Si no hay mensajes y no está cargando, no renderizar nada
   // O podrías mostrar un mensaje inicial "Pregúntame algo..."
@@ -21,7 +28,7 @@ const ChatAI: React.FC<ChatAIProps> = ({ messages, isLoading, formatTextFunction
   return (
     // Mantenemos tus clases originales
     <div className="chat-ai-container">
-      <div className="chat-ai-messages">
+      <div className="chat-ai-messages" ref={messagesContainerRef}>
         {messages.map((msg, index) => (
           // Asegúrate que las clases 'chat-message', 'user', 'ai', 'message-content' existan
           <div key={index} className={`chat-message ${msg.sender}`}>

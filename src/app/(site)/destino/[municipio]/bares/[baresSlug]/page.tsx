@@ -14,7 +14,7 @@ export async function generateMetadata(
 
   const title = `${slug || 'Establecimiento'} | Destiplus`;
   // Ajusta la descripción según los datos disponibles
-  const description = `Descubre ${municipio}. ${slug|| 'Menú, horarios, contacto y más.'}`.substring(0, 160);
+  const description = `${slug|| 'Menú, horarios, contacto y más.'}`.substring(0, 160);
   // Construye la URL canónica
   const canonicalUrl = `https://www.destiplus.com/destino/${municipio}/bares/${slug}`; // ¡Actualiza dominio!
 
@@ -25,6 +25,7 @@ export async function generateMetadata(
       title,
       description,
       url: canonicalUrl,
+      images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1747070640/t2jb6rpavh6az9w6zj6y.jpg' }],
     },
     alternates: { canonical: canonicalUrl },
   };

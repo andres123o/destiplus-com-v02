@@ -16,7 +16,7 @@ export async function generateMetadata(
 
   const title = `${slug || 'Establecimiento'} | Destiplus`;
   // Ajusta la descripción según los datos disponibles
-  const description = `Descubre ${municipio}. ${slug || 'Menú, horarios, contacto y más.'}`.substring(0, 160);
+  const description = `Descubre ${slug || 'Menú, horarios, contacto y más.'}`.substring(0, 160);
   // Construye la URL canónica
   const canonicalUrl = `https://www.destiplus.com/destino/${municipio}/restaurantes/${slug}`; // ¡Actualiza dominio!
 
@@ -27,6 +27,14 @@ export async function generateMetadata(
       title,
       description,
       url: canonicalUrl,
+      images: [
+        { // Imagen principal del evento para compartir
+          url: 'https://res.cloudinary.com/destinoplus/image/upload/v1747070640/t2jb6rpavh6az9w6zj6y.jpg', 
+          width: 1080, // Ancho real de la imagen
+          height: 1080, // Alto real de la imagen
+          alt: title,
+        },
+      ],
     },
     alternates: { canonical: canonicalUrl },
   };
