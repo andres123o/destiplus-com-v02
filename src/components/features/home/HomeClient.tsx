@@ -18,7 +18,6 @@ import FeedbackSection from '@/components/features/home/FeedbackSection';
 import WelcomeModal from '@/components/features/home/WelcomeModal';
 import DemoModal from '@/components/features/home/DemoModal';
 import ImpactoAmbientalCard from '@/components/features/home/ImpactoAmbientalCard';
-import ChatAI from '@/components/features/home/ChatAI';
 import AdSlider from '@/components/features/home/advertasing-slider'
 import Header from '@/components/features/home/header'
 import HeroSection from '@/components/features/home/heroSection'
