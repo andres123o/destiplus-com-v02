@@ -1,15 +1,11 @@
 // src/app/(site)/blog/[slug]/page.tsx
 import React from 'react';
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import ArticlePageClient from '@/components/features/blog/blog-individual';
-import type { ArticleData } from '@/types/blogIndivdual'; // Importa desde tu archivo de tipos
 import { getArticleDataBySlug } from '@/lib/api-blogIndividual'; // Importa desde tu "API" de prueba
 
-type Props = {
-  params: { slug: string };
-};
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }>}
