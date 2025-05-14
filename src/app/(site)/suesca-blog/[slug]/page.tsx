@@ -12,11 +12,10 @@ type Props = {
 };
 
 export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
+  { params }: { params: Promise<{ slug: string }>}
 ): Promise<Metadata> {
-  const slug = params.slug;
-  const article = await getArticleDataBySlug(slug);
+  const { slug: slugRaw } = await params
+  const article = await getArticleDataBySlug(slugRaw);
 
   if (!article) {
     return {

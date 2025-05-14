@@ -32,7 +32,3 @@ export interface ArticleData {
     }>;
   }
   
-  // Puedes añadir otros tipos que necesites en tu aplicación aquí
-  export interface Destination {
-    // ...
-  }

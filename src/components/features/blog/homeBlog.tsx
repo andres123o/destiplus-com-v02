@@ -15,15 +15,6 @@ const sampleArticles = [
     { slug: 'miradores-secretos-paisajes-ocultos-suesca', title: 'Miradores Secretos y Paisajes Ocultos que Debes Explorar en Suesca', category: 'Rutas y Paisajes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1736911873/rutas/la-lucirnaga/wlzdyxviuowjjyexjelq.jpg', excerpt: 'Más allá de las rocas, Suesca esconde vistas panorámicas que te dejarán sin aliento...' },
     // Puedes añadir más artículos aquí si quieres mostrar más recientes
 ];
-
-// --- Categorías Destacadas (Para las tarjetas visuales) ---
-const featuredCategories = [
-    { name: 'Aventuras', slug: 'actividades', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734234353/lkimdcu2qrowjwt4dcct.jpg', iconClass: 'fas fa-hiking' }, // Reemplaza con tus URLs reales
-    { name: 'Alojamientos', slug: 'alojamientos', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734990366/gw9pwqit2yymx8peyj3e.jpg', iconClass: 'fas fa-bed' },
-    { name: 'Rutas y Paisajes', slug: 'rutas-y-paisajes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1737039685/rutas/las-tres-viejas/dzutjgpjps467997u5fm.jpg', iconClass: 'fas fa-map-marked-alt' },
-    { name: 'Sabores Únicos', slug: 'restaurantes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1736722535/restaurantes/nixcal/iiwpzg8z9mtqpqaa2vi0.jpg', iconClass: 'fas fa-utensils' },
-];
-
 // --- Componente Tarjeta de Artículo ---
 interface ArticleCardProps {
   title: string;
