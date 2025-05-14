@@ -39,7 +39,7 @@ const featuredCategories = [
 ];
 
 const sampleArticles = [
-  { slug: 'descubre-las-mejores-rutas-de-escalada-en-suesca', title: 'Descubre las Mejores Rutas de Escalada en Suesca para Principiantes y Expertos', category: 'Actividades', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734236561/cajbjyr4g2g7oizfgweu.jpg', excerpt: 'Suesca es la meca de la escalada en Colombia. Te mostramos las rutas imperdibles...' },
+  { slug: 'descubre-las-mejores-rutas-de-escalada-en-suesca', title: 'Descubre las Mejores Rutas de Escalada en Suesca para Principiantes y Expertos', category: 'Actividades', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1733896865/jlrmncccu6cdtb4yjjtr.jpg', excerpt: 'Suesca es la meca de la escalada en Colombia. Te mostramos las rutas imperdibles...' },
   { slug: 'alojamientos-con-encanto-cerca-a-bogota', title: 'Alojamientos con Encanto en Suesca y Sesquilé: Escapadas Perfectas Cerca a Bogotá', category: 'Alojamientos', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1733937504/alojamientos/casona-quesada/e2pi6ecstwuou0ghf7xa.jpg', excerpt: 'Encuentra cabañas, glamping y hoteles boutique para una experiencia inolvidable...' },
   { slug: 'miradores-secretos-paisajes-ocultos-suesca', title: 'Miradores Secretos y Paisajes Ocultos que Debes Explorar en Suesca', category: 'Rutas y Paisajes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1736911873/rutas/la-lucirnaga/wlzdyxviuowjjyexjelq.jpg', excerpt: 'Más allá de las rocas, Suesca esconde vistas panorámicas que te dejarán sin aliento...' },
   // Puedes añadir más artículos aquí si quieres mostrar más recientes
@@ -289,6 +289,8 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
             </div>
         </section>
 
+        <AdSlider />
+
         {/* Sección: Últimos Artículos */}
         <section className="recent-articles-section">
           <h2 className="section-title-2">Planes que están marcando tendencia</h2>
@@ -317,10 +319,8 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
         </section>
       </div>
       
-      <AdSlider />
-      
       {/* --- Encabezado Lista Destinos (Clases originales) --- */}
-      <div className="destinations-header">
+      {/* <div className="destinations-header">
         <div className="destinations-title-container">
           <h2 className="destinations-title">Destinos para este fin de semana</h2>
           <p className="destinations-subtitle">
@@ -329,28 +329,25 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
             <ChevronDown size={18} className="arrow-down" />
           </p>
         </div>
-      </div>
+      </div> */}
 
-      {/* --- Lista de Destinos (Clases originales) --- */}
-      <div className="container-seccion-lista-home">
-        {/* Verifica si hay destinos filtrados para mostrar */}
+      {/* <div className="container-seccion-lista-home">
         {initialDestinos.length > 0 ? (
           initialDestinos.map((item) => {
             const badgeType = getBadgeType(item.calificacion);
             return (
               <div
                 key={item.id}
-                className="destination-card" // Clase principal del card
+                className="destination-card" 
                 onClick={() => handleNavigateToDestino(item)}
                 role="link"
                 tabIndex={0}
                 onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleNavigateToDestino(item)}
                 aria-label={`Explorar ${item.municipio}`}
               >
-                <div className="image-section"> {/* Contenedor de la imagen y overlays */}
-                  {/* ***** CAMBIO AQUÍ ***** */}
+                <div className="image-section"> 
                   <CldImage
-                    src={item.img} // Asume que item.img es el Public ID
+                    src={item.img} 
                     alt={`Paisaje de ${item.municipio}`}
                     width={400}
                     className={'destination-image'}
@@ -359,20 +356,17 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
                     height={300}
                     style={{ objectFit: 'cover' }}
                   />
-                  {/* Badges (Nuevo/Popular) */}
                   <div className="destination-badges">
                     {badgeType && (
-                      <span className={`badge ${badgeType}`}> {/* Clases: badge new | badge popular */}
+                      <span className={`badge ${badgeType}`}>
                         {badgeType === 'new' ? 'Nuevo' : 'Popular'}
                       </span>
                     )}
                   </div>
-                  {/* Rating (Estrellas) */}
                   <div className="destination-rating">
                     {item.calificacion !== undefined && item.calificacion >= 0 ? ( // Muestra si hay calificación >= 0
                       <>
-                        {item.calificacion > 0 && <span>{item.calificacion.toFixed(1)}</span>} {/* Muestra número si > 0 */}
-                        {/* Asume que tienes la estrella en public/utils/ */}
+                        {item.calificacion > 0 && <span>{item.calificacion.toFixed(1)}</span>} 
                         <Image // <-- Usa Image de next/image
                           src="/utils/icons8-estrella-48.png" // <-- Ruta desde la carpeta /public
                           alt="Estrella"
@@ -385,25 +379,22 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
                     ) : null}
                   </div>
                 </div>
-
-                {/* Información del Destino */}
                 <div className="destination-info">
                   <div className="destination-header">
                     <h3>{item.municipio}, {item.departamento}</h3>
-                    <span className="destination-type"> {/* Tipo de destino (Aventura/Trekking) */}
+                    <span className="destination-type"> 
                       {getDestinationType(item.municipio)}
                     </span>
                   </div>
                   <div className="destination-description">
                     <MdExplore className="explore-icon" />
-                    <p>{item.frase}</p> {/* Frase descriptiva */}
+                    <p>{item.frase}</p> 
                   </div>
-                  <div className="explorar-boton"> {/* Contenedor inferior */}
+                  <div className="explorar-boton"> 
                     <div className="destination-stats">
                       <FaUserGroup className="visitors-icon" />
-                      <span>¡Sé de los primeros en explorar!</span> {/* O un dato real si lo tienes */}
+                      <span>¡Sé de los primeros en explorar!</span> 
                     </div>
-                    {/* Botón (principalmente visual ya que el div es clickeable) */}
                     <button className="book-btn" tabIndex={-1}>Explorar</button>
                   </div>
                 </div>
@@ -411,16 +402,15 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
             );
           })
         ) : (
-          // Mensaje si no hay destinos para mostrar
           <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem 1rem', color: '#666' }}>
-            {initialDestinos.length === 0 ? // Si no hubo datos iniciales
+            {initialDestinos.length === 0 ? 
               <p>No hay destinos cargados en este momento. ¡Vuelve pronto!</p>
-              : // Si hubo datos pero el filtro no arrojó resultados
+              : 
               <p>No se encontraron destinos que coincidan con tu búsqueda actual.</p>
             }
           </div>
         )}
-      </div>
+      </div> */}
 
       {/* --- Impacto Ambiental Card (Componente hijo) --- */}
       <ImpactoAmbientalCard onClick={handleNavigateToImpacto} />

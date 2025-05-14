@@ -13,7 +13,8 @@
     height: auto;
     width: 100%;
     overflow: hidden; /* Asegura que el contenido no se salga */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    border-radius: 12px;
 }
   
 .ad-slide {

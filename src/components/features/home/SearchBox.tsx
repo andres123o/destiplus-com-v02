@@ -1,7 +1,7 @@
 "use client"; // Obligatorio: Indica que es un Componente de Cliente
 
 import React, { useState, useEffect, useRef } from "react";
-import { FaArrowCircleRight } from "react-icons/fa"; // Asegúrate de tener react-icons instalado
+import { IoIosSend } from "react-icons/io";
 
 // 1. Definimos la interfaz para las props del componente
 interface SearchBoxProps {
@@ -175,7 +175,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           aria-label="Enviar pregunta"
           disabled={!inputValue.trim()} // Deshabilitar si no hay texto
         >
-          <FaArrowCircleRight className="icon" size={25}/>
+          <IoIosSend className="icon" size={30}/>
         </button>
       </div>
     </div>
