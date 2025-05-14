@@ -23,8 +23,12 @@ import HeroSection from '@/components/features/home/heroSection'
 
 // --- Servicios y Utils (Asegúrate que existan y funcionen) ---
 import { consultarOpenAI } from "@/service/openIAService"; // Asumiendo que usa axios si es necesario
-import { ChatMessage } from '@/types/index'; // Tus definiciones de tipos
+import { DestinoType, ChatMessage } from '@/types/index'; // Tus definiciones de tipos
 
+// --- Interfaz de Props ---
+interface HomeClientProps {
+  initialDestinos: DestinoType[]; // Recibe los destinos iniciales desde page.tsx
+}
 
 const featuredCategories = [
   { name: 'Aventuras', slug: 'actividades', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734234353/lkimdcu2qrowjwt4dcct.jpg', iconClass: 'fas fa-hiking' }, // Reemplaza con tus URLs reales
@@ -111,10 +115,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, imageUrl, category, ex
 };
 
 // --- Componente Cliente Principal ---
-const HomeClient: React.FC = () => {
+const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
   const router = useRouter();
   // Estados de UI
   const [error, setError] = useState<string | null>(null); // Para errores del cliente
+  console.log(initialDestinos)
 
   // Estados de Modales y Chat
   // WelcomeModal ahora controla su propia visibilidad inicial
