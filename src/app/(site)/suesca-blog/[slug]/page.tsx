@@ -53,8 +53,11 @@ export async function generateMetadata(
   };
 }
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
-  const articleData = await getArticleDataBySlug(params.slug);
+export default async function ArticlePage(
+  { params }: { params: Promise<{ slug: string }>}
+) {
+  const { slug: slugRaw } = await params
+  const articleData = await getArticleDataBySlug(slugRaw);
 
   if (!articleData) {
     notFound();
