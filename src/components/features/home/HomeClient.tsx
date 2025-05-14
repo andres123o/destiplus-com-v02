@@ -111,7 +111,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, imageUrl, category, ex
 };
 
 // --- Componente Cliente Principal ---
-const HomeClient: React.FC<{}> = () => {
+const HomeClient: React.FC = () => {
   const router = useRouter();
   // Estados de UI
   const [error, setError] = useState<string | null>(null); // Para errores del cliente
