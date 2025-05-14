@@ -3,15 +3,14 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Hook de enrutamiento de Next.js
 import { CldImage } from 'next-cloudinary'; // ¡Importa CldImage!
-import Image from 'next/image';
 import Link from 'next/link';
 
 
-// --- Iconos ---
-import { MdExplore } from "react-icons/md";
-// import { IoMdArrowDropdown } from "react-icons/io"; // No parece usarse en el JSX final
-import { FaUserGroup } from "react-icons/fa6";
-import { ChevronDown} from 'lucide-react'; // Iconos usados
+// // --- Iconos ---
+// import { MdExplore } from "react-icons/md";
+// // import { IoMdArrowDropdown } from "react-icons/io"; // No parece usarse en el JSX final
+// import { FaUserGroup } from "react-icons/fa6";
+// import { ChevronDown} from 'lucide-react'; // Iconos usados
 
 // --- Componentes Hijos (Asegúrate que existan en estas rutas y estén adaptados) ---
 import FeedbackSection from '@/components/features/home/FeedbackSection';
@@ -28,7 +27,7 @@ import { DestinoType, ChatMessage } from '@/types/index'; // Tus definiciones de
 
 // --- Interfaz de Props ---
 interface HomeClientProps {
-  initialDestinos: DestinoType[]; // Recibe los destinos iniciales desde page.tsx
+  // No props needed currently
 }
 
 const featuredCategories = [
@@ -116,7 +115,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, imageUrl, category, ex
 };
 
 // --- Componente Cliente Principal ---
-const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
+const HomeClient: React.FC<HomeClientProps> = ({ }) => {
   const router = useRouter();
   // Estados de UI
   const [error, setError] = useState<string | null>(null); // Para errores del cliente
@@ -193,31 +192,31 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
     // setRutasFiltradas(destinos);
   };
 
-  const handleNavigateToDestino = (item: DestinoType) => {
-    const { id: destino_id, municipio } = item;
-    // Verifica que municipio exista y no esté vacío
-    if (!municipio) {
-      console.error("Intento de navegar a destino sin municipio:", item);
-      return; // No navegar si no hay municipio
-    }
+  // const handleNavigateToDestino = (item: DestinoType) => {
+  //   const { id: destino_id, municipio } = item;
+  //   // Verifica que municipio exista y no esté vacío
+  //   if (!municipio) {
+  //     console.error("Intento de navegar a destino sin municipio:", item);
+  //     return; // No navegar si no hay municipio
+  //   }
 
-    // --- Inicio Bloque GTAG para Destino ---
-    if (typeof window !== "undefined" && window.gtag) { // Usamos typeof para más seguridad
-        window.gtag('event', 'destination_click', {
-            event_category: 'Navigation',
-            event_label: municipio,
-            value: destino_id, // Asegúrate que destino_id sea un número si value debe serlo
-            app_name: 'Home busqueda',
-            screen_name: municipio, // Opcional pero útil
-            timestamp: new Date().toISOString(),
-            interaction_type: 'click'
-        });
-    } else {
-        console.warn('Google Analytics (gtag) no está disponible.');
-    }
-    const encodedMunicipio = encodeURIComponent(municipio);
-    router.push(`/destino/${encodedMunicipio}`);
-  };
+  //   // --- Inicio Bloque GTAG para Destino ---
+  //   if (typeof window !== "undefined" && window.gtag) { // Usamos typeof para más seguridad
+  //       window.gtag('event', 'destination_click', {
+  //           event_category: 'Navigation',
+  //           event_label: municipio,
+  //           value: destino_id, // Asegúrate que destino_id sea un número si value debe serlo
+  //           app_name: 'Home busqueda',
+  //           screen_name: municipio, // Opcional pero útil
+  //           timestamp: new Date().toISOString(),
+  //           interaction_type: 'click'
+  //       });
+  //   } else {
+  //       console.warn('Google Analytics (gtag) no está disponible.');
+  //   }
+  //   const encodedMunicipio = encodeURIComponent(municipio);
+  //   router.push(`/destino/${encodedMunicipio}`);
+  // };
 
 
   const handleNavigateToImpacto = () => {
@@ -245,17 +244,17 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
 
 
 
-  // Funciones Auxiliares para el renderizado
-  const getBadgeType = (calificacion?: number): 'new' | 'popular' | null => {
-    if (calificacion === undefined || calificacion === null) return null;
-    if (calificacion === 0) return 'new';
-    if (calificacion >= 4.6) return 'popular';
-    return null;
-  };
-  const getDestinationType = (municipio: string): string => {
-    // Podrías tener una lógica más compleja o datos desde la API aquí
-    return municipio.toLowerCase() === "suesca" ? "Aventura" : "Trekking";
-  };
+  // // Funciones Auxiliares para el renderizado
+  // const getBadgeType = (calificacion?: number): 'new' | 'popular' | null => {
+  //   if (calificacion === undefined || calificacion === null) return null;
+  //   if (calificacion === 0) return 'new';
+  //   if (calificacion >= 4.6) return 'popular';
+  //   return null;
+  // };
+  // const getDestinationType = (municipio: string): string => {
+  //   // Podrías tener una lógica más compleja o datos desde la API aquí
+  //   return municipio.toLowerCase() === "suesca" ? "Aventura" : "Trekking";
+  // };
 
   // --- JSX Renderizado ---
   return (
