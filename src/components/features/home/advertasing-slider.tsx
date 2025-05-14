@@ -101,7 +101,6 @@ const AdSlider: React.FC = () => { // No necesita props externas por ahora
               tabIndex={0}
               aria-label={`Publicidad: ${ad.alt}`}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleAdClick(ad); }}
-              style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }} // Añade position relative y aspect ratio para fill
             >
               <CldImage
                 src={ad.imageUrl} // Usa Public ID o URL completa

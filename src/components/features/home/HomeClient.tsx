@@ -31,10 +31,10 @@ interface HomeClientProps {
 }
 
 const featuredCategories = [
-  { name: 'Aventuras', slug: 'actividades', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734234353/lkimdcu2qrowjwt4dcct.jpg', iconClass: 'fas fa-hiking' }, // Reemplaza con tus URLs reales
-  { name: 'Alojamientos', slug: 'alojamientos', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734990366/gw9pwqit2yymx8peyj3e.jpg', iconClass: 'fas fa-bed' },
-  { name: 'Rutas y Paisajes', slug: 'rutas-y-paisajes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1737039685/rutas/las-tres-viejas/dzutjgpjps467997u5fm.jpg', iconClass: 'fas fa-map-marked-alt' },
-  { name: 'Sabores Únicos', slug: 'restaurantes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1736722535/restaurantes/nixcal/iiwpzg8z9mtqpqaa2vi0.jpg', iconClass: 'fas fa-utensils' },
+  { name: 'Aventuras', slug: 'https://www.destiplus.com/destino/Suesca/actividades', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734234353/lkimdcu2qrowjwt4dcct.jpg', iconClass: 'fas fa-hiking' }, // Reemplaza con tus URLs reales
+  { name: 'Alojamientos', slug: 'https://www.destiplus.com/destino/Suesca/alojamiento', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734990366/gw9pwqit2yymx8peyj3e.jpg', iconClass: 'fas fa-bed' },
+  { name: 'Rutas y Paisajes', slug: 'https://www.destiplus.com/destino/Suesca/rutas', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1737039685/rutas/las-tres-viejas/dzutjgpjps467997u5fm.jpg', iconClass: 'fas fa-map-marked-alt' },
+  { name: 'Sabores Únicos', slug: 'https://www.destiplus.com/destino/Suesca/restaurantes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1736722535/restaurantes/nixcal/iiwpzg8z9mtqpqaa2vi0.jpg', iconClass: 'fas fa-utensils' },
 ];
 
 const sampleArticles = [
@@ -52,7 +52,7 @@ interface CategoryHighlightCardProps {
 }
 const CategoryHighlightCard: React.FC<CategoryHighlightCardProps> = ({ name, slug, imageUrl, iconClass }) => {
   return (
-      <Link href={`/blog/categoria/${slug}`} className="category-highlight-card">
+      <Link href={`${slug}`} className="category-highlight-card">
           <div className="category-highlight-image">
               <CldImage
                   src={imageUrl}
@@ -128,6 +128,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [showChat, setShowChat] = useState(false);
   const [titleVisible, setTitleVisible] = useState(true); // Controla si se ve el título o el chat
+  const currentYear = new Date().getFullYear();
 
 
   // Manejadores de Modales
@@ -274,43 +275,44 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
 
       {/* Sección: Explorar por Categoría */}
       <div className="blog-page-container">
-        <section className="category-highlight-section">
-            <h2 className="section-title-2">Tu viaje, desde un solo lugar</h2>
-            <div className="category-highlight-grid">
-                {featuredCategories.map((category) => (
-                    <CategoryHighlightCard
-                        key={category.slug}
-                        name={category.name}
-                        slug={category.slug}
-                        imageUrl={category.imageUrl}
-                        iconClass={category.iconClass}
-                    />
-                ))}
-            </div>
-        </section>
+        <div className="category-ads">
+          <section className="category-highlight-section">
+              <h2 className="section-title-2">Tu viaje, desde un solo lugar</h2>
+              <div className="category-highlight-grid">
+                  {featuredCategories.map((category) => (
+                      <CategoryHighlightCard
+                          key={category.slug}
+                          name={category.name}
+                          slug={category.slug}
+                          imageUrl={category.imageUrl}
+                          iconClass={category.iconClass}
+                      />
+                  ))}
+              </div>
+          </section>
 
-        <AdSlider />
+          <AdSlider />
+        </div>
 
-        {/* Sección: Últimos Artículos */}
         <section className="recent-articles-section">
           <h2 className="section-title-2">Planes que están marcando tendencia</h2>
           <div className="article-grid recent-articles-grid">
             {sampleArticles.map((article) => (
-                    <Link key={article.slug} href={`/blog/${article.slug}`} className="article-card-link">
-                        <ArticleCard
-                            title={article.title}
-                            imageUrl={article.imageUrl}
-                            category={article.category}
-                            excerpt={article.excerpt}
-                        />
-                    </Link>
+                <Link key={article.slug} href={`/suesca-blog/${article.slug}`} className="article-card-link">
+                    <ArticleCard
+                        title={article.title}
+                        imageUrl={article.imageUrl}
+                        category={article.category}
+                        excerpt={article.excerpt}
+                    />
+                </Link>
             ))}
           </div>
         
             {/* Botón para ver todos los artículos */}
           <div className="view-all-button-container">
               {/* Ajusta este enlace a la ruta correcta donde listarás todos los artículos */}
-              <Link href="/blog/articulos" className="view-all-btn">
+              <Link href="/suesca-blog" className="view-all-btn">
                   <span>Ver Todos los Artículos</span>
                   {/* Asegúrate de tener FontAwesome u otro sistema de iconos */}
                   <i className="fas fa-arrow-right"></i>
@@ -421,7 +423,66 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
       {/* --- Modales (Componentes hijos, renderizado condicional interno/externo) --- */}
       <WelcomeModal /> {/* Controla su visibilidad internamente con localStorage */}
       <DemoModal isOpen={showDemoModal} onClose={handleCloseDemoModal} />
+      
+      <footer className="site-footer">
+        <div className="footer-content-container">
+            {/* Sección superior opcional del footer */}
+            <div className="footer-promo-section">
+            <h2>¿Listo para tu próxima aventura?</h2>
+            <p>Descubre los tesoros escondidos de Suesca, Sesquilé y sus alrededores.</p>
+            <Link href="https://www.destiplus.com/" className="promo-button">
+                Explora Destinos
+            </Link>
+            </div>
 
+            <div className="footer-main">
+            <div className="footer-column footer-about">
+                <h4 className="footer-logo">
+                Desti<span className="highlight-plus">plus</span>
+                </h4>
+                <p>
+                Tu guía para experiencias inolvidables cerca a Bogotá.
+                Aventura, cultura y naturaleza te esperan.
+                </p>
+            </div>
+
+            <div className="footer-column footer-links">
+                <h5>Enlaces Rápidos</h5>
+                <ul>
+                <li><Link href="https://www.destiplus.com/suesca-blog">Blog</Link></li>
+                <li><Link href="https://www.destiplus.com/destino/Suesca">Suesca</Link></li>
+                <li><Link href="https://www.destiplus.com/destino/Sesquile">Sesquilé</Link></li>
+                </ul>
+            </div>
+            <div className="footer-column footer-legal">
+                <h5>Legal</h5>
+                <ul>
+                <li><Link href="/politica-de-privacidad">Política de Privacidad</Link></li>
+                <li><Link href="/terminos-y-condiciones">Términos y Condiciones</Link></li>
+                <li><Link href="/contacto">Contacto</Link></li>
+                </ul>
+            </div>
+
+            <div className="footer-column footer-social">
+                <h5>Síguenos</h5>
+                <div className="social-icons">
+                <a href="https://www.instagram.com/desti.plus/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <i className="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.tiktok.com/@desti.plus" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <i className="fab fa-tiktok"></i>
+                </a>
+                {/* Añade más redes si es necesario */}
+                </div>
+            </div>
+            </div>
+
+            <div className="footer-bottom">
+            <p>&copy; {currentYear} Destiplus. Todos los derechos reservados.</p>
+            <p>Diseñado con <i className="fas fa-heart" style={{ color: 'var(--primary-color)' }}></i> en Suesca, Colombia.</p>
+            </div>
+        </div>
+      </footer>
     </>
   );
 };

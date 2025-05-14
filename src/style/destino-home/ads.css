@@ -23,9 +23,12 @@
 }
   
 .ad-slide-content {
-     cursor: pointer; /* Indica que es clickeable */
-     display: block; /* Asegura que ocupe el espacio */
-     outline: none; /* Quita el borde al enfocar (opcional) */
+  cursor: pointer;
+  display: block;
+  outline: none;
+  position: relative; /* Necesario para CldImage con fill */
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Default para móvil */
 }
   
   
@@ -55,4 +58,29 @@
   /* Opcional: Espacio para la paginación si queda muy pegada */
 .ad-swiper .swiper-pagination {
      bottom: 8px !important; /* Ajusta la posición vertical de los puntos */
+}
+
+@media (min-width: 768px) {
+  /* ... (otros estilos flex para .category-ads) ... */
+
+  .ad-slider-container {
+    display: none;
+    flex: 1 1 40%; /* O el flex-basis que te funcione */
+    max-width: 500px; /* Ajusta según veas necesario */
+    margin: 0;
+    align-self: center; /* Intenta centrar verticalmente el AdSlider si es más corto */
+  }
+
+  .ad-slide-content { /* El div que contiene CldImage */
+    aspect-ratio: 21 / 9; /* Más panorámico, ej: 2.33:1. Prueba con 18/9 (2:1) o 20/9 */
+    /* O incluso podrías definir una max-height si el aspect-ratio no es suficiente */
+    /* max-height: 300px; */ /* Descomenta y ajusta si es necesario */
+    border-radius: var(--radius-lg, 16px); /* Asegúrate que el contenido también tenga el radio */
+    overflow: hidden; /* Para que la imagen respete el radio */
+  }
+
+  .category-highlight-section {
+    flex: 1 1 55%;
+    /* ... */
+  }
 }

@@ -45,7 +45,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <div className={`hero-title-container ${showChat ? 'title-fade-out' : 'title-fade-in'}`}>
             <h1>¿Qué hacer en <span className="highlight">Suesca</span>?</h1>
             <p className="hero-subtitle">
-            Dinos qué buscas y recibe planes perfectos <span className="highlight-3">en segundos</span>.
+              Dinos qué buscas y descubre la experiencia perfecta <span className="highlight-3">a tu medida</span>.
             </p>
           </div>
         ) : null}

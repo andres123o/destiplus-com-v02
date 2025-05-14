@@ -48,10 +48,10 @@ const Header = () => {
 
         {/* Navegación para Desktop */}
         <nav className="nav-desktop">
-          <Link href="/#destinos">Destinos</Link> {/* Ejemplo de enlace a una sección del home */}
-          <Link href="/blog">Blog</Link>
-          <Link href="/#servicios">Servicios</Link> {/* Ejemplo */}
-          <Link href="/#contacto">Contacto</Link> {/* Ejemplo */}
+          <Link href="/">Destinos</Link> {/* Ejemplo de enlace a una sección del home */}
+          <Link href="/suesca-blog">Blog</Link>
+          <Link href="/destino/Suesca">Servicios</Link> {/* Ejemplo */}
+          <Link href="/destino/Suesca">Contacto</Link> {/* Ejemplo */}
           {/* Podrías añadir un botón CTA aquí si es necesario */}
           {/* <Link href="/reserva" className="cta-button-header">Reservar</Link> */}
         </nav>
@@ -70,10 +70,10 @@ const Header = () => {
       {/* Navegación para Móvil (Dropdown) */}
       {isMenuOpen && (
         <nav className="nav-mobile">
-          <Link href="/#destinos" onClick={toggleMenu}>Destinos</Link>
-          <Link href="/blog" onClick={toggleMenu}>Blog</Link>
-          <Link href="/#servicios" onClick={toggleMenu}>Servicios</Link>
-          <Link href="/#contacto" onClick={toggleMenu}>Contacto</Link>
+          <Link href="/" onClick={toggleMenu}>Destinos</Link>
+          <Link href="/suesca-blog" onClick={toggleMenu}>Blog</Link>
+          <Link href="/destino/Suesca" onClick={toggleMenu}>Servicios</Link>
+          <Link href="/destino/Suesca" onClick={toggleMenu}>Contacto</Link>
            {/* <Link href="/reserva" className="cta-button-header mobile-cta" onClick={toggleMenu}>Reservar</Link> */}
         </nav>
       )}
