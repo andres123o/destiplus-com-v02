@@ -1,7 +1,6 @@
 // src/lib/api.ts
 import axios from 'axios';
 import { DestinoType, ArticlePreviewResponse, ArticlePreview } from '@/types'; // Asegúrate que este tipo exista en src/types/index.ts
-import { AttributionControl } from 'mapbox-gl';
 
 // Lee la URL base de las variables de entorno (recomendado) o usa el valor directo
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://tree-suesca-backend-production.up.railway.app/api/v1/destinos/filtros';

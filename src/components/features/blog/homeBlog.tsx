@@ -7,13 +7,7 @@ import { CldImage } from 'next-cloudinary';
 import Header from "@/components/features/home/header";
 import {  ArticlePreview } from '@/types/index';
 
-// --- Datos de Ejemplo (Reemplazar con fetching real) ---
-const sampleArticles = [
-    { slug: 'descubre-las-mejores-rutas-de-escalada-en-suesca', title: 'Descubre las Mejores Rutas de Escalada en Suesca para Principiantes y Expertos', category: 'Actividades', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734236561/cajbjyr4g2g7oizfgweu.jpg', excerpt: 'Suesca es la meca de la escalada en Colombia. Te mostramos las rutas imperdibles...' },
-    { slug: 'alojamientos-con-encanto-cerca-a-bogota', title: 'Alojamientos con Encanto en Suesca y Sesquilé: Escapadas Perfectas Cerca a Bogotá', category: 'Alojamientos', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1733937504/alojamientos/casona-quesada/e2pi6ecstwuou0ghf7xa.jpg', excerpt: 'Encuentra cabañas, glamping y hoteles boutique para una experiencia inolvidable...' },
-    { slug: 'miradores-secretos-paisajes-ocultos-suesca', title: 'Miradores Secretos y Paisajes Ocultos que Debes Explorar en Suesca', category: 'Rutas y Paisajes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1736911873/rutas/la-lucirnaga/wlzdyxviuowjjyexjelq.jpg', excerpt: 'Más allá de las rocas, Suesca esconde vistas panorámicas que te dejarán sin aliento...' },
-    // Puedes añadir más artículos aquí si quieres mostrar más recientes
-];
+
 // --- Componente Tarjeta de Artículo ---
 interface ArticleCardProps {
   title: string;

@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useState, useEffect, ElementType } from 'react';
-import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
 
 import Header from '@/components/features/home/header'; // Ajusta ruta si es necesario
