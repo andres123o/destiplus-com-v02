@@ -20,35 +20,27 @@ export async function generateMetadata(
     };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.destiplus.com';
-  const ogImages = article.heroImageUrl ? [{ url: article.heroImageUrl, width: 1200, height: 630, alt: article.heroImageAlt }] : [];
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || `https://www.destiplus.com/suesca-blog/${slugRaw}`;
+  const ogImages = article.hero_image_url ? [{ url: article.hero_image_url, width: 1200, height: 630, alt: article.hero_image_alt }] : [];
 
   return {
     title: `${article.title} | Destiplus Blog`,
-    description: article.metaDescription || article.excerpt,
+    description: article.meta_description || article.excerpt,
     keywords: article.keywords || [article.category.toLowerCase(), ...article.title.toLowerCase().split(' ').slice(0,5)], // Primeras 5 palabras del título
     openGraph: {
       title: `${article.title} | Destiplus Blog`,
-      description: article.metaDescription || article.excerpt,
+      description: article.meta_description || article.excerpt,
       url: `${siteUrl}/blog/${article.slug}`, // Ajusta si tu ruta base es diferente (ej. /suesca-blog/)
       type: 'article',
-      publishedTime: article.publicationDate, // Debe ser formato ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)
-      modifiedTime: article.publicationDate, // O una fecha de última modificación
+      publishedTime: article.display_date, // Debe ser formato ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)
+      modifiedTime: article.display_date, // O una fecha de última modificación
       authors: [article.author], // Puedes poner la URL de un perfil de autor si lo tienes
       section: article.category, // La categoría del artículo
       tags: article.keywords,    // Puedes usar las keywords como tags también
       images: ogImages,
     },
-    twitter: {
-        card: 'summary_large_image',
-        title: `${article.title} | Destiplus Blog`,
-        description: article.metaDescription || article.excerpt,
-        images: ogImages,
-        // site: '@tuUsuarioTwitter', // Opcional: tu usuario de Twitter
-        // creator: '@usuarioAutorTwitter', // Opcional: usuario del autor si lo tienes
-    },
     alternates: { // URL Canónica
-        canonical: `/suesca-blog/${article.slug}`, // Ajusta si tu ruta base es diferente
+        canonical: `/suesca-blog/${slugRaw}`, // Ajusta si tu ruta base es diferente
     }
   };
 }
