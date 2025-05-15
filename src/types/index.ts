@@ -18,4 +18,15 @@ export interface ChatMessage {
   sender: 'user' | 'ai';
 }
 
-// Puedes añadir más tipos/interfaces aquí
+export interface ArticlePreview {
+  slug: string;
+  title: string;
+  category: string;
+  hero_image_url: string; // Coincide con la respuesta de tu API
+  excerpt: string;
+  prioridad: number;
+}
+
+export interface ArticlePreviewResponse { // Para la estructura completa de la respuesta
+  articles: ArticlePreview[];
+}

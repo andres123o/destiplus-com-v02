@@ -23,11 +23,12 @@ import HeroSection from '@/components/features/home/heroSection'
 
 // --- Servicios y Utils (Asegúrate que existan y funcionen) ---
 import { consultarOpenAI } from "@/service/openIAService"; // Asumiendo que usa axios si es necesario
-import { DestinoType, ChatMessage } from '@/types/index'; // Tus definiciones de tipos
+import { DestinoType, ChatMessage, ArticlePreview } from '@/types/index'; // Tus definiciones de tipos
 
 // --- Interfaz de Props ---
 interface HomeClientProps {
-  initialDestinos: DestinoType[]; // Recibe los destinos iniciales desde page.tsx
+  initialDestinos: DestinoType[];
+  sampleArticles: ArticlePreview[];
 }
 
 const featuredCategories = [
@@ -35,13 +36,6 @@ const featuredCategories = [
   { name: 'Alojamientos', slug: 'https://www.destiplus.com/destino/Suesca/alojamiento', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1734990366/gw9pwqit2yymx8peyj3e.jpg', iconClass: 'fas fa-bed' },
   { name: 'Rutas y Paisajes', slug: 'https://www.destiplus.com/destino/Suesca/rutas', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1737039685/rutas/las-tres-viejas/dzutjgpjps467997u5fm.jpg', iconClass: 'fas fa-map-marked-alt' },
   { name: 'Sabores Únicos', slug: 'https://www.destiplus.com/destino/Suesca/restaurantes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1736722535/restaurantes/nixcal/iiwpzg8z9mtqpqaa2vi0.jpg', iconClass: 'fas fa-utensils' },
-];
-
-const sampleArticles = [
-  { slug: 'descubre-las-mejores-rutas-de-escalada-en-suesca', title: 'Descubre las Mejores Rutas de Escalada en Suesca para Principiantes y Expertos', category: 'Actividades', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1733896865/jlrmncccu6cdtb4yjjtr.jpg', excerpt: 'Suesca es la meca de la escalada en Colombia. Te mostramos las rutas imperdibles...' },
-  { slug: 'alojamientos-con-encanto-cerca-a-bogota', title: 'Alojamientos con Encanto en Suesca y Sesquilé: Escapadas Perfectas Cerca a Bogotá', category: 'Alojamientos', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1733937504/alojamientos/casona-quesada/e2pi6ecstwuou0ghf7xa.jpg', excerpt: 'Encuentra cabañas, glamping y hoteles boutique para una experiencia inolvidable...' },
-  { slug: 'miradores-secretos-paisajes-ocultos-suesca', title: 'Miradores Secretos y Paisajes Ocultos que Debes Explorar en Suesca', category: 'Rutas y Paisajes', imageUrl: 'https://res.cloudinary.com/destinoplus/image/upload/v1736911873/rutas/la-lucirnaga/wlzdyxviuowjjyexjelq.jpg', excerpt: 'Más allá de las rocas, Suesca esconde vistas panorámicas que te dejarán sin aliento...' },
-  // Puedes añadir más artículos aquí si quieres mostrar más recientes
 ];
 
 interface CategoryHighlightCardProps {
@@ -115,7 +109,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, imageUrl, category, ex
 };
 
 // --- Componente Cliente Principal ---
-const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
+const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos, sampleArticles }) => {
   const router = useRouter();
   // Estados de UI
   const [error, setError] = useState<string | null>(null); // Para errores del cliente
@@ -129,6 +123,11 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
   const [showChat, setShowChat] = useState(false);
   const [titleVisible, setTitleVisible] = useState(true); // Controla si se ve el título o el chat
   const currentYear = new Date().getFullYear();
+
+  // Filtrar artículos con prioridad 1 y limitar a máximo 3
+  const priorityArticles = sampleArticles
+    .filter(article => article.prioridad === 1)
+    .slice(0, 3);
 
 
   // Manejadores de Modales
@@ -297,26 +296,28 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos }) => {
         <section className="recent-articles-section">
           <h2 className="section-title-2">Planes que están marcando tendencia</h2>
           <div className="article-grid recent-articles-grid">
-            {sampleArticles.map((article) => (
+            {priorityArticles.length > 0 ? (
+              priorityArticles.map((article) => (
                 <Link key={article.slug} href={`/suesca-blog/${article.slug}`} className="article-card-link">
-                    <ArticleCard
-                        title={article.title}
-                        imageUrl={article.imageUrl}
-                        category={article.category}
-                        excerpt={article.excerpt}
-                    />
+                  <ArticleCard
+                    title={article.title}
+                    imageUrl={article.hero_image_url}
+                    category={article.category}
+                    excerpt={article.excerpt}
+                  />
                 </Link>
-            ))}
+              ))
+            ) : (
+              <p className="no-articles-message">No hay artículos destacados disponibles en este momento.</p>
+            )}
           </div>
         
-            {/* Botón para ver todos los artículos */}
+          {/* Botón para ver todos los artículos */}
           <div className="view-all-button-container">
-              {/* Ajusta este enlace a la ruta correcta donde listarás todos los artículos */}
-              <Link href="/suesca-blog" className="view-all-btn">
-                  <span>Ver Todos los Artículos</span>
-                  {/* Asegúrate de tener FontAwesome u otro sistema de iconos */}
-                  <i className="fas fa-arrow-right"></i>
-              </Link>
+            <Link href="/suesca-blog" className="view-all-btn">
+              <span>Ver Todos los Artículos</span>
+              <i className="fas fa-arrow-right"></i>
+            </Link>
           </div>
         </section>
       </div>

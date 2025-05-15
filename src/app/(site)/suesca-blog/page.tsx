@@ -1,6 +1,7 @@
 // src/app/(site)/blog/page.tsx
 import React from 'react';
 import ArticlesHome from '@/components/features/blog/homeBlog'; // Importamos el componente principal
+import { getBlogsIniciales } from '@/lib/api-home'; 
 
 // Metadata (opcional pero recomendado para SEO)
 import type { Metadata } from 'next';
@@ -17,6 +18,11 @@ export const metadata: Metadata = {
 
 
 // La página simplemente renderiza el componente principal
-export default function BlogPage() {
-  return <ArticlesHome />;
+export default async function BlogPage() {
+  // 1. Llama a tu función de API en el servidor
+  const listaBlogs = await getBlogsIniciales();
+  console.log(listaBlogs)
+
+  // 2. Renderiza TU componente cliente, pasándole los datos
+  return <ArticlesHome recentArticles={listaBlogs} />;
 }

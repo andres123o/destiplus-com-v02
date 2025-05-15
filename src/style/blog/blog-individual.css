@@ -253,6 +253,7 @@
 .share-section {
   padding: 5% 4%;
   text-align: center;
+  margin-bottom: 10%;
   max-width: 700px; /* Coincide con main-content-column */
   border-top: 1px solid var(--border-light, #e0e0e0);
   /* border-bottom: 1px solid var(--border-light, #e0e0e0); Quitar borde inferior para flujo más suave a relacionados */

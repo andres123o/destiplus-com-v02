@@ -1,10 +1,11 @@
 // src/lib/api.ts
 import axios from 'axios';
-import { DestinoType } from '@/types'; // Asegúrate que este tipo exista en src/types/index.ts
+import { DestinoType, ArticlePreviewResponse, ArticlePreview } from '@/types'; // Asegúrate que este tipo exista en src/types/index.ts
+import { AttributionControl } from 'mapbox-gl';
 
 // Lee la URL base de las variables de entorno (recomendado) o usa el valor directo
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://tree-suesca-backend-production.up.railway.app/api/v1/destinos/filtros';
-
+const API_BASE_URL_ARTICLE = 'https://tree-suesca-backend-production.up.railway.app/api/v1/previews'
 /**
  * Obtiene la lista inicial de destinos desde tu backend usando Axios.
  * Esta función se ejecuta en el SERVIDOR (llamada desde page.tsx).
@@ -42,4 +43,25 @@ export async function getDestinosIniciales(): Promise<DestinoType[]> {
   }
 }
 
-// Aquí también irían otras funciones de API si las necesitas (ej: getDestinoById, etc.)
+export async function getBlogsIniciales(): Promise<ArticlePreview[]> {
+  try {
+    const response = await axios.get<ArticlePreviewResponse>(API_BASE_URL_ARTICLE, {
+      timeout: 10000,
+    });
+    if (response.data?.articles) {
+      console.log(`API Success: Received ${response.data.articles.length} article previews.`);
+      return response.data.articles;
+    }
+    return [];
+  } catch (error) {
+    console.error("API Error: Failed fetching initial destinos using axios:", error);
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error details:", {
+        message: error.message,
+        code: error.code,
+        status: error.response?.status,
+      });
+    }
+    return [];
+  }
+}

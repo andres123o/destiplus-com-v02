@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 // Importa TU componente cliente principal
 import HomeClient from '@/components/features/home/HomeClient';
 // Importa TU función para obtener datos
-import { getDestinosIniciales } from '@/lib/api-home'; // O '@/lib/api-home' si renombraste el archivo .ts
+import { getDestinosIniciales, getBlogsIniciales } from '@/lib/api-home'; // O '@/lib/api-home' si renombraste el archivo .ts
 // Importa TU tipo de dato
 
 // Metadata para la página RAÍZ '/'
@@ -39,7 +39,9 @@ export const metadata: Metadata = {
 export default async function HomePage() { // El nombre puede ser cualquiera, pero representa la página raíz
   // 1. Llama a tu función de API en el servidor
   const initialDestinos = await getDestinosIniciales();
+  const listaBlogs = await getBlogsIniciales();
+  console.log(listaBlogs)
 
   // 2. Renderiza TU componente cliente, pasándole los datos
-  return <HomeClient initialDestinos={initialDestinos} />;
+  return <HomeClient initialDestinos={initialDestinos} sampleArticles={listaBlogs} />;
 }

@@ -5,8 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
 import Header from "@/components/features/home/header";
-// Asumiendo que tienes Font Awesome configurado o usarás otros iconos
-// import '@fortawesome/fontawesome-free/css/all.min.css'; // Si usas Font Awesome
+import {  ArticlePreview } from '@/types/index';
 
 // --- Datos de Ejemplo (Reemplazar con fetching real) ---
 const sampleArticles = [
@@ -46,12 +45,13 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, imageUrl, category, ex
   );
 };
 
+interface blogArticlesProps {
+    recentArticles: ArticlePreview[];
+}
 
 // --- Componente Principal de la Home del Blog (Rediseñado) ---
-export default function ArticlesHome() {
+const ArticlesHome: React.FC<blogArticlesProps> = ({recentArticles}) => {
 
-    // Obtenemos solo los artículos necesarios para la vista previa
-    const recentArticles = sampleArticles.slice(0, 3); // Mostrar solo los 3 más recientes
     const currentYear = new Date().getFullYear();
 
     return (
@@ -89,7 +89,7 @@ export default function ArticlesHome() {
                                 <Link key={article.slug} href={`/suesca-blog/${article.slug}`} className="article-card-link">
                                     <ArticleCard
                                         title={article.title}
-                                        imageUrl={article.imageUrl}
+                                        imageUrl={article.hero_image_url}
                                         category={article.category}
                                         excerpt={article.excerpt}
                                     />
@@ -167,3 +167,5 @@ export default function ArticlesHome() {
         </> // Fin de blog-page-container
     );
 }
+
+export default ArticlesHome;
