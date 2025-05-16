@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Star, Clock, Award, MessageCircle, Users, Leaf, TreePine, ChevronRight, Navigation2, Mountain, ThumbsUp, Share2 } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
-// Ajusta rutas de tipos
+import Link from 'next/link'; // Asegúrate de que Link esté importado
 import type { RutaProfileData, RutaDetallado, ComentarioItem, TreeCounterData, RutaImagen } from '@/types/ruta';
 
 
@@ -514,6 +514,12 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
     );
     // Estado para descripción
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
+    // --- ESTADOS PARA EL MODAL DE TÉRMINOS ---
+    const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    // --- FIN ESTADOS MODAL ---
+
     // Efecto para actualizar imagen si cambian las props
     useEffect(() => {
     setBackgroundImg(ruta.img || '');
@@ -538,34 +544,96 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
     setBackgroundImg(imageList[newIndex].url); // Accede a la URL dentro del objeto imagen
     };
 
+    // --- FUNCIÓN PARA ABRIR EL MODAL ---
+    const handleOpenTermsModal = () => {
+        console.log('Intento 1')
+        setTermsAccepted(false); // Resetear la aceptación previa
+        setIsTermsModalOpen(true);
+    };
+    // --- FIN FUNCIÓN MODAL ---
+
+    // --- FUNCIÓN QUE SE EJECUTA DESPUÉS DE ACEPTAR TÉRMINOS ---
+    const proceedToAdventure = () => {
+        const startMap = ruta.nombre; // Consider using ID for consistency
+        const tipoNegocio = 'rutas';
+
+        // --- GTAG (improved) ---
+        if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'iniciar_aventura_terminos_aceptados', { // Evento más específico
+            event_category: 'engagement',
+            event_label: ruta.nombre || 'N/A',
+            ruta_nombre: ruta.nombre || 'N/A',
+            ruta_id: ruta.id, // Añadir ID de ruta si es posible
+            ruta_tipo: tipoNegocio,
+            user_interaction: 'click_accepted_terms',
+        });
+        }
+
+        // --- Navegación ---
+        router.push(`/destino/${encodeURIComponent(municipio)}/mapa/${encodeURIComponent(startMap)}`);
+        console.log("Términos aceptados, iniciando aventura:", startMap);
+    };
+    // --- FIN FUNCIÓN ---
+
     // Handler descripción
     const toggleExpandDescription = () => setIsDescriptionExpanded(!isDescriptionExpanded);
 
-    // Handler para el botón "Iniciar Aventura"
-    const handleStartAdventure = () => {
-        const startMap = ruta.nombre; // Consider using ID for consistency
-        const tipoNegocio = 'rutas';
-        
-        // --- GTAG (improved) ---
-        if (typeof window !== 'undefined' && window.gtag) {
-            window.gtag('event', 'iniciar_aventura', {
-                // Standard GA4 parameters
-                event_category: 'engagement',
-                event_label: ruta.nombre || 'N/A',
-                ruta_nombre: ruta.nombre || 'N/A',
-                ruta_tipo: tipoNegocio,
-                user_interaction: 'click',
-            });
-        }
-        
-        // --- Navegación ---
-        router.push(`/destino/${encodeURIComponent(municipio)}/mapa/${encodeURIComponent(startMap)}`);
-        console.log(startMap)
-    };
 
     if (!ruta) { return <div>Ruta no encontrada.</div>; }
 
+    // --- SUBCOMPONENTE MODAL DE TÉRMINOS Y CONDICIONES ---
+    const TermsConfirmationModal = () => {
+        if (!isTermsModalOpen) return null;
 
+        const handleAcceptAndProceed = () => {
+            if (termsAccepted) {
+                setIsTermsModalOpen(false);
+                proceedToAdventure();
+            }
+        };
+
+        return (
+        <div className={`terms-modal-overlay ${isTermsModalOpen ? 'open' : ''}`}>
+            <div className="terms-modal-content">
+            <p>
+                Acepta los Términos y Condiciones para acceder a la ruta. {' '}
+                <Link href="/terminos-condiciones" target="_blank" rel="noopener noreferrer" className="terms-modal-link">
+                Términos y Condiciones
+                </Link>
+            </p>
+            <div className="terms-modal-checkbox-container">
+                <input
+                type="checkbox"
+                id="termsAcceptCheckbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                />
+                <label htmlFor="termsAcceptCheckbox">
+                He leído y acepto los Términos y Condiciones.
+                </label>
+            </div>
+            <div className="terms-modal-actions">
+                <button
+                type="button"
+                onClick={() => setIsTermsModalOpen(false)}
+                className="terms-modal-button terms-modal-button-cancel"
+                >
+                Cancelar
+                </button>
+                <button
+                type="button"
+                onClick={handleAcceptAndProceed}
+                disabled={!termsAccepted}
+                className="terms-modal-button terms-modal-button-accept"
+                >
+                Aceptar e Iniciar Ruta
+                </button>
+            </div>
+            </div>
+        </div>
+        );
+    };
+    // --- FIN SUBCOMPONENTE MODAL ---
 
     // --- Renderizado ---
     return (
@@ -637,7 +705,7 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
 
             <div className='container-cta-accordion-mas'>
                <div className='container-boton'>
-                   <button className="adventure-button" onClick={handleStartAdventure}>
+                   <button className="adventure-button" onClick={handleOpenTermsModal}>
                        <span className="button-main-text">¡Iniciar Aventura!</span>
                        <span className="button-sub-text">{!ruta.calificacion || Number(ruta.calificacion) === 0 ? '¡Sé el primero!' : '¡Únete!'}</span>
                    </button>
@@ -648,6 +716,7 @@ const RutaProfileClient: React.FC<RutaProfileClientProps> = ({ initialData, muni
 
         </div> {/* Fin container-info */}
       </div> {/* Fin container-actividades-div */}
+      <TermsConfirmationModal />
     </>
     );
 };

@@ -458,9 +458,9 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos, sampleArticles
             <div className="footer-column footer-legal">
                 <h5>Legal</h5>
                 <ul>
-                <li><Link href="/politica-de-privacidad">Política de Privacidad</Link></li>
-                <li><Link href="/terminos-y-condiciones">Términos y Condiciones</Link></li>
-                <li><Link href="/contacto">Contacto</Link></li>
+                <li><Link href="/politica-privacidad">Política de Privacidad</Link></li>
+                <li><Link href="/terminos-condiciones">Términos y Condiciones</Link></li>
+                <li><Link href="https://wa.me/573015081517">Contacto</Link></li>
                 </ul>
             </div>
 
