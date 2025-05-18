@@ -24,6 +24,7 @@ const ArticleContentRenderer = ({ contentItem }: { contentItem: ArticleData['con
             alt={contentItem.alt || 'Imagen del artículo'}
             width={800} height={500} crop="fill" gravity="center" quality="auto"
             className="article-inline-image"
+            style={{ objectFit: 'cover' }}
           />
           {contentItem.caption && <figcaption className="article-image-caption">{contentItem.caption}</figcaption>}
         </figure>
@@ -97,6 +98,7 @@ const ArticlePageClient: React.FC<ArticlePageClientProps> = ({ article }) => {
                 fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
                 className="article-header-image"
+                style={{ objectFit: 'cover' }}
               />
               <div className="article-header-overlay"></div>
             </div>

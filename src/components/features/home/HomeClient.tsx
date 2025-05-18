@@ -23,12 +23,12 @@ import HeroSection from '@/components/features/home/heroSection'
 
 // --- Servicios y Utils (Asegúrate que existan y funcionen) ---
 import { consultarOpenAI } from "@/service/openIAService"; // Asumiendo que usa axios si es necesario
-import { DestinoType, ChatMessage, ArticlePreview } from '@/types/index'; // Tus definiciones de tipos
+import { DestinoType, ChatMessage, ArticlePreview, ArticlePreviewResponse } from '@/types/index'; // Tus definiciones de tipos
 
-// --- Interfaz de Props ---
-interface HomeClientProps {
+// Props para el componente HomeClient
+export interface HomeClientProps {
   initialDestinos: DestinoType[];
-  sampleArticles: ArticlePreview[];
+  sampleArticles: ArticlePreview[] | ArticlePreviewResponse; // Acepta ambos formatos
 }
 
 const featuredCategories = [
@@ -92,7 +92,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, imageUrl, category, ex
             crop="fill" // Asegura que la imagen cubra, puede recortar
             gravity="center" // Centra el recorte
             // Opción 2 (si prefieres usar CSS object-fit via style prop):
-            // style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover' }}
             className="article-card-image" // Para transiciones CSS
             loading="lazy" // Carga diferida
             // Considera añadir 'sizes' para optimización de imagen responsiva
@@ -106,6 +106,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, imageUrl, category, ex
        </div>
      </div>
   );
+};
+
+// Type guard to check if object is ArticlePreviewResponse
+const isArticlePreviewResponse = (obj: any): obj is ArticlePreviewResponse => {
+  return 'articles' in obj && Array.isArray(obj.articles);
 };
 
 // --- Componente Cliente Principal ---
@@ -124,9 +129,16 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialDestinos, sampleArticles
   const [titleVisible, setTitleVisible] = useState(true); // Controla si se ve el título o el chat
   const currentYear = new Date().getFullYear();
 
-  // Filtrar artículos con prioridad 1 y limitar a máximo 3
-  const priorityArticles = sampleArticles
-    .filter(article => article.prioridad === 1)
+  // Extrae el array de artículos del objeto si tiene la estructura esperada
+  const articlesArray = isArticlePreviewResponse(sampleArticles) 
+    ? sampleArticles.articles 
+    : Array.isArray(sampleArticles) 
+      ? sampleArticles 
+      : [];
+
+  // Ahora filtra los artículos prioritarios de la fuente correcta
+  const priorityArticles = articlesArray
+    .filter((article: ArticlePreview) => article.prioridad === 1)
     .slice(0, 3);
 
 

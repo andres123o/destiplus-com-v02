@@ -63,6 +63,8 @@ const ArticlesHome: React.FC<blogArticlesProps> = ({recentArticles}) => {
                     fetchPriority="high" // Prioriza la carga de esta imagen LCP (Largest Contentful Paint)
                     sizes="100vw" // Si el hero siempre va a ocupar el ancho de la ventana
                     className="blog-header-hero-image" // Clase para aplicar z-index y object-fit
+                    style={{ objectFit: 'cover' }}
+                    
                 />
                 <div className="blog-header-overlay"></div>
                 <div className="blog-header-content">
