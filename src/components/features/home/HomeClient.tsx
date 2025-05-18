@@ -109,7 +109,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, imageUrl, category, ex
 };
 
 // Type guard to check if object is ArticlePreviewResponse
-const isArticlePreviewResponse = (obj: any): obj is ArticlePreviewResponse => {
+const isArticlePreviewResponse = (obj: ArticlePreviewResponse | ArticlePreview[]): obj is ArticlePreviewResponse => {
   return 'articles' in obj && Array.isArray(obj.articles);
 };
 
