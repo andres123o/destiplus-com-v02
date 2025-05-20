@@ -20,7 +20,6 @@ export async function generateMetadata(
     };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || `https://www.destiplus.com/suesca-blog/${slugRaw}`;
   const ogImages = article.hero_image_url ? [{ url: article.hero_image_url, width: 1200, height: 630, alt: article.hero_image_alt }] : [];
 
   return {
