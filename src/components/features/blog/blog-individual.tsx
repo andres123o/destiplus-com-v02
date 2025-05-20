@@ -12,10 +12,10 @@ import type { ArticleData } from '@/types/blogIndivdual'; // Importa el tipo act
 const ArticleContentRenderer = ({ contentItem }: { contentItem: ArticleData['content'][0] }) => {
   switch (contentItem.type) {
     case 'paragraph':
-      return <p className="article-paragraph">{contentItem.text}</p>;
+      return <p className="article-paragraph" dangerouslySetInnerHTML={{ __html: contentItem.text || '' }} />;
     case 'heading':
       const Tag = `h${contentItem.level}` as ElementType;
-      return <Tag className={`article-heading-${contentItem.level}`}>{contentItem.text}</Tag>;
+      return <Tag className={`article-heading-${contentItem.level}`} dangerouslySetInnerHTML={{ __html: contentItem.text || '' }} />;
     case 'image':
       return (
         <figure className="article-inline-image-figure">
