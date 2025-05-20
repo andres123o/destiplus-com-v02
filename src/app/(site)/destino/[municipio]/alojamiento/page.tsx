@@ -24,6 +24,9 @@ export async function generateMetadata(
       url: `https://www.destiplus.com/destino/${municipioName}/alojamientos`,
       images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1733937504/alojamientos/casona-quesada/e2pi6ecstwuou0ghf7xa.jpg' }],
     },
+    alternates: {
+      canonical: `https://www.destiplus.com/destino/${municipioName}/alojamientos`, // URL canónica específica para esta página
+    }
   };
 }
 

@@ -13,15 +13,18 @@ export async function generateMetadata(
   const municipioName = decodeURIComponent(rawMunicipio);
   const title = `Actividades en ${municipioName} | Destiplus`;
   const description = `Encuentra las mejores actividades y experiencias en ${municipioName}: Caminatas, escalada, aventura y más.`;
-
+  const canonicalUrl = 'https://www.destiplus.com/destino/${municipioName}/actividades'
   return {
     title,
     description,
     openGraph: {
       title,
       description,
-      url: `https://www.destiplus.com/destino/${municipioName}/actividades`,
+      url: canonicalUrl,
       images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1734236561/cajbjyr4g2g7oizfgweu.jpg' }],
+    },
+    alternates: { 
+      canonical: canonicalUrl 
     },
   };
 }

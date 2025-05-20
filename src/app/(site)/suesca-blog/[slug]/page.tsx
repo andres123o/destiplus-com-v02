@@ -30,7 +30,7 @@ export async function generateMetadata(
     openGraph: {
       title: `${article.title} | Destiplus Blog`,
       description: article.meta_description || article.excerpt,
-      url: `${siteUrl}/blog/${article.slug}`, // Ajusta si tu ruta base es diferente (ej. /suesca-blog/)
+      url: `https://www.destiplus.com/suesca-blog/${slugRaw}`, // Ajusta si tu ruta base es diferente (ej. /suesca-blog/)
       type: 'article',
       publishedTime: article.display_date, // Debe ser formato ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)
       modifiedTime: article.display_date, // O una fecha de última modificación
@@ -40,7 +40,7 @@ export async function generateMetadata(
       images: ogImages,
     },
     alternates: { // URL Canónica
-        canonical: `/suesca-blog/${slugRaw}`, // Ajusta si tu ruta base es diferente
+        canonical: `https://www.destiplus.com/suesca-blog/${slugRaw}`, // Ajusta si tu ruta base es diferente
     }
   };
 }

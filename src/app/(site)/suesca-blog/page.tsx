@@ -13,7 +13,10 @@ export const metadata: Metadata = {
     description: 'Ideas, guías y secretos de Suesca, Sesquilé y los tesoros cerca de Bogotá. Encuentra inspiración para tu próximo viaje.',
     url: 'https://www.destiplus.com/suesca-blog',
     images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1737306298/x7txklnm5pjlbzsxedqv.jpg' }],
- },
+  },
+  alternates: {
+    canonical: 'https://www.destiplus.com/suesca-blog', // URL canónica específica para esta página
+  },
 };
 
 

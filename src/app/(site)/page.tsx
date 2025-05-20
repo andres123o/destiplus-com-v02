@@ -16,6 +16,9 @@ export const metadata: Metadata = {
      url: 'https://www.destiplus.com/',
      images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1734700730/vsgukkynidlmdmccxqhj.jpg' }],
   },
+  alternates: {
+    canonical: 'https://www.destiplus.com/', // URL canónica específica para esta página
+  },
   keywords: [
     'qué hacer en Suesca',
     'planes en Suesca',

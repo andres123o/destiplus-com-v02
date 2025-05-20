@@ -14,6 +14,9 @@ export const metadata = {
     url: 'https://www.destiplus.com/impactoAmbiental',
     images: [{ url: 'https://res.cloudinary.com/destinoplus/image/upload/v1742230984/kqun6wyxerltdimqbhpw.jpg' }],
  },
+  alternates: {
+    canonical: 'https://www.destiplus.com/impactoAmbiental', // URL canónica específica para esta página
+  },
  keywords: [
    'qué hacer en Suesca',
    'planes en Suesca',

@@ -59,8 +59,7 @@ export const metadata: Metadata = {
     languages: {
       'es-CO':'/',
       'en-US':'/en',
-    },
-    canonical: '/',
+    }
   },
   verification: {
     google: 'yIPkQrNZpAuX4Q4LtIMOSxLL5yHX6gZcartjrJa5Iq0'
