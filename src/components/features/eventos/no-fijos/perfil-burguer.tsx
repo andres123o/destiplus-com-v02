@@ -103,7 +103,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Pan artesanal, carne de res madurada, queso mozzarella, lechuga romana, mayonesa cítrica y un toque dulce de piña caramelizada.",
           specialIngredient: "Piña caramelizada",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.102700, "lng": -73.797749 }
         },
         {
           id: 2,
@@ -116,7 +116,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Una fusión única con carne de cerdo desmechada, queso cheddar, alioli de ajo rostizado y plátano maduro frito en forma de chips.",
           specialIngredient: "Plátano maduro frito",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.088006, "lng": -73.790932 }
         },
         {
           id: 3,
@@ -129,7 +129,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Carne de res en doble medallón, queso americano, cebolla caramelizada y una generosa capa de mermelada de tocineta.",
           specialIngredient: "Mermelada de tocineta",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.101383, "lng": -73.797573 }
         },
         {
           id: 4,
@@ -142,7 +142,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Para paladares osados: carne de cordero, rúgula fresca, cebolla morada crujiente y un potente queso azul que lo cambia todo.",
           specialIngredient: "Queso azul",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.104041, "lng": -73.800171 }
         },
         {
           id: 5,
@@ -155,7 +155,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Carne con especias, doble queso, totopos triturados, crema agria y un cremoso y picante guacamole con jalapeño.",
           specialIngredient: "Guacamole con jalapeño",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.102645, "lng": -73.798458 }
         },
         {
           id: 6,
@@ -168,7 +168,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Hamburguesa veggie con portobellos grillados, queso de cabra, reducción balsámica y servida en un pan de remolacha que roba miradas.",
           specialIngredient: "Pan de remolacha",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.102165, "lng": -73.799732 }
         },
         {
           id: 7,
@@ -181,7 +181,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Carne mixta (res y cerdo), cebollín, mayonesa de limón y un crocante e irresistible toque de chicharrón crocante.",
           specialIngredient: "Chicharrón crocante",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.103729, "lng": -73.800158 }
         },
         {
           id: 8,
@@ -194,7 +194,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Inspiración oriental: carne de wagyu, pepino encurtido, mayo sriracha y unos suaves aros de cebolla morada en tempura.",
           specialIngredient: "Aros de cebolla morada en tempura",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.103808, "lng": -73.799205 }
         },
         {
           id: 9,
@@ -207,7 +207,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Pechuga de pollo grillada, tomate confitado, queso provolone y un intenso pesto de albahaca que le da el alma al bocado.",
           specialIngredient: "Pesto de albahaca",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.102658, "lng": -73.798251 }
         },
         {
           id: 10,
@@ -220,7 +220,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Carne sellada en mantequilla, queso suizo, cebolla blanca salteada y unos aromáticos champiñones al vino tinto.",
           specialIngredient: "Champiñones al vino tinto",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.101043, "lng": -73.796932 }
         },
         {
           id: 11,
@@ -233,7 +233,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Clásica con sorpresa: carne de res jugosa, cheddar fundido, tocineta ahumada y un brillante huevo pochado encima.",
           specialIngredient: "Huevo pochado",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.102663, "lng": -73.799183 }
         },
         {
           id: 12,
@@ -246,7 +246,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Doble carne, queso pepper jack, vegetales asados y una atrevida salsa de maracuyá picante que te hace sudar.",
           specialIngredient: "Salsa de maracuyá picante",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.103711, "lng": -73.799553 }
         },
         {
           id: 13,
@@ -259,7 +259,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Inspiración dark: pulled pork jugoso, cebolla crispy y una intensa BBQ de café que potencia el sabor de principio a fin.",
           specialIngredient: "Pulled pork en BBQ de café",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.103480, "lng": -73.799466 }
         },
         {
           id: 14,
@@ -272,7 +272,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
           description: "Carne a la parrilla, queso costeño, lechuga fresca, cebolla crocante y el vibrante y exótico chutney de mango con habanero.",
           specialIngredient: "Chutney de mango con habanero",
           votes: 0,
-          location: { "lat": 5.100817, "lng": -73.799823 }
+          location: { "lat": 5.103129, "lng": -73.799425 }
         }
     ]);
 
