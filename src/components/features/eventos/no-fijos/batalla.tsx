@@ -427,7 +427,7 @@ const BurgerBattle = () => {
         </div>
         <div className='burger-battle-hero-title'>
           <h2>PROXIMAMENTE</h2>
-          <p>19 de Junio del 2025</p>
+          <p>Del 19 de JUN al 3 de JUL</p>
         </div>
       </div>
 
@@ -742,11 +742,6 @@ const BurgerBattle = () => {
 
         {/* Información de Contacto */}
         <div style={{ textAlign: 'center', fontSize: '13px', color: '#666', lineHeight: '1.6' }}>
-          <p style={{ margin: '5px 0' }}>
-            <i className="fas fa-phone" style={{ marginRight: '8px', color: '#fd5959' }}></i>
-            {/* Enlace telefónico */}
-            <a href="tel:+573192505218" style={{ color: '#666', textDecoration: 'none' }}>+57 319 2505218</a>
-          </p>
           <p style={{ margin: '5px 0' }}>
             <i className="fas fa-envelope" style={{ marginRight: '8px', color: '#fd5959' }}></i>
             {/* Enlace de correo */}
