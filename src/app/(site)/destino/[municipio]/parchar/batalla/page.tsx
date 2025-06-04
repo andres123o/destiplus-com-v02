@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import BurgerBattle from '@/components/features/eventos/no-fijos/batalla'; // Ajusta la ruta a donde guardaste tu componente
 
+export const revalidate = 0
 
 const municipio = 'Suesca'
 export const metadata: Metadata = {

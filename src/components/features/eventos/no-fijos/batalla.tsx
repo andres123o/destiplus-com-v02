@@ -402,7 +402,7 @@ const BurgerBattle = () => {
         <div className='burger-battle-hero-image'>
           <video
             ref={videoRef}
-            src="https://res.cloudinary.com/dmyq0gr14/video/upload/v1749004697/La_batalla_est%C3%A1_por_comenzar_14_establecimientos_15_d%C3%ADas_de_pura_competencia_gastron%C3%B3mica_y_m%C3%A1s_de_8.000_personas_dispuestas_a_vivir_la_experiencia._Desde_el_19_de_junio_hasta_el_3_de_juli_1_ekdrdx.mp4"
+            src="https://res.cloudinary.com/dmyq0gr14/video/upload/v1749073039/Se_acab%C3%B3_el_misterio_Ya_conocemos_los_ingredientes_secretos_que_deber%C3%A1n_usar_los_participantes_de_esta_tercera_edici%C3%B3n_de_Batalla_de_Hamburguesas_y_no_fueron_f%C3%A1ciles._%EF%B8%8F_Cada_establecimiento_tendr%C3%A1_eui4ta.mp4"
             controls={!showPlayButton}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             poster="https://res.cloudinary.com/destinoplus/image/upload/v1746721138/dcyghr6nulheihralqbg.jpg"
@@ -775,7 +775,7 @@ const BurgerBattle = () => {
             </button>
             <video
               ref={modalVideoRef} // Ref para el video del modal
-              src="https://res.cloudinary.com/dmyq0gr14/video/upload/v1745900948/La_batalla_est%C3%A1_por_comenzar_14_establecimientos_15_d%C3%ADas_de_pura_competencia_gastron%C3%B3mica_y_m%C3%A1s_de_8.000_personas_dispuestas_a_vivir_la_experiencia._Desde_el_19_de_junio_hasta_el_3_de_julio_en_Sues_siwnwj.mp4" // MISMA URL del video
+              src="https://res.cloudinary.com/dmyq0gr14/video/upload/v1749073039/Se_acab%C3%B3_el_misterio_Ya_conocemos_los_ingredientes_secretos_que_deber%C3%A1n_usar_los_participantes_de_esta_tercera_edici%C3%B3n_de_Batalla_de_Hamburguesas_y_no_fueron_f%C3%A1ciles._%EF%B8%8F_Cada_establecimiento_tendr%C3%A1_eui4ta.mp4" // MISMA URL del video
               controls // <-- ¡IMPORTANTE! Añade los controles nativos
               autoPlay // <-- Para que empiece al abrir el modal
               playsInline // Buena práctica
