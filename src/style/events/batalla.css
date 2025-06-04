@@ -76,25 +76,24 @@ body {
 }
 
 .burger-battle-hero-image {
+  position: relative;
   width: 100%;
   max-width: 400px;
   height: 390px;
-  position: relative;
-  z-index: 2;
   border-radius: 20px;
   overflow: hidden;
   margin: 0 auto;
-  background-color: #000; /* Fondo negro para el contenedor */
+  background-color: #000;
 }
 
 .burger-battle-hero-image video {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
-  object-position: center;
-  display: block; /* Asegura que el video sea un bloque */
-  background-color: #000; /* Fondo negro para el video */
+  background-color: #000;
+  z-index: 1;
 }
 
 .hero-logo {
@@ -1403,8 +1402,8 @@ body {
   justify-content: center;
   transition: all 0.3s ease;
   color: white;
-  width: 70px; /* Tamaño fijo para el botón */
-  height: 70px; /* Tamaño fijo para el botón */
+  width: 70px;
+  height: 70px;
 }
 
 .hero-play-button:hover {
@@ -1841,4 +1840,48 @@ body {
         width: 28px;
         height: 28px;
     }
+}
+
+/* Estilos para el estado de carga del video */
+.video-loading-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.video-loading-placeholder .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
+}
+
+/* Estilos para el estado de error del video */
+.video-error-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.video-error-fallback img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
 }
