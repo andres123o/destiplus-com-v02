@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import {  Loader2  } from 'lucide-react'; // Iconos Lucide
+import { Loader2, Star } from 'lucide-react'; // Iconos Lucide
 
 interface Participant {
     id: number;
@@ -42,7 +42,8 @@ const VotingModal: React.FC<VotingModalProps> = ({ isOpen, onClose, burger, onSu
   // Estados del formulario
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
-  const [rating, setRating] = useState(''); // Se mantiene como string para el input type="number"
+  const [rating, setRating] = useState<number>(0); // Cambiado a number para las estrellas
+  const [hoveredStar, setHoveredStar] = useState<number>(0); // Para el efecto hover
   const [recommendations, setRecommendations] = useState('');
   const [origin, setOrigin] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,7 +54,7 @@ const VotingModal: React.FC<VotingModalProps> = ({ isOpen, onClose, burger, onSu
     if (!isOpen) {
       setEmail('');
       setFullName('');
-      setRating('');
+      setRating(0);
       setRecommendations('');
       setOrigin('');
       setIsSubmitting(false);
@@ -69,26 +70,27 @@ const VotingModal: React.FC<VotingModalProps> = ({ isOpen, onClose, burger, onSu
   // Manejador del envío del formulario
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setFormError(null); // Limpiar error previo
+    setFormError(null);
 
-    // Validación simple (puedes añadir más)
-    const numericRating = parseInt(rating, 10);
-    if (isNaN(numericRating) || numericRating < 1 || numericRating > 10) {
-        setFormError("La calificación debe ser un número entre 1 y 10.");
+    // Validación de rating (ahora es un número directamente)
+    if (rating < 1 || rating > 10) {
+        setFormError("Por favor, selecciona una calificación entre 1 y 10 estrellas.");
         return;
     }
 
-    setIsSubmitting(true); // Deshabilita botón
+    setIsSubmitting(true);
 
+    // Construir el objeto de voto con los datos del formulario
     const voteData: VotePayload = {
+      burger_id: burger.id,
+      rating: rating, // Rating is already a number 1-10
       email: email,
       full_name: fullName,
-      rating: numericRating,
-      recommendations: recommendations || null, // Enviar null si está vacío
-      origin: origin || null, // Enviar null si está vacío
+      // Asegurar que 'recommendations' y 'origin' no estén vacíos
+      recommendations: recommendations.trim() === '' ? 'vacio' : recommendations,
+      origin: origin.trim() === '' ? 'vacio' : origin,
       burger_name: burger.name,
       restaurant_name: burger.restaurant,
-      burger_id: burger.id
     };
 
     try {
@@ -109,8 +111,15 @@ const VotingModal: React.FC<VotingModalProps> = ({ isOpen, onClose, burger, onSu
     }
   };
 
-  // Clic en overlay (igual)
-  const handleOverlayClick = () => { if (!isSubmitting) onClose(); };
+  // Prevent modal closing while submitting
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (isSubmitting) {
+      e.stopPropagation();
+    } else {
+      onClose();
+    }
+  };
+
   const handleContentClick = (e: React.MouseEvent) => { e.stopPropagation(); };
 
   return (
@@ -133,10 +142,43 @@ const VotingModal: React.FC<VotingModalProps> = ({ isOpen, onClose, burger, onSu
             <label htmlFor="fullName-vote" className="modal-label">Nombre y Apellidos:</label>
             <input type="text" id="fullName-vote" className="modal-input" value={fullName} onChange={(e) => setFullName(e.target.value)} required disabled={isSubmitting} />
           </div>
-          {/* Campo Calificación */}
-          <div className="modal-form-group">
-            <label htmlFor="rating-vote" className="modal-label">Calificación (1-10):</label>
-            <input type="number" id="rating-vote" className="modal-input" value={rating} onChange={(e) => setRating(e.target.value)} min="1" max="10" required disabled={isSubmitting} />
+          {/* Campo Calificación con Estrellas Mejorado */}
+          <div className="modal-form-group rating-group">
+            <label className="modal-label rating-label">
+              Calificación <span className="required">*</span>
+            </label>
+            <div className="star-rating-container">
+              <div className="star-rating">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setRating(star)}
+                    onMouseEnter={() => setHoveredStar(star)}
+                    onMouseLeave={() => setHoveredStar(0)}
+                    disabled={isSubmitting}
+                    className="star-button"
+                    aria-label={`Calificar con ${star} ${star === 1 ? 'estrella' : 'estrellas'}`}
+                  >
+                    <Star
+                      size={24}
+                      className={`star-icon ${
+                        star <= (hoveredStar || rating)
+                          ? 'star-filled'
+                          : 'star-empty'
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+              {rating > 0 && (
+                <div className="rating-feedback">
+                  <span className="rating-text">
+                    {rating} {rating === 1 ? 'estrella' : 'estrellas'}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
           {/* Campo Recomendaciones */}
           <div className="modal-form-group">
@@ -153,8 +195,19 @@ const VotingModal: React.FC<VotingModalProps> = ({ isOpen, onClose, burger, onSu
           {formError && <p className="form-message error" style={{textAlign: 'center', marginTop: '-10px', marginBottom: '15px'}}>{formError}</p>}
 
           {/* Botón Enviar */}
-          <button type="submit" className="modal-submit-btn" disabled={isSubmitting}>
-            {isSubmitting ? (<><Loader2 className="animate-spin" size={18} /> Enviando...</>) : 'Enviar Voto'}
+          <button 
+            type="submit" 
+            className="modal-submit-btn" 
+            disabled={isSubmitting || rating === 0}
+          >
+            {isSubmitting ? (
+                <>
+                    <Loader2 className="animate-spin" size={18} /> 
+                    Enviando...
+                </>
+            ) : (
+                'Enviar Voto'
+            )}
           </button>
         </form>
       </div>

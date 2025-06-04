@@ -85,6 +85,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
         price: number;
         description: string;
         specialIngredient: string;
+        ingrediente_img: string;
         votes: number;
         location: {
           lat: number;
@@ -94,183 +95,197 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
     const [participants] = useState<Participant[]>([
         {
           id: 1,
-          name: "La Tropical Smash",
+          name: "Terraza",
           restaurant: "Terraza",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg", // Cloudinary Public ID
-          logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721281/wmz2sj60iuvl8eswhzdz.jpg", // Cloudinary Public ID
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056160/puzcgyebo8lqaqpyjmkf.jpg",
+          logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721281/wmz2sj60iuvl8eswhzdz.jpg",
           visitors: 46,
           price: 16000,
-          description: "Pan artesanal, carne de res madurada, queso mozzarella, lechuga romana, mayonesa cítrica y un toque dulce de piña caramelizada.",
-          specialIngredient: "Piña caramelizada",
+          description: "Terraza es una hamburguesa jugosa y deliciosa, con carne de res tierna, cocida al carbón y servida en un pan suave y fresco. La carne está acompañada de una reducción de uchuva, tocineta y whisky, salsas cremosas y pepinillos, que aportan un toque crujiente y ácido, y un queso derretido que une todos los sabores. Cada bocado es una experiencia de sabores y texturas que te hará querer más.",
+          specialIngredient: "Uchuva",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721196/objrw7w5mc5zxjxic22m.jpg",
           votes: 0,
           location: { "lat": 5.102700, "lng": -73.797749 }
         },
         {
           id: 2,
-          name: "Madurita Rebelde",
+          name: "La Gloria",
           restaurant: "Cacique Burguer",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055031/wanllxqb4v4oytbx3khq.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721515/kdennvrlqzyd0lrmuec3.jpg",
           visitors: 38,
           price: 16000,
-          description: "Una fusión única con carne de cerdo desmechada, queso cheddar, alioli de ajo rostizado y plátano maduro frito en forma de chips.",
-          specialIngredient: "Plátano maduro frito",
+          description: "!Oh, la gloria echa hamburguesa! Imagina un lecho dorado de pan brioche con semillas de chía abrazando una joya de carne 100% de res moldeada con amor y lista para liberar sus jugos acompañada de una tajada de queso blanco doble crema, sobre ella, la frescura vibrante de los vegetales danza en armonía con la dulzura intrigante de una mermelada de pimentón, un toque agri dulce que despierta los sentidos. Y para culminar esta sinfonía de sabores, la tocineta ahumada cruje con su promesa salada mientras que el jamón añade una capa extra de indulgencia. !Cada mordisco es una explosión de texturas y sabores que te harán suspirar de puro placer.",
+          specialIngredient: "Pimentón",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721699/bhusfj2a0kgxahvcsajo.jpg",
           votes: 0,
           location: { "lat": 5.088006, "lng": -73.790932 }
         },
         {
           id: 3,
-          name: "Bacon Jam",
+          name: "Deep Purple",
           restaurant: "Arca Rock",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056258/dgg8felik5fgvxqa2vbt.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721490/zqbrxrfk5n59t1zkbkxo.jpg",
           visitors: 52,
           price: 16000,
-          description: "Carne de res en doble medallón, queso americano, cebolla caramelizada y una generosa capa de mermelada de tocineta.",
-          specialIngredient: "Mermelada de tocineta",
+          description: "La estrella indiscutible del escenario. Una sinfonía de sabores que arranca con un riff de umami y termina en un solo de sabor inolvidable. La DEEP PURPLE no es solo una hamburguesa: es una experiencia sensorial. Carne jugosa y perfectamente sazonada, con notas profundas gracias a su preparación con tintes de vino tinto. La acompaña un repollo morado salteado en salsa bordelesa, fusión de dulzura y carácter. Doble golpe de sabor con mozzarella cremosa y cheddar fundido, coronados con un crocante de jamón de cerdo bañado en una intensa salsa bourguignonne. Cada bocado es una balada eléctrica para tu paladar: audaz, elegante y absolutamente inolvidable. Solo apta para quienes sienten el sabor en estereo y viven la vida a todo volumen.",
+          specialIngredient: "Vino",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721890/myrvnj9krtumlye1fx3g.jpg",
           votes: 0,
           location: { "lat": 5.101383, "lng": -73.797573 }
         },
         {
           id: 4,
-          name: "Blue Beast",
+          name: "Fuera de Serie",
           restaurant: "Lo Nuestro",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056750/szhhck2etj0wape71z26.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721854/mj7ew6hjdv24wqsp3rnh.jpg",
           visitors: 61,
           price: 16000,
-          description: "Para paladares osados: carne de cordero, rúgula fresca, cebolla morada crujiente y un potente queso azul que lo cambia todo.",
-          specialIngredient: "Queso azul",
+          description: "Fuera de serie es una hamburguesa gourmet que desafía los límites del sabor, con una base fresca de vegetales que aportan textura y un toque natural, acompañados de un glaceado de maracuyá que equilibra con su dulce acidez tropical. Su Carne es 100% artesanal sazonada con especias secretas, cocinada al grill y al punto perfecto para mantener su jugosidad, sobre esta trocitos de bacon salteados con una deliciosa crema de whisky, que añade un contraste seductor entre lo salado y el destilado, finalmente un puñado de papas crocantes tipo fosforito aportando un crunch irresistible en cada bocado. Todo esto dentro de un pan artesanal suave, con esencia de maracuyá, que une todos los sabores y aromas en un abrazo dulce y esponjoso. Una explosión de texturas y sabores donde lo fresco, lo ahumado, lo tropical y lo crocante se fusionan en una experiencia gastronómica única.",
+          specialIngredient: "Maracuyá",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721728/ebhsjyltwpdgv0e8fvap.jpg",
           votes: 0,
           location: { "lat": 5.104041, "lng": -73.800171 }
         },
         {
           id: 5,
-          name: "La Mexa Boom",
+          name: "La Conquistadora",
           restaurant: "Texas Burguer",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055248/on6j3bt24o9nlmunnwwk.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721792/udbn3mgoaero4yy4vlir.jpg",
           visitors: 46,
           price: 16000,
-          description: "Carne con especias, doble queso, totopos triturados, crema agria y un cremoso y picante guacamole con jalapeño.",
-          specialIngredient: "Guacamole con jalapeño",
+          description: "La Conquistadora no es una hamburguesa cualquiera. Es el trabajo apasionado de almas que viven la gastronomía y la ganadería como un arte, que han unido su experiencia para crear una receta que enamore, su carne jugosa, marcada por el fuego como una insignia de honor. La acompaña una sinfonía de sabores: salsas cuidadosamente elaboradas, ingredientes frescos y seleccionados, y un pan de maíz artesanal que envuelve cada bocado como una armadura dorada. Es una hamburguesa hecha para conquistar paladares exigentes y corazones valientes. No llega sola: llega con historia, con alma y mucho amor.",
+          specialIngredient: "Maíz",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721750/plwj2bncidaixtnkdtoq.jpg",
           votes: 0,
           location: { "lat": 5.102645, "lng": -73.798458 }
         },
         {
           id: 6,
-          name: "La Beet Queen",
+          name: "La Guerrera de Lulo",
           restaurant: "Crucero",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056345/qbuma5fjob1nzlxzbanw.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721472/o673xcuzwhloip00sakf.jpg",
           visitors: 38,
           price: 16000,
-          description: "Hamburguesa veggie con portobellos grillados, queso de cabra, reducción balsámica y servida en un pan de remolacha que roba miradas.",
-          specialIngredient: "Pan de remolacha",
+          description: "En el corazón de Suesca nace una fusión inesperada y brutal: La Guerrera de Lulo, una hamburguesa que desafía lo común con el sabor tropical del lulo. Mezclamos lo mejor del campo para crear una experiencia única: carne jugosa, crocancia explosiva y una salsa artesanal de lulo con toques cítricos y dulces que remata cada bocado. Es más que una hamburguesa: es un homenaje a nuestras raíces, a la vereda, al sabor rebelde y auténtico que solo CRUCERO sabe entregar.",
+          specialIngredient: "Lulo",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721768/bi8g1njgzaeeixqjfkbg.jpg",
           votes: 0,
           location: { "lat": 5.102165, "lng": -73.799732 }
         },
         {
           id: 7,
-          name: "Crunch Pork Burger",
+          name: "La Vikinga",
           restaurant: "Villa Hamburguesa",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055560/quxsz5idifv0sckmbzum.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721379/wh1gymjaeuhz2hlfg73j.jpg",
           visitors: 52,
           price: 16000,
-          description: "Carne mixta (res y cerdo), cebollín, mayonesa de limón y un crocante e irresistible toque de chicharrón crocante.",
-          specialIngredient: "Chicharrón crocante",
+          description: "Una hamburguesa indomable, inspirada en los banquetes nórdicos. Carne jugosa a la plancha,, coronada con salsa de champiñones salteados en mantequilla, ajo, cebolla y vino blanco , con un toque de tomate confitado con albahaca. Todo esto entre pan artesanal rústico en forma de dona, dorado como escudo de guerra. La Vikinga no se come. Se conquista.",
+          specialIngredient: "Champiñones",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721872/mzrzi5mc2rtvyg6atfz8.jpg",
           votes: 0,
           location: { "lat": 5.103729, "lng": -73.800158 }
         },
         {
           id: 8,
-          name: "La Samurai Rosa",
+          name: "La Ahumadita",
           restaurant: "Don Toño",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056695/zeiurbncwoh3hi2keiml.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721357/smnu6jofmm3d86fjgmyx.jpg",
           visitors: 61,
           price: 16000,
-          description: "Inspiración oriental: carne de wagyu, pepino encurtido, mayo sriracha y unos suaves aros de cebolla morada en tempura.",
-          specialIngredient: "Aros de cebolla morada en tempura",
+          description: "Don toño ahumados es un lugar en el parque principal de suesca, un lugar especial, en donde el ahumado es el protagonista, no comparable, un espacio original. Nuestra hamburguesa con toques ahumados esta creada para combinarse con los demás ingredientes y fascinar en el paladar!.",
+          specialIngredient: "Maduro",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721239/whhfvamkyuhonw6sun5h.png",
           votes: 0,
           location: { "lat": 5.103808, "lng": -73.799205 }
         },
         {
           id: 9,
-          name: "Verde Letal",
+          name: "La Bendita",
           restaurant: "Palo Santo",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056612/vdasiay9bz559v51vkcv.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721330/cyw08ddfvmlhmqosarn2.jpg",
           visitors: 46,
           price: 16000,
-          description: "Pechuga de pollo grillada, tomate confitado, queso provolone y un intenso pesto de albahaca que le da el alma al bocado.",
-          specialIngredient: "Pesto de albahaca",
+          description: "La Bendita es una hamburguesa que desafía lo convencional y eleva el sabor a un nivel celestial. Su base de carne artesanal se combina con el toque jugoso del cerdo y la frescura de la espinaca, tomate y cebolla, creando una armonía perfecta. La salsa de la casa, con su receta secreta, realza cada bocado con una explosión de sabor único. Pero el toque definitivo lo aporta la deliciosa piña, que con su dulzura tropical transforma cada mordisco en una experiencia inolvidable. La Bendita no es solo una hamburguesa, es una revelación de sabor que te hará volver por más.",
+          specialIngredient: "Piña",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721654/m0cw2ywnawexacirax7l.jpg",
           votes: 0,
           location: { "lat": 5.102658, "lng": -73.798251 }
         },
         {
           id: 10,
-          name: "La Vintagemelt",
+          name: "Mango Breeze",
           restaurant: "Amore Pizza",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056435/rtinbovb7o8udqwrqcxr.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721782/gordtfirjpujbiait6ur.jpg",
           visitors: 38,
           price: 16000,
-          description: "Carne sellada en mantequilla, queso suizo, cebolla blanca salteada y unos aromáticos champiñones al vino tinto.",
-          specialIngredient: "Champiñones al vino tinto",
+          description: "Al primer bocado, la suavidad del pan brioche se combina con la jugosidad de la carne artesanal, el queso fundido añade una cremosidad irresistible, mientras que la tocineta crujiente aporta un toque salado y textura. Las cebollas caramelizadas ofrecen una dulzura equilibrada y la mermelada de mango y plátano sorprende con un contraste exótico, la lechuga y el tomate añaden frescura y equilibrio, haciendo de cada bocado una experiencia única.",
+          specialIngredient: "Mango",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721739/fbypmbs101nd6vx7f8s9.jpg",
           votes: 0,
           location: { "lat": 5.101043, "lng": -73.796932 }
         },
         {
           id: 11,
-          name: "Golden Yolk",
+          name: "Craff Burger",
           restaurant: "La Parrilla de Juancho",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055827/gx3ogqvi3czw6p9vpezw.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721305/fjshp3eytuvai3z48ogy.jpg",
           visitors: 52,
           price: 16000,
-          description: "Clásica con sorpresa: carne de res jugosa, cheddar fundido, tocineta ahumada y un brillante huevo pochado encima.",
-          specialIngredient: "Huevo pochado",
+          description: "La llamamos Craft Burger, como un tributo a lo hecho con las manos, con el alma y en familia.",
+          specialIngredient: "Naranja",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721721/bwlpafhrwhwo2mky7qic.jpg",
           votes: 0,
           location: { "lat": 5.102663, "lng": -73.799183 }
         },
         {
           id: 12,
-          name: "Maracupicante",
+          name: "La Crazy Crunch",
           restaurant: "Dorilocos La Roca",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056508/rv7h14gyt2xtr6j9xbe6.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721424/zzbgw6xporkrjbcflsrj.jpg",
           visitors: 61,
           price: 16000,
-          description: "Doble carne, queso pepper jack, vegetales asados y una atrevida salsa de maracuyá picante que te hace sudar.",
-          specialIngredient: "Salsa de maracuyá picante",
+          description: "Una locura entre panes. La hamburguesa CraziCrunch es una bomba de sabor que no pide permiso: 140g de carne artesanal jugosa, queso cheddar fundido, tocineta crujiente, deditos de chorizo dorados a la plancha, cebolla crispy con toque dulce, lechuga crespa y tomate fresco. Todo coronado con nuestra salsa secreta de la casa y abrazado por un pan brioche dorado con mantequilla de café. Una experiencia intensa, crujiente y adictiva.¡Es calle, es sabor, es CraziCrunch!",
+          specialIngredient: "Café",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721883/a5dcubjkpreoopefldvh.jpg",
           votes: 0,
           location: { "lat": 5.103711, "lng": -73.799553 }
         },
         {
           id: 13,
-          name: "Café & Fuego Burger",
+          name: "La Cumbambeña",
           restaurant: "Cumbamba",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055729/udgoytef8zrlyfd5qfok.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721401/bxyumnz1bwmuqllbwpat.jpg",
           visitors: 46,
           price: 16000,
-          description: "Inspiración dark: pulled pork jugoso, cebolla crispy y una intensa BBQ de café que potencia el sabor de principio a fin.",
-          specialIngredient: "Pulled pork en BBQ de café",
+          description: "Para este 2025 nuestra hamburguesa la favorita de la casa, resalta la magia del sabor de nuestra Jugosa carne de hamburguesa artesanal bañada en una suave salsa de panela hecha cocada que resalta los sabores intensos de la manzana y el tocino serrano en un suave pan de mantequilla llevándonos a disfrutar de sabores únicos y atrevidos",
+          specialIngredient: "Panela",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721712/l01hsxxropvcka9zqpgm.jpg",
           votes: 0,
           location: { "lat": 5.103480, "lng": -73.799466 }
         },
         {
           id: 14,
-          name: "La Tropical Inferno",
+          name: "La Oriental",
           restaurant: "Monopizza Gourmet",
-          image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+          image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055364/cjcsaoyxx5grvyrtytm6.jpg",
           logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721802/kjwd5jreolrrpcpzturq.jpg",
           visitors: 38,
           price: 16000,
-          description: "Carne a la parrilla, queso costeño, lechuga fresca, cebolla crocante y el vibrante y exótico chutney de mango con habanero.",
-          specialIngredient: "Chutney de mango con habanero",
+          description: "Una hamburguesa innovadora y llena de sabores, con carne de res servida en pan de la casa. Vegetales que aportan frescura, mientras que la reducción de frutos rojos en aguardiente agrega un toque dulce y sofisticado. La cebolla caramelizada añade un sabor profundo y la carne mixta picada al estilo shawarma aporta un toque exótico y especiado. Una explosión de sabores en cada mordisco.",
+          specialIngredient: "Frutos rojos",
+          ingrediente_img: "https://res.cloudinary.com/destinoplus/image/upload/v1746721842/cmdj69unvqqruoqeuo4i.jpg",
           votes: 0,
           location: { "lat": 5.103129, "lng": -73.799425 }
         }
@@ -288,8 +303,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
     const [submitSuccess, setSubmitSuccess] = useState('');
     const [showNotificationModal, setShowNotificationModal] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
-
-
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     // Efecto para encontrar la hamburguesa actual y verificar voto local
     useEffect(() => {
@@ -351,7 +365,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
 
     // --- HANDLERS ---
 
-    const handleGoBack = () => router.back();
+    const handleGoBack = () => router.push('https://www.destiplus.com/destino/Suesca/parchar/batalla');
 
     const handleShare = () => {
         if (!burgerData) return;
@@ -460,7 +474,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
     );
     };
 
-    const handleActualSubmitVote = async (voteData: { rating: number }) => { // Simplificado, asume que el modal pasa el rating
+    const handleActualSubmitVote = async (voteData: { rating: number }) => {
         if (!burgerData) return;
         const payload: VotePayload = {
             burger_id: burgerData.id,
@@ -470,34 +484,30 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
         console.log('Enviando voto:', payload);
         try {
             const response = await axios.post(
-              `${API_BASE_URL}/votes/batalla`,
-              voteData, // El objeto de datos va directamente como segundo argumento
-              {
-                  headers: {
-                      'Content-Type': 'application/json',
-                      // Otros headers si son necesarios
-                  }
-              }
+                `${API_BASE_URL}/votes/batalla`,
+                voteData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
             );
-      
-            if (response.status === 201) { // Específicamente 201 Creado
-              console.log('Voto creado:', response.data);
-              setIsModalOpen(false);
-              setSubmitSuccess("¡Gracias por tu voto!");
-              setVoteCount(prevCount => (prevCount !== null ? prevCount + 1 : 1));
-              const votedKey = `voted_burger_${burgerData.id}`;
-              localStorage.setItem(votedKey, 'true');
-              setHasVotedLocally(true);
+
+            if (response.status === 201) {
+                console.log('Voto creado:', response.data);
+                setIsModalOpen(false);
+                setSubmitSuccess("¡Gracias por tu voto!");
+                setVoteCount(prevCount => (prevCount !== null ? prevCount + 1 : 1));
+                const votedKey = `voted_burger_${burgerData.id}`;
+                localStorage.setItem(votedKey, 'true');
+                setHasVotedLocally(true);
+                // Mostrar el modal de éxito
+                setShowSuccessModal(true);
             } else {
-               // Esto no debería ocurrir normalmente con axios si el status es 2xx,
-               // pero lo dejamos por si acaso o si la API devuelve 200 en lugar de 201.
-               console.warn("Respuesta inesperada con status 2xx:", response);
-               // Tratar como éxito de todas formas?
-               setIsModalOpen(false);
-               // ... manejar como éxito ...
+                console.warn("Respuesta inesperada con status 2xx:", response);
+                setIsModalOpen(false);
             }
-      
-          } catch (error) {
+        } catch (error) {
             console.error('Error al enviar el voto (axios):', error);
             setIsModalOpen(false);
       
@@ -524,7 +534,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
                 userMessage = 'Ocurrió un error inesperado';
             }
             setSubmitError(userMessage);
-          }
+        }
     };
 
     // --- RENDERIZADO ---
@@ -572,9 +582,47 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
                         <span>{isLoadingCount ? '...' : (voteCount ?? 0)} Votos</span>
                     </div>
                     {burgerData.specialIngredient && (
-                        <div className="burger-profile-special-tag">
-                            <Sparkles size={16} className='sparkle-icon' />
-                            <span>{burgerData.specialIngredient}</span>
+                        <div className="burger-profile-special-tag" style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            padding: '12px 16px',
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            borderRadius: '12px',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                            marginTop: '16px'
+                        }}>
+                            <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '12px',
+                                flex: 1
+                            }}>
+                                <CldImage
+                                    src={burgerData.ingrediente_img}
+                                    alt={burgerData.specialIngredient}
+                                    width={48}
+                                    height={48}
+                                    style={{ 
+                                        objectFit: 'contain', 
+                                    }}
+                                />
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span style={{ 
+                                        fontSize: '0.85rem', 
+                                        color: '#666',
+                                        fontWeight: 500,
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.5px'
+                                    }}>Ingrediente Secreto</span>
+                                    <span style={{ 
+                                        fontSize: '1.1rem', 
+                                        color: '#333',
+                                        fontWeight: 600,
+                                        marginTop: '2px'
+                                    }}>{burgerData.specialIngredient}</span>
+                                </div>
+                            </div>
                         </div>
                     )}
                      <div className="burger-profile-price-votes-area">
@@ -629,6 +677,76 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
                 onClose={() => setShowNotificationModal(false)}
                 type={submitError ? "error" : "success"}
             />
+
+            {/* Modal de Éxito */}
+            {showSuccessModal && (
+                <div className="voting-modal-overlay" onClick={() => setShowSuccessModal(false)}>
+                    <div className="voting-modal-content success-modal" onClick={e => e.stopPropagation()}>
+                        <button className="modal-close-btn" onClick={() => setShowSuccessModal(false)}>&times;</button>
+                        <div style={{ textAlign: 'center', padding: '20px' }}>
+                            <h3 style={{ 
+                                fontSize: '24px', 
+                                color: '#B71C1C', 
+                                marginBottom: '15px',
+                                fontFamily: 'Bebas Neue, sans-serif'
+                            }}>
+                                ¡Voto Registrado!
+                            </h3>
+                            <p style={{ 
+                                fontSize: '16px', 
+                                color: '#666', 
+                                marginBottom: '25px',
+                                lineHeight: '1.5'
+                            }}>
+                                Gracias por participar en la Batalla de Hamburguesas de Suesca.
+                            </p>
+                            <div style={{ 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                gap: '12px',
+                                marginTop: '20px'
+                            }}>
+                                <a 
+                                    href="https://www.destiplus.com/destino/Suesca/parchar/batalla"
+                                    className="modal-action-link"
+                                    style={{
+                                        display: 'block',
+                                        padding: '12px 20px',
+                                        backgroundColor: '#B71C1C',
+                                        color: 'white',
+                                        borderRadius: '8px',
+                                        textDecoration: 'none',
+                                        fontWeight: '600',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                    onMouseOver={e => e.currentTarget.style.backgroundColor = '#9f1818'}
+                                    onMouseOut={e => e.currentTarget.style.backgroundColor = '#B71C1C'}
+                                >
+                                    Descubre más hamburguesas
+                                </a>
+                                <a 
+                                    href="https://www.destiplus.com/"
+                                    className="modal-action-link"
+                                    style={{
+                                        display: 'block',
+                                        padding: '12px 20px',
+                                        backgroundColor: '#f5f5f5',
+                                        color: '#333',
+                                        borderRadius: '8px',
+                                        textDecoration: 'none',
+                                        fontWeight: '600',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                    onMouseOver={e => e.currentTarget.style.backgroundColor = '#e5e5e5'}
+                                    onMouseOut={e => e.currentTarget.style.backgroundColor = '#f5f5f5'}
+                                >
+                                    Explora más de Suesca
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

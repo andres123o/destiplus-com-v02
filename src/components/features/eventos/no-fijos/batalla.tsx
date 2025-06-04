@@ -40,9 +40,9 @@ const BurgerBattle = () => {
   const [participants] = useState<Participant[]>([
     {
       id: 1,
-      name: "La Tropical Smash",
+      name: "Terraza",
       restaurant: "Terraza",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg", // Cloudinary Public ID
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056160/puzcgyebo8lqaqpyjmkf.jpg", // Cloudinary Public ID
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721281/wmz2sj60iuvl8eswhzdz.jpg", // Cloudinary Public ID
       visitors: 46,
       price: 16000,
@@ -53,9 +53,9 @@ const BurgerBattle = () => {
     },
     {
       id: 2,
-      name: "Madurita Rebelde",
+      name: "La Gloria",
       restaurant: "Cacique Burguer",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055031/wanllxqb4v4oytbx3khq.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721515/kdennvrlqzyd0lrmuec3.jpg",
       visitors: 38,
       price: 16000,
@@ -66,9 +66,9 @@ const BurgerBattle = () => {
     },
     {
       id: 3,
-      name: "Bacon Jam",
+      name: "Deep Purple",
       restaurant: "Arca Rock",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056258/dgg8felik5fgvxqa2vbt.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721490/zqbrxrfk5n59t1zkbkxo.jpg",
       visitors: 52,
       price: 16000,
@@ -79,9 +79,9 @@ const BurgerBattle = () => {
     },
     {
       id: 4,
-      name: "Blue Beast",
+      name: "Fuera de Serie",
       restaurant: "Lo Nuestro",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056750/szhhck2etj0wape71z26.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721854/mj7ew6hjdv24wqsp3rnh.jpg",
       visitors: 61,
       price: 16000,
@@ -92,22 +92,22 @@ const BurgerBattle = () => {
     },
     {
       id: 5,
-      name: "La Mexa Boom",
+      name: "La Conquistadora",
       restaurant: "Texas Burguer",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055248/on6j3bt24o9nlmunnwwk.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721792/udbn3mgoaero4yy4vlir.jpg",
-      visitors: 46,
+      visitors: 0,
       price: 16000,
-      description: "Carne con especias, doble queso, totopos triturados, crema agria y un cremoso y picante guacamole con jalapeño.",
-      specialIngredient: "Guacamole con jalapeño",
+      description: "",
+      specialIngredient: "Maiz",
       votes: 0,
       location: { "lat": 5.100817, "lng": -73.799823 }
     },
     {
       id: 6,
-      name: "La Beet Queen",
+      name: "La Guerrera de Lulo",
       restaurant: "Crucero",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056345/qbuma5fjob1nzlxzbanw.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721472/o673xcuzwhloip00sakf.jpg",
       visitors: 38,
       price: 16000,
@@ -118,9 +118,9 @@ const BurgerBattle = () => {
     },
     {
       id: 7,
-      name: "Crunch Pork Burger",
+      name: "La Vikinga",
       restaurant: "Villa Hamburguesa",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055560/quxsz5idifv0sckmbzum.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721379/wh1gymjaeuhz2hlfg73j.jpg",
       visitors: 52,
       price: 16000,
@@ -131,22 +131,22 @@ const BurgerBattle = () => {
     },
     {
       id: 8,
-      name: "La Samurai Rosa",
+      name: "La Ahumadita",
       restaurant: "Don Toño",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056695/zeiurbncwoh3hi2keiml.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721357/smnu6jofmm3d86fjgmyx.jpg",
-      visitors: 61,
+      visitors: 0,
       price: 16000,
-      description: "Inspiración oriental: carne de wagyu, pepino encurtido, mayo sriracha y unos suaves aros de cebolla morada en tempura.",
-      specialIngredient: "Aros de cebolla morada en tempura",
+      description: "Don toño ahumados es un lugar en el parque principal de suesca, un lugar especial, en donde el ahumado es el protagonista, no comparable, un espacio original. Nuestra hamburguesa con toques ahumados esta creada para combinarse con los demás ingredientes y fascinar en el paladar!!!",
+      specialIngredient: "Maduro",
       votes: 0,
       location: { "lat": 5.100817, "lng": -73.799823 }
     },
     {
       id: 9,
-      name: "Verde Letal",
+      name: "La Bendita",
       restaurant: "Palo Santo",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056612/vdasiay9bz559v51vkcv.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721330/cyw08ddfvmlhmqosarn2.jpg",
       visitors: 46,
       price: 16000,
@@ -157,9 +157,9 @@ const BurgerBattle = () => {
     },
     {
       id: 10,
-      name: "La Vintagemelt",
+      name: "Mango breeze",
       restaurant: "Amore Pizza",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056435/rtinbovb7o8udqwrqcxr.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721782/gordtfirjpujbiait6ur.jpg",
       visitors: 38,
       price: 16000,
@@ -170,11 +170,11 @@ const BurgerBattle = () => {
     },
     {
       id: 11,
-      name: "Golden Yolk",
+      name: "Craff Burger",
       restaurant: "La Parrilla de Juancho",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055827/gx3ogqvi3czw6p9vpezw.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721305/fjshp3eytuvai3z48ogy.jpg",
-      visitors: 52,
+      visitors: 95,
       price: 16000,
       description: "Clásica con sorpresa: carne de res jugosa, cheddar fundido, tocineta ahumada y un brillante huevo pochado encima.",
       specialIngredient: "Huevo pochado",
@@ -183,9 +183,9 @@ const BurgerBattle = () => {
     },
     {
       id: 12,
-      name: "Maracupicante",
+      name: "La Crazy Crunch",
       restaurant: "Dorilocos La Roca",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749056508/rv7h14gyt2xtr6j9xbe6.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721424/zzbgw6xporkrjbcflsrj.jpg",
       visitors: 61,
       price: 16000,
@@ -196,9 +196,9 @@ const BurgerBattle = () => {
     },
     {
       id: 13,
-      name: "Café & Fuego Burger",
+      name: "La Cumbambeña",
       restaurant: "Cumbamba",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055729/udgoytef8zrlyfd5qfok.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721401/bxyumnz1bwmuqllbwpat.jpg",
       visitors: 46,
       price: 16000,
@@ -209,9 +209,9 @@ const BurgerBattle = () => {
     },
     {
       id: 14,
-      name: "La Tropical Inferno",
+      name: "La Oriental",
       restaurant: "Monopizza Gourmet",
-      image: "https://res.cloudinary.com/destinoplus/image/upload/v1746721171/n7wcg2qtag12572xcj1l.jpg",
+      image: "https://res.cloudinary.com/destinoplus/image/upload/v1749055364/cjcsaoyxx5grvyrtytm6.jpg",
       logo: "https://res.cloudinary.com/destinoplus/image/upload/v1746721802/kjwd5jreolrrpcpzturq.jpg",
       visitors: 38,
       price: 16000,
@@ -402,10 +402,10 @@ const BurgerBattle = () => {
         <div className='burger-battle-hero-image'>
           <video
             ref={videoRef}
-            src="https://res.cloudinary.com/dmyq0gr14/video/upload/v1745900948/La_batalla_est%C3%A1_por_comenzar_14_establecimientos_15_d%C3%ADas_de_pura_competencia_gastron%C3%B3mica_y_m%C3%A1s_de_8.000_personas_dispuestas_a_vivir_la_experiencia._Desde_el_19_de_junio_hasta_el_3_de_julio_en_Sues_siwnwj.mp4"
+            src="https://res.cloudinary.com/dmyq0gr14/video/upload/v1749004697/La_batalla_est%C3%A1_por_comenzar_14_establecimientos_15_d%C3%ADas_de_pura_competencia_gastron%C3%B3mica_y_m%C3%A1s_de_8.000_personas_dispuestas_a_vivir_la_experiencia._Desde_el_19_de_junio_hasta_el_3_de_juli_1_ekdrdx.mp4"
             controls={!showPlayButton}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            poster="https://res.cloudinary.com/dmyq0gr14/image/upload/v1746484651/Post_De_Instagram_Promo_Hamburguesa_Fotogr%C3%A1fico_Blanco_Y_Naranja_bxdq5c.png"
+            poster="https://res.cloudinary.com/destinoplus/image/upload/v1746721138/dcyghr6nulheihralqbg.jpg"
           />
           {showPlayButton && (
             <button
@@ -466,20 +466,20 @@ const BurgerBattle = () => {
             let displayName = catId.charAt(0).toUpperCase() + catId.slice(1);
             let imageUrl = '';
             switch (catId) {
-              case 'panela': displayName = 'Panela'; imageUrl = 'destinoplus/panela_nnxkvx'; break;
-              case 'mango': displayName = 'Mango'; imageUrl = 'destinoplus/Mango_pniayz'; break;
-              case 'maduro': displayName = 'Maduro'; imageUrl = 'destinoplus/fried-half-ripe-plantain-slices-isolated-on-white-background-photo-removebg-preview_fhvywo'; break;
-              case 'lulo': displayName = 'Lulo'; imageUrl = 'destinoplus/lulo_wwg1mk'; break;
-              case 'pina': displayName = 'Piña'; imageUrl = 'destinoplus/piña_nwe7fp'; break;
-              case 'naranja': displayName = 'Naranja'; imageUrl = 'destinoplus/Naranja_hteu9e'; break;
-              case 'champinones': displayName = 'Champiñones'; imageUrl = 'destinoplus/Champiñones_kcabf4'; break;
-              case 'cafe': displayName = 'Café'; imageUrl = 'destinoplus/Cafe_rlhpsk'; break;
-              case 'vino': displayName = 'Vino'; imageUrl = 'destinoplus/19056534-mentir-botella-de-vino_jz2eh5'; break;
-              case 'maracuya': displayName = 'Maracuya'; imageUrl = 'destinoplus/Maracuya_kwdgdn'; break;
-              case 'uchuva': displayName = 'Uchuva'; imageUrl = 'destinoplus/Uchuva_nqarjk'; break;
-              case 'maiz': displayName = 'Maiz'; imageUrl = 'destinoplus/Maiz_vybobv'; break;
-              case 'frutosRojos': displayName = 'Rojos'; imageUrl = 'destinoplus/depositphotos_82442292-stock-photo-big-pile-of-fresh-berries_eltwqp'; break;
-              case 'pimenton': displayName = 'Pimentón'; imageUrl = 'destinoplus/pimen_tdrr9e'; break;
+              case 'panela': displayName = 'Panela'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721712/l01hsxxropvcka9zqpgm.jpg'; break;
+              case 'mango': displayName = 'Mango'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721739/fbypmbs101nd6vx7f8s9.jpg'; break;
+              case 'maduro': displayName = 'Maduro'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721239/whhfvamkyuhonw6sun5h.png'; break;
+              case 'lulo': displayName = 'Lulo'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721768/bi8g1njgzaeeixqjfkbg.jpg'; break;
+              case 'pina': displayName = 'Piña'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721654/m0cw2ywnawexacirax7l.jpg'; break;
+              case 'naranja': displayName = 'Naranja'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721721/bwlpafhrwhwo2mky7qic.jpg'; break;
+              case 'champinones': displayName = 'Champiñones'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721872/mzrzi5mc2rtvyg6atfz8.jpg'; break;
+              case 'cafe': displayName = 'Café'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721883/a5dcubjkpreoopefldvh.jpg'; break;
+              case 'vino': displayName = 'Vino'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721890/myrvnj9krtumlye1fx3g.jpg'; break;
+              case 'maracuya': displayName = 'Maracuya'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721728/ebhsjyltwpdgv0e8fvap.jpg'; break;
+              case 'uchuva': displayName = 'Uchuva'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721196/objrw7w5mc5zxjxic22m.jpg'; break;
+              case 'maiz': displayName = 'Maiz'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721750/plwj2bncidaixtnkdtoq.jpg'; break;
+              case 'frutosRojos': displayName = 'Rojos'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721842/cmdj69unvqqruoqeuo4i.jpg'; break;
+              case 'pimenton': displayName = 'Pimentón'; imageUrl = 'https://res.cloudinary.com/destinoplus/image/upload/v1746721699/bhusfj2a0kgxahvcsajo.jpg'; break;
               default: displayName = catId; imageUrl = '';
             }
 
