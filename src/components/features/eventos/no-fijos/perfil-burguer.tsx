@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { HandPlatter, Star, MapPin, Loader2, Sparkles, ArrowLeft, Share } from 'lucide-react'; // Iconos Lucide
+import { HandPlatter, Star, MapPin, Loader2, ArrowLeft, Share } from 'lucide-react'; // Iconos Lucide
 import VotingModal from './votingModal'; // Ajusta ruta si es necesario
 import NotificationModal from './notificacion'; // Ajusta ruta si es necesario
 import axios, { AxiosError } from 'axios'; // Mantenemos axios como en el original
