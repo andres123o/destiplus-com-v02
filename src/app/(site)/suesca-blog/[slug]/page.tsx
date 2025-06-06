@@ -6,7 +6,8 @@ import { notFound } from 'next/navigation';
 import ArticlePageClient from '@/components/features/blog/blog-individual';
 import { getArticleDataBySlug } from '@/lib/api-blogIndividual'; // Importa desde tu "API" de prueba
 
-
+export const revalidate = 3600;
+ 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }>}
 ): Promise<Metadata> {

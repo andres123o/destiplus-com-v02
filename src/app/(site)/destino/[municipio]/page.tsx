@@ -8,6 +8,7 @@ import type { DestinoData } from '@/types/destino';
 import DestinoPageContent from '@/components/features/destino/destino';
 import type { Metadata } from 'next';
 
+export const revalidate = 3600;
 
 // --- Generación de Metadata Dinámica por Municipio ---
 export async function generateMetadata(

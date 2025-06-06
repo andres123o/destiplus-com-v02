@@ -4,6 +4,8 @@ import { fetchImpactoData } from '@/lib/api-impactoAmbiental';
 import ImpactoAmbientalClient from '@/components/features/impactoAmbiental/impactoAmbiental';
 import type { ImpactoData } from '@/types/ImpactoData'; // Importa el tipo
 
+export const revalidate = 3600;
+
 // Opcional: Metadata para SEO
 export const metadata = {
   title: 'Impacto Ambiental | Turismo Sostenible en Suesca Colombia',

@@ -3,6 +3,8 @@ import React from 'react';
 import ArticlesHome from '@/components/features/blog/homeBlog'; // Importamos el componente principal
 import { getBlogsIniciales } from '@/lib/api-home'; 
 
+export const revalidate = 3600;
+
 // Metadata (opcional pero recomendado para SEO)
 import type { Metadata } from 'next';
 export const metadata: Metadata = {

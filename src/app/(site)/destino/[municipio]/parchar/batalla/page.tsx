@@ -3,7 +3,8 @@ import type { Metadata } from 'next';
 import BurgerBattle from '@/components/features/eventos/no-fijos/batalla'; // Ajusta la ruta a donde guardaste tu componente
 
 // Configurar revalidación cada 60 segundos (1 minuto)
-export const revalidate = 60;
+export const revalidate = 3600;
+
 
 const municipio = 'Suesca'
 export const metadata: Metadata = {

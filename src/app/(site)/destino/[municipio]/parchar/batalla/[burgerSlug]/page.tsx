@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import BurgerProfileClient from '@/components/features/eventos/no-fijos/perfil-burguer'; // Ajusta ruta al cliente
 
 
+export const revalidate = 3600;
 
 // --- Metadata Dinámica (lee de datos hardcodeados) ---
 export async function generateMetadata(
