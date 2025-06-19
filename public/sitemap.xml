@@ -42,8 +42,14 @@
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
-    <url>
+  <url>
     <loc>https://www.destiplus.com/suesca-blog/cabana-con-jacuzzi-en-villa-ines</loc>
+    <lastmod>2025-06-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.destiplus.com/suesca-blog/cabana-con-sauna-en-villa-ines</loc>
     <lastmod>2025-06-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
