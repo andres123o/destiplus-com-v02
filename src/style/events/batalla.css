@@ -932,7 +932,7 @@ body {
 
 /* Votos Integrados */
 .burger-profile-vote-count-inline {
-  display: inline-flex; /* Sigue siendo inline-flex */
+  display: none; /* Sigue siendo inline-flex */
   align-items: center;
   gap: 6px;
   font-size: 14px;
