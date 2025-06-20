@@ -363,7 +363,7 @@ const BurgerBattle = () => {
     if (participants.length > 0) {
       const participantsInterval = setInterval(() => {
         nextSlide();
-      }, 5000);
+      }, 600000);
       return () => clearInterval(participantsInterval);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -426,8 +426,7 @@ const BurgerBattle = () => {
           />
         </div>
         <div className='burger-battle-hero-title'>
-          <h2>PROXIMAMENTE</h2>
-          <p>Del 19 de JUN al 3 de JUL</p>
+          <h2>Del 19 de JUN al 3 de JUL</h2>
         </div>
       </div>
 
@@ -451,7 +450,7 @@ const BurgerBattle = () => {
       </div>
 
       <div className='burger-battle-categories'>
-        <h2 className='burger-battle-section-title'>¡Ingredientes secretos!</h2>
+        <h2 className='burger-battle-section-title'>¡Ingredientes!</h2>
         <div
           className='burger-battle-categories-wrapper'
           ref={categoriesRef}
@@ -550,17 +549,14 @@ const BurgerBattle = () => {
                       </div>
                     </div>
                     <div className='burger-battle-price-area'>
-                      <p className='burger-battle-card-price'>
+                    </div>
+                    <div className='burger-battle-stats'>
+                      <span className='burger-battle-visitors'>
                         <strong>
                           {!isNaN(participant.price)
                             ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(participant.price)
                             : 'Precio no disponible'}
                         </strong>
-                      </p>
-                    </div>
-                    <div className='burger-battle-stats'>
-                      <span className='burger-battle-visitors'>
-                        <i className="fas fa-users"></i> {participant.visitors}
                       </span>
                       <button
                         className='burger-battle-cta-btn'

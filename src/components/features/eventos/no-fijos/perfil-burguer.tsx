@@ -577,10 +577,10 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
                         <CldImage src={burgerData.logo} alt={burgerData.restaurant} width={32} height={32} style={{ objectFit: 'contain', borderRadius:'50%' }} className="burger-profile-restaurant-logo-inline" />
                         <span className="burger-profile-restaurant-name-inline">{burgerData.restaurant}</span>
                     </div>
-                    <div className="burger-profile-vote-count-inline">
+                    {/* <div className="burger-profile-vote-count-inline">
                         <Star size={16} className="star-icon-inline" />
                         <span>{isLoadingCount ? '...' : (voteCount ?? 0)} Votos</span>
-                    </div>
+                    </div> */}
                     {burgerData.specialIngredient && (
                         <div className="burger-profile-special-tag" style={{
                             display: 'flex',
