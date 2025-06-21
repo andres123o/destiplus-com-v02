@@ -8,29 +8,6 @@ import NotificationModal from './notificacion'; // Ajusta ruta si es necesario
 import axios, { AxiosError } from 'axios'; // Mantenemos axios como en el original
 import { CldImage } from 'next-cloudinary';
 
-// --- Helpers (definidos localmente) ---
-function deg2rad(deg: number): number { // Recibe un número, devuelve un número
-    return deg * (Math.PI / 180);
-}
-  
-function getDistanceFromLatLonInMeters(
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number
-): number { // Recibe 4 números, devuelve un número
-  const R = 6371000; // Radio de la Tierra en metros
-  const dLat = deg2rad(lat2 - lat1);
-  const dLon = deg2rad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c; // Distancia en metros
-  return distance;
-}
-
 const formatCurrency = (amount: number | string | null | undefined): string => {
     // Convierte a número por si acaso llega como string
     const numericAmount = Number(amount);
@@ -294,13 +271,9 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
     const [burgerData, setBurgerData] = useState<Participant | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBurgerForVote, setSelectedBurgerForVote] = useState<Participant | null>(null);
-    const [isCheckingLocation, setIsCheckingLocation] = useState(false);
-    const [locationError, setLocationError] = useState('');
     const [voteCount, setVoteCount] = useState<number | null>(null);
     const [isLoadingCount, setIsLoadingCount] = useState(true);
     const [hasVotedLocally, setHasVotedLocally] = useState(false);
-    const [submitError, setSubmitError] = useState('');
-    const [submitSuccess, setSubmitSuccess] = useState('');
     const [showNotificationModal, setShowNotificationModal] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -327,9 +300,6 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
         // Resetear otros estados
         setIsLoadingCount(true);
         setVoteCount(null);
-        setLocationError('');
-        setSubmitError('');
-        setSubmitSuccess('');
     }, [burgerId]);
 
     // Efecto para obtener el conteo de votos
@@ -394,84 +364,12 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
     };
 
     const handleVote = () => {
-    setLocationError(''); // Limpiar errores previos
-    setSubmitError('');
-    setSubmitSuccess('');
-    setLocationError('');
-    if (!burgerData || !burgerData.location || typeof burgerData.location.lat !== 'number' || typeof burgerData.location.lng !== 'number') {
-      alert("La ubicación de este establecimiento no está configurada correctamente.");
-      return;
-    }
-
-    if (!navigator.geolocation) {
-      alert('La geolocalización no es soportada por tu navegador.');
-      return;
-    }
-
-    setIsCheckingLocation(true); // Indicar que estamos buscando ubicación
-
-    navigator.geolocation.getCurrentPosition(
-      // --- Callback Éxito ---
-      (position) => {
-        const userLat = position.coords.latitude;
-        const userLng = position.coords.longitude;
-        const establishmentLat = burgerData.location.lat;
-        const establishmentLng = burgerData.location.lng;
-
-        console.log(`Ubicación usuario: ${userLat}, ${userLng}`);
-        console.log(`Ubicación establecimiento: ${establishmentLat}, ${establishmentLng}`);
-
-        const distance = getDistanceFromLatLonInMeters(
-          userLat, userLng,
-          establishmentLat, establishmentLng
-        );
-
-        console.log(`Distancia calculada: ${distance.toFixed(2)} metros`);
-
-        const MAX_DISTANCE_METERS = 30; // Límite de distancia
-
-        if (distance <= MAX_DISTANCE_METERS) {
-          // ¡Dentro del rango! Abrir el modal
-          console.log("Usuario dentro del rango.");
-          setSelectedBurgerForVote(burgerData);
-          setIsModalOpen(true);
-        } else {
-          // Fuera de rango
-          console.log("Usuario fuera del rango.");
-          setLocationError(`Estás a ${distance.toFixed(0)} metros. Debes estar a menos de ${MAX_DISTANCE_METERS} metros para votar.`);
-          alert(`Estás demasiado lejos (${distance.toFixed(0)}m). Acércate al establecimiento (menos de ${MAX_DISTANCE_METERS}m) para poder votar.`);
+        if (!burgerData) {
+          alert("No se han podido cargar los datos de la hamburguesa.");
+          return;
         }
-        setIsCheckingLocation(false); // Termina la comprobación
-      },
-      // --- Callback Error ---
-      (error) => {
-        setIsCheckingLocation(false); // Termina la comprobación
-        let message = "No se pudo obtener tu ubicación. ";
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            message += "Permiso denegado. Por favor, habilita el acceso a la ubicación.";
-            break;
-          case error.POSITION_UNAVAILABLE:
-            message += "Información de ubicación no disponible.";
-            break;
-          case error.TIMEOUT:
-            message += "Se agotó el tiempo de espera para obtener la ubicación.";
-            break;
-          default:
-            message += "Ocurrió un error desconocido.";
-            break;
-        }
-        console.error("Error de Geolocalización:", error);
-        setLocationError(message);
-        alert(message); // Mostrar error al usuario
-      },
-      // --- Opciones ---
-      {
-        enableHighAccuracy: true, // Intenta obtener la ubicación más precisa posible
-        timeout: 10000,          // Tiempo máximo de espera (10 segundos)
-        maximumAge: 0            // No usar una ubicación en caché, obtener una nueva
-      }
-    );
+        setSelectedBurgerForVote(burgerData);
+        setIsModalOpen(true);
     };
 
     const handleActualSubmitVote = async (voteData: { rating: number }) => {
@@ -480,7 +378,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
             burger_id: burgerData.id,
             rating: voteData.rating
         };
-        setSubmitError(''); setSubmitSuccess(''); setShowNotificationModal(false);
+        setShowNotificationModal(false);
         console.log('Enviando voto:', payload);
         try {
             const response = await axios.post(
@@ -496,7 +394,6 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
             if (response.status === 201) {
                 console.log('Voto creado:', response.data);
                 setIsModalOpen(false);
-                setSubmitSuccess("¡Gracias por tu voto!");
                 setVoteCount(prevCount => (prevCount !== null ? prevCount + 1 : 1));
                 const votedKey = `voted_burger_${burgerData.id}`;
                 localStorage.setItem(votedKey, 'true');
@@ -533,7 +430,8 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
             } else {
                 userMessage = 'Ocurrió un error inesperado';
             }
-            setSubmitError(userMessage);
+            setNotificationMessage(userMessage);
+            setShowNotificationModal(true);
         }
     };
 
@@ -642,7 +540,6 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
 
                  {/* Messages */}
                 <div className="burger-profile-messages">
-                    {locationError && <p className={`${"form-message"} ${"error"}`}>{locationError}</p>}
                     {/* Errores/Éxito de Submit ahora se muestran en el modal */}
                 </div>
 
@@ -654,9 +551,8 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
                 <button className={`${"burger-profile-btn"} ${"directions"}`} onClick={handleDirections} disabled={!burgerData.location?.lat}>
                     <MapPin size={18} /><span>Cómo llegar</span>
                 </button>
-                <button className={`${"burger-profile-btn"} ${"vote"}`} onClick={handleVote} disabled={isCheckingLocation || hasVotedLocally || !burgerData.location?.lat}>
-                    {isCheckingLocation ? (<><Loader2 className="animate-spin" size={18} /><span>Verificando...</span></>)
-                     : hasVotedLocally ? (<>✓<span> Votado</span></>)
+                <button className={`${"burger-profile-btn"} ${"vote"}`} onClick={handleVote} disabled={hasVotedLocally}>
+                    {hasVotedLocally ? (<>✓<span> Votado</span></>)
                      : (<><Star size={18} /><span> Votar</span></>)}
                 </button>
             </div>
@@ -673,9 +569,9 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
             <NotificationModal
                 isOpen={showNotificationModal}
                 message={notificationMessage}
-                duration={submitSuccess ? 4000 : 8000}
+                duration={4000}
                 onClose={() => setShowNotificationModal(false)}
-                type={submitError ? "error" : "success"}
+                type="error"
             />
 
             {/* Modal de Éxito */}
