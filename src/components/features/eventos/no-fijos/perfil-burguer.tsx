@@ -551,7 +551,7 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
                 <button className={`${"burger-profile-btn"} ${"directions"}`} onClick={handleDirections} disabled={!burgerData.location?.lat}>
                     <MapPin size={18} /><span>Cómo llegar</span>
                 </button>
-                <button className={`${"burger-profile-btn"} ${"vote"}`} onClick={handleVote} disabled={hasVotedLocally}>
+                <button className={`${"burger-profile-btn"} ${"vote"}`} disabled={hasVotedLocally}>
                     {hasVotedLocally ? (<>✓<span> Votado</span></>)
                      : (<><Star size={18} /><span> Votar</span></>)}
                 </button>
