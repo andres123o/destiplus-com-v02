@@ -372,6 +372,8 @@ const BurgerProfileClient: React.FC<BurgerProfileClientProps> = ({ burgerId }) =
         setIsModalOpen(true);
     };
 
+    console.log(handleVote)
+
     const handleActualSubmitVote = async (voteData: { rating: number }) => {
         if (!burgerData) return;
         const payload: VotePayload = {
